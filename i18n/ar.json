@@ -1,0 +1,18 @@
+{
+  "hello": "مرحبا",
+  "continue": "استمر",
+  "select_language": "اختار اللغة",
+  "Arabic": "عربى",
+  "english": "الإنجليزية",
+  "barber_account":"حساب الحلاق",
+  "barber_list": "قائمة الحلاق",
+  "Tapered": "مدبب",
+  "Barber_near": "بالقرب من الحانات",
+  "my_acc": "حسابي",
+  "my_app": "المواعيد الخاصة بي",
+  "my_pref": "التفضيلات",
+  "terms": "شروط",
+  "feqs": "أسئلة وأجوبة",
+  "logout": "تسجيل خروج"
+
+}

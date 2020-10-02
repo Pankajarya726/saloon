@@ -1,0 +1,18 @@
+{
+  "hello": "Hello!",
+  "continue": "Continue",
+  "select_language": "Select Language",
+  "Arabic": "Arabic",
+  "english":"English",
+  "barber_account":"Barber Account",
+  "barber_list": "Barber List",
+  "Tapered": "Tapered",
+  "Barber_near": "BARBERS NEAR",
+  "my_acc": "MY ACCOUNT",
+  "my_app": "MY APPOINTMENTS",
+  "my_pref": "PREFERENCES",
+  "terms": "TERMS",
+  "feqs": "FAQS",
+  "logout": "LOGOUT"
+
+}
