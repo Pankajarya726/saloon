@@ -12,9 +12,8 @@ class SideDrawer extends StatelessWidget {
       width: MediaQuery.of(context).size.width,//20.0,
       height: MediaQuery.of(context).size.height,//20.0,
       child: Drawer(
-
           child: new Container(
-            decoration: new BoxDecoration(color: Colors.black.withOpacity(0.65)),
+            decoration: new BoxDecoration(color: Colors.black.withOpacity(0.85)),
             width: MediaQuery.of(context).size.width,//20.0,
             height: MediaQuery.of(context).size.height,
             child: new ListView(
@@ -28,7 +27,7 @@ class SideDrawer extends StatelessWidget {
                   child:  new Row(
                     children: [
                       Expanded(flex: 8,
-                        child: Text(AppLocalizations.of(context).translate('Tapered'),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 30.0),),),
+                        child: Text(AppLocalizations.of(context).translate('Tapered'),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 20.0),),),
                       Expanded(flex: 2,
                         child: InkWell(
                           child: Icon(Icons.clear,color: Colors.white,size: 30.0,),
@@ -100,9 +99,9 @@ class SideDrawer extends StatelessWidget {
         children: [
         new Container(
           padding: EdgeInsets.only(left: 30.0,top: 10.0,bottom: 20.0),
-          child:   Text(s,style: TextStyle(color: Colors.grey,fontSize: 20.0),),
+          child:   Text(s,style: TextStyle(color: Colors.grey[300],fontSize: 18.0),),
         ),
-          Divider(thickness: 1.0,color: Colors.grey,)
+          Divider(thickness: 1.0,color: Colors.grey[300],)
         ],
       ),
     );

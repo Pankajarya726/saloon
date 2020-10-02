@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
@@ -49,7 +50,9 @@ class DetailView extends State<VendoeDetailActivity> {
 
     print("body$body");
    */
-    String Url = GlobalConstant.CommanUrl + "store-vendors/4";
+
+    String Verder_Id = (await Utility.getStringPreference(GlobalConstant.Verder_Id));
+    String Url = GlobalConstant.CommanUrl + "store-vendors/"+Verder_Id;
 
     ApiController apiController = new ApiController.internal();
 
@@ -84,7 +87,7 @@ class DetailView extends State<VendoeDetailActivity> {
     return new ListView(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.height / 9,
+          height:20,
         ),
         Container(
           alignment: Alignment.center,
@@ -93,6 +96,7 @@ class DetailView extends State<VendoeDetailActivity> {
             style: TextStyle(fontSize: 22.0, color: Colors.black),
           ),
         ),
+
         SizedBox(
           height: 20.0,
         ),
@@ -107,6 +111,30 @@ class DetailView extends State<VendoeDetailActivity> {
         ),
         SizedBox(
           height: 10.0,
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: new Text(
+            GlobalFile.getCaptialize(data['vendor_email']),
+            style: TextStyle(fontSize: 16.0, color: Colors.black),
+          ),
+        ),
+        SizedBox(height: 5.0,),
+
+        Container(
+          alignment: Alignment.center,
+          child: new Text(data['vendor_phone'].toString(),
+            style: TextStyle(fontSize: 16.0, color: Colors.black),
+          ),
+        ),
+        SizedBox(height: 5.0,),
+
+        Container(
+          alignment: Alignment.center,
+          child: new Text(
+            GlobalFile.getCaptialize(data['vendor_shop_name']),
+            style: TextStyle(fontSize: 16.0, color: Colors.black),
+          ),
         ),
         Container(
           alignment: Alignment.center,
@@ -151,6 +179,18 @@ class DetailView extends State<VendoeDetailActivity> {
             ),
           ],
         ),
+        new Center(
+          child: SingleChildScrollView(
+            child: Html(
+              data: data['vendor_description'],
+
+              onLinkTap: (url) {
+                print("Opening $url...");
+              },
+
+            ),
+          ),
+        )
       ],
     );
   }

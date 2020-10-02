@@ -59,6 +59,7 @@ class VendorView extends State<VendorActivity>
                     return InkWell(
                       onTap:()
                         {
+                          Utility.setStringPreference(GlobalConstant.Verder_Id, _list[index].data['vendor_id'].toString());
 
                           Navigator.of(context).push(new MaterialPageRoute(
                               builder: (_) => new CommonDashBord("vendor_dtl")));
