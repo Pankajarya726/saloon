@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:salon_app/Availabilty/AvailabiltyClass.dart';
 
 import 'DrawerPackage/SideDrawer.dart';
 import 'Global/GlobalWidget.dart';
@@ -9,8 +10,9 @@ import 'language/AppLocalizations.dart';
 
 class CommonDashBord extends StatefulWidget{
   String From;
+  bool back_icon;
 
-  CommonDashBord(this.From);
+  CommonDashBord(this.From,this.back_icon);
 
   @override
   State<StatefulWidget> createState() {
@@ -30,7 +32,7 @@ class CommonView extends State<CommonDashBord>
 
     return new Scaffold(
 
-      appBar: GlobalWidget.getAppBar( AppLocalizations.of(context).translate('barber_account'),),
+      appBar: GlobalWidget.getAppBar( AppLocalizations.of(context).translate('barber_account'),context,widget.back_icon),
       drawer: SideDrawer(),
       key: _scaffoldKey,
       body: getBody(),
@@ -65,6 +67,9 @@ class CommonView extends State<CommonDashBord>
         break;
       case "vendor_dtl":
        return VendoeDetailActivity();
+        break;
+      case "vendor_avail":
+       return AvailabiltyActivity();
         break;
     }
   }

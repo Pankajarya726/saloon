@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
 import 'NetworkCheck.dart';
 import 'Utility.dart';
 import 'package:http/http.dart' as http;
@@ -69,6 +70,36 @@ Future<http.Response> Get(String url) async {
         'Content-type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
       },
+    );
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+
+  }
+Future<http.Response> GetLogin(String url,String Email,String Password) async {
+  String username = Email;
+  String password = Password;
+  String basicAuth =
+      'Basic ' + base64Encode(utf8.encode('$username:$password'));
+  print(basicAuth);
+    Utility.log(tag, "Api Call :\n $url ");
+    var response = await http.get(url,
+      headers: {'authorization': basicAuth},
+    );
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+
+  }
+Future<http.Response> SetSignUp(var body) async {
+  String username = 'admin';
+  String password = 'admin123';
+  String basicAuth =
+      'Basic ' + base64Encode(utf8.encode('$username:$password'));
+  print(basicAuth);
+    Utility.log(tag, "Api Call :\n ${GlobalConstant.CommanUrlLogin+"wp/v2/users"}");
+    var response = await http.post(GlobalConstant.CommanUrlLogin+"wp/v2/users",
+      headers: {'authorization': basicAuth},
     );
     print("${response.statusCode}");
     print("${response.body}");

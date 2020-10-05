@@ -38,6 +38,7 @@ dependencies:
   flutter_html:
   connectivity:
   provider:
+  flutter_calendar_carousel:
   path:
 
 
@@ -64,6 +65,7 @@ flutter:
     - images/ic5.png
     - images/clean.png
     - images/bg.png
+    - images/bg_1.png
     - images/logo_header.png
     - images/white_logo.png
     - i18n/ar.json

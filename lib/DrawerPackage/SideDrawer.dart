@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
+import '../CommonMenuClass.dart';
+
 class SideDrawer extends StatelessWidget {
 
   @override
@@ -58,6 +60,8 @@ class SideDrawer extends StatelessWidget {
                   onTap: ()
                   {
                       Navigator.of(context).pop();
+                      Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (_) => new CommonDashBord("vendor_avail",true)));
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_app')),
                 ),InkWell(
@@ -98,10 +102,10 @@ class SideDrawer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
         new Container(
-          padding: EdgeInsets.only(left: 30.0,top: 10.0,bottom: 20.0),
-          child:   Text(s,style: TextStyle(color: Colors.grey[300],fontSize: 18.0),),
+          padding: EdgeInsets.only(left: 30.0,top: 15.0,bottom: 15.0),
+          child:   Text(s,style: TextStyle(color: Colors.grey,fontSize: 16.0),),
         ),
-          Divider(thickness: 1.0,color: Colors.grey[300],)
+          Divider(thickness: 1.0,color: Colors.grey,)
         ],
       ),
     );

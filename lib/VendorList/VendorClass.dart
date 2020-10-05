@@ -32,8 +32,6 @@ class VendorView extends State<VendorActivity>
 
   @override
   Widget build(BuildContext context) {
-    double cardWidth = MediaQuery.of(context).size.width /3.3;
-    double cardHeight = MediaQuery.of(context).size.height / 5.6;
    return new Scaffold(
 
       body: _list.length==0?GlobalWidget.getNoRecord(context):
@@ -52,19 +50,19 @@ class VendorView extends State<VendorActivity>
               Expanded(flex: 9,
                 child:
                 new GridView.count(
-                  childAspectRatio: cardWidth / cardHeight,
                   crossAxisCount: 2,
                   shrinkWrap: true,
-                  children: new List.generate(_list.length, (index) {
+                  children: new List.generate(_list.length, (index)
+                  {
                     return InkWell(
                       onTap:()
                         {
                           Utility.setStringPreference(GlobalConstant.Verder_Id, _list[index].data['vendor_id'].toString());
 
                           Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (_) => new CommonDashBord("vendor_dtl")));
+                              builder: (_) => new CommonDashBord("vendor_dtl",true)));
                         },
-                      child:new Column(
+                      child:/*new Column(
                         children: [
                           new Container(
                               margin: EdgeInsets.only(top: 5.0,right: 10.0),
@@ -90,11 +88,11 @@ class VendorView extends State<VendorActivity>
                                                 _list[index].data['vendor_shop_logo']),
                                           ),
                                         )),
-                                    /*   FadeInImage(image: NetworkImage(
+                                    *//*   FadeInImage(image: NetworkImage(
                                     _list[index].data['vendor_shop_logo']),
                                     fit: BoxFit.fitWidth,
                                     placeholder:GlobalWidget.getPlaceHolder()),
-*/
+*//*
 
 
                                   ],
@@ -102,7 +100,29 @@ class VendorView extends State<VendorActivity>
                               )
                           )
                         ],
-                      )
+                      )*/
+                      Container(
+
+                        child: new Text(GlobalFile.getCaptialize(_list[index].data['vendor_shop_name']),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 18.0),),
+
+                        margin: EdgeInsets.only(top: 5.0,right: 5.0,left: 5.0),
+                        padding: EdgeInsets.only(top: 5.0,right: 5.0,left: 10.0),
+
+                        height: MediaQuery.of(context).size.height,
+                        decoration: BoxDecoration(
+
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.black,
+                            image: DecorationImage(
+                                colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+
+                                image: new NetworkImage(
+                                    _list[index].data['vendor_shop_logo']
+                                ),
+                                fit: BoxFit.fill
+                            )
+                        ),
+                      ),
                     );
                   }),
                 ),)

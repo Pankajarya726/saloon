@@ -13,6 +13,26 @@
   "my_pref": "PREFERENCES",
   "terms": "TERMS",
   "feqs": "FAQS",
-  "logout": "LOGOUT"
+  "logout": "LOGOUT",
+  "regular_account": "REGULAR ACCOUNT",
+  "barber_account": "BARBER ACCOUNT",
+  "Name": "Full Name",
+  "Email": "Email",
+  "UserName": "UserName",
+  "Password": "Password",
+  "Phone": "Phone",
+  "shop": "Barber Shop",
+  "Verification": "Verification",
+  "Send": "Send",
+  "Submit": "Submit",
+  "PressSend": "Press send to get verification number",
+  "Valid_phone": "Please enter valid phone number",
+  "Please_Enter": "Please Enter",
+  "Invalid" : "Invalid",
+  "tandc": "By clicking Submit you're agreeing to the ",
+  "tandct": "Terms Of Services ",
+  "account": "If you don't have an account ",
+  "signup": "Sign Up . "
+
 
 }

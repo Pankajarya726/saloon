@@ -1,6 +1,9 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:salon_app/language/AppLocalizations.dart';
 import 'package:toast/toast.dart';
 
 import 'AppColor.dart';
@@ -49,8 +52,8 @@ class GlobalWidget
     return  AssetImage("images/ic5.png");
   }
 
-  static getAppBar(String Title) {
-    return PreferredSize(
+  static getAppBar(String Title,BuildContext context,bool val) {
+    return /*PreferredSize(
         preferredSize: Size.fromHeight(70.0), // here the desired height
         child: new Container(
           decoration: BoxDecoration(
@@ -78,8 +81,107 @@ class GlobalWidget
             ),
           ),
 
+    )*/
+      PreferredSize(
+
+          preferredSize: Size.fromHeight(70.0),
+          child: AppBar(
+            leading: val==true?IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context),
+            ):new Container(),
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: true, // hides leading widget
+            flexibleSpace: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 40.0,),
+                Container(
+                  height: 30.0,
+                  child: getImage("logo_header.png"),
+                ),
+                Text(Title.toUpperCase(),style: TextStyle(color: GlobalConstant.getTextColor()),),
+
+              ],
+            ),
+          )
+      ) ;
+  }
+
+  static TextFeildDecoration(String s) {
+    return new InputDecoration(
+      hintText: s,
+     // fillColor: Colors.black,
+      focusedBorder:UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.black),
+      ),
+      //filled: true,
+      /* enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        borderSide: BorderSide(color: Colors.red, width: 2),
+      ),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          borderSide: BorderSide(color: Colors.red)),
+      filled: true,
+     */
+      contentPadding:GlobalWidget.getContentPadding(),
+
     );
   }
+
+
+  static textbtnstyle() {
+    return TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0);
+  }
+
+  static getIcon(bool _obscureText) {
+    return Icon(_obscureText ? Icons.visibility_off : Icons.visibility,);
+  }
+
+
+  static getContentPadding() {
+    return null;
+  }
+  static TextFeildDecoration1(String s) {
+    return new InputDecoration(
+      hintText: s,
+      fillColor: Colors.white,
+
+      /* enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        borderSide: BorderSide(color: Colors.red, width: 2),
+      ),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          borderSide: BorderSide(color: Colors.red)),
+      filled: true,
+     */
+
+
+    );
+  }
+
+
+  static getButtonTheme() {
+    return RoundedRectangleBorder(
+
+        borderRadius: BorderRadius.circular(5.0),
+        side: BorderSide(color: Colors.black)
+    );
+  }
+
+  static getBtnTextColor() {
+    return  Colors.black;
+  }
+
+  static getBtncolor() {
+    return Colors.transparent;
+  }
+
 
   static getNoRecord(BuildContext context) {
     return new Container(
@@ -87,6 +189,44 @@ class GlobalWidget
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
 
+    );
+  }
+
+  static getpadding() {
+    return EdgeInsets.all(10.0);
+  }
+
+  static sizeBox1() {
+    return SizedBox(height: 20.0,);
+  }
+
+  static getbackground() {
+    return  BoxDecoration(
+        color: Colors.white.withOpacity(0.99),
+        image: DecorationImage(
+            image: AssetImage('images/bg_1.png'),fit: BoxFit.fill));
+  }
+
+  static getHeader(BuildContext context) {
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 40.0,),
+        new Container(
+            alignment: Alignment.topLeft,
+            width: 100.0,
+            height: 80.0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('images/logo_header.png')),)
+        ),
+        new Container(
+
+          margin: EdgeInsets.only(left: 20.0),
+          alignment: Alignment.topLeft,
+          child: Text(AppLocalizations.of(context).translate('Tapered'),style: TextStyle(color: Colors.black,fontSize: 40.0),),
+        ),
+      ],
     );
   }
 }

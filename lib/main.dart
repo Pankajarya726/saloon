@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'Availabilty/AvailabiltyClass.dart';
+import 'SignInSignUpAccount/RegularAccount.dart';
+import 'SignInSignUpAccount/SignInClass.dart';
 import 'Splash/SplashActivity.dart';
 import 'VendorList/VendorClass.dart';
 import 'language/AppLanguage.dart';
@@ -23,11 +26,11 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   final AppLanguage appLanguage;
-
   MyApp({this.appLanguage});
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return /*MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -68,7 +71,7 @@ class MyApp extends StatelessWidget {
               fontFamily: "TimeRomanBold",
               accentColor: const Color(0xFF549afe),
               backgroundColor:  const Color(0xFF549afe),
-              primaryColorDark: const Color(0xFFffffff),
+              primaryColorDark: const Color(0xFF000000),
               primarySwatch: blue,
               primaryTextTheme: TextTheme(
                   title: TextStyle(
@@ -88,8 +91,9 @@ class MyApp extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
             home: SplashActivity(),
-            //home: MyHomePageCal(),
-            //    home: ForgotPasswordActivity(),
+          //  home: RegularAccount("barber"),
+            //home: RegularAccount("user"),
+           //     home: MyHomePageCal(),
           );
         }),
       );
@@ -98,17 +102,17 @@ class MyApp extends StatelessWidget {
   static const MaterialColor blue = MaterialColor(
     _bluePrimaryValue,
     <int, Color>{
-      50: Color(0xFFE3F2FD),
+      50: Color(0xFFe1e1e1),
       100: Color(0xFFE3F2FD),
-      200: Color(0xFFffffff),
-      300: Color(0xFFffffff),
-      400: Color(0xFFffffff),
+      200: Color(0xFFE3F2FD),
+      300: Color(0xFFE3F2FD),
+      400: Color(0xFFE3F2FD),
       500: Color(_bluePrimaryValue),
-      600: Color(0xFFffffff),
-      700: Color(0xFFffffff),
-      800: Color(0xFFffffff),
-      900: Color(0xFFffffff),
+      600: Color(0xFFE3F2FD),
+      700: Color(0xFFE3F2FD),
+      800: Color(0xFFE3F2FD),
+      900: Color(0xFFE3F2FD),
     },
   );
-  static const int _bluePrimaryValue = 0xFFffffff;
+  static const int _bluePrimaryValue = 0xFF808080;
 }
