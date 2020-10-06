@@ -85,6 +85,8 @@ class DetailView extends State<VendoeDetailActivity> {
 
   getFulldata() {
     return new ListView(
+      shrinkWrap: true,
+      padding: EdgeInsets.all(10.0),
       children: [
         SizedBox(
           height:20,
@@ -100,17 +102,18 @@ class DetailView extends State<VendoeDetailActivity> {
         SizedBox(
           height: 20.0,
         ),
-        Container(
-          width: 60.0,
-          height: 60.0,
-          alignment: Alignment.center,
-          child: FadeInImage(
-              image: NetworkImage(data['vendor_shop_logo']),
-              fit: BoxFit.fitWidth,
-              placeholder: GlobalWidget.getPlaceHolder()),
-        ),
+
+        data['vendor_shop_logo']!=null?CircleAvatar(
+          radius: 55,
+          backgroundColor: Color(0xffFDCF09),
+          child: CircleAvatar(
+            radius: 55,
+            backgroundImage:  NetworkImage(data['vendor_shop_logo']),
+          ),
+        ):new Container(),
+
         SizedBox(
-          height: 10.0,
+          height: 20.0,
         ),
         Container(
           alignment: Alignment.center,
@@ -119,7 +122,7 @@ class DetailView extends State<VendoeDetailActivity> {
             style: TextStyle(fontSize: 16.0, color: Colors.black),
           ),
         ),
-        SizedBox(height: 5.0,),
+/*
 
         Container(
           alignment: Alignment.center,
@@ -128,6 +131,7 @@ class DetailView extends State<VendoeDetailActivity> {
           ),
         ),
         SizedBox(height: 5.0,),
+*/
 
         Container(
           alignment: Alignment.center,
@@ -136,9 +140,8 @@ class DetailView extends State<VendoeDetailActivity> {
             style: TextStyle(fontSize: 16.0, color: Colors.black),
           ),
         ),
-        Container(
-          alignment: Alignment.center,
-          child: new Text(GlobalFile.getCaptialize(data['vendor_address'])),
+        SizedBox(
+          height:20.0,
         ),
         Container(
           alignment: Alignment.center,
@@ -147,39 +150,342 @@ class DetailView extends State<VendoeDetailActivity> {
             style: TextStyle(fontSize: 16.0, color: Colors.blue),
           ),
         ),
-        SizedBox(
-          height:30.0,
-        ),
-        new Row(
-          children: [
-            Expanded(
-              child: FadeInImage(
-                  image: NetworkImage(data['vendor_banner']),
-                  fit: BoxFit.fitWidth,
-                  placeholder: GlobalWidget.getPlaceHolder()),
-            ),
-            SizedBox(
-              width: 10.0,
-            ),
-            Expanded(
-              child: FadeInImage(
-                  image: NetworkImage(data['mobile_banner']),
-                  fit: BoxFit.fitWidth,
-                  placeholder: GlobalWidget.getPlaceHolder()),
-            ),
-            SizedBox(
-              width: 10.0,
-            ),
 
-            Expanded(
-              child: FadeInImage(
-                  image: NetworkImage(data['vendor_list_banner']),
-                  fit: BoxFit.fitWidth,
-                  placeholder: GlobalWidget.getPlaceHolder()),
+        Container(
+          alignment: Alignment.center,
+          child: new Text(GlobalFile.getCaptialize(data['vendor_address'])),
+        ),
+        SizedBox(
+          height:20.0,
+        ),
+
+       new Container(
+         height: 100.0,
+         child:  new Row(
+           children: [
+             Expanded(
+               child:new InkWell(
+                 onTap: (){
+                   createNewMessage(data['vendor_banner']);
+                 },
+                 child:  data['vendor_banner']!=null?Container(
+                   alignment: Alignment.bottomLeft,
+                   height: 200,
+                   decoration: BoxDecoration(
+
+                       borderRadius: BorderRadius.circular(5),
+                       color: Colors.black,
+                       image: DecorationImage(
+                           colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+
+                           image: new NetworkImage(
+                               data['vendor_banner']
+                           ),
+                           fit: BoxFit.fill
+                       )
+                   ),
+                 ):new Container(),
+               ),
+               /* FadeInImage(
+                   image: NetworkImage(data['vendor_banner']),
+                   fit: BoxFit.fill,
+                   placeholder: GlobalWidget.getPlaceHolder()),*/
+             ),
+             SizedBox(
+               width: 10.0,
+             ),
+             Expanded(
+               child: InkWell(
+                 onTap: ()
+                 {
+                   createNewMessage( data['mobile_banner']);
+                 },
+                 child: data['mobile_banner']!=null?Container(
+                   alignment: Alignment.bottomLeft,
+                   height: 200,
+                   decoration: BoxDecoration(
+
+                       borderRadius: BorderRadius.circular(5),
+                       color: Colors.black,
+                       image: DecorationImage(
+                           colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+
+                           image: new NetworkImage(
+                               data['mobile_banner']
+                           ),
+                           fit: BoxFit.fill
+                       )
+                   ),
+                 ):new Container(),
+               )
+
+
+
+             ),
+             SizedBox(
+               width: 10.0,
+             ),
+
+             Expanded(
+               child: new InkWell(
+                 onTap: ()
+                 {
+                   createNewMessage(data['vendor_list_banner']);
+                 },
+                 child: data['vendor_list_banner']!=null?Container(
+                   alignment: Alignment.bottomLeft,
+                   height: 200,
+                   decoration: BoxDecoration(
+
+                       borderRadius: BorderRadius.circular(5),
+                       color: Colors.black,
+                       image: DecorationImage(
+                           colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+
+                           image: new NetworkImage(
+                               data['vendor_list_banner']
+                           ),
+                           fit: BoxFit.fill
+                       )
+                   ),
+                 ):new Container(),
+               )
+),
+           ],
+         ),
+       ),
+
+        new Column(
+          children: [
+
+            new Center(
+              child: SingleChildScrollView(
+                child: Html(
+                  data: data['store_tab_headings']['reviews'],
+
+                  onLinkTap: (url) {
+                    print("Opening $url...");
+                  },
+
+                ),
+              ),
+            ),
+            new Center(
+              child: SingleChildScrollView(
+                child: Html(
+                  data: data['store_tab_headings']['followers'],
+
+                  onLinkTap: (url) {
+                    print("Opening $url...");
+                  },
+
+                ),
+              ),
             ),
           ],
         ),
-        new Center(
+   /*     GlobalFile.getStringValue(data['store_tab_headings'])!=""?  new Column(
+          children: [
+
+            new Center(
+              child: SingleChildScrollView(
+                child: Html(
+                  data: data['store_tab_headings']['reviews'],
+
+                  onLinkTap: (url) {
+                    print("Opening $url...");
+                  },
+
+                ),
+              ),
+            ),
+            new Center(
+              child: SingleChildScrollView(
+                child: Html(
+                  data: data['store_tab_headings']['followers'],
+
+                  onLinkTap: (url) {
+                    print("Opening $url...");
+                  },
+
+                ),
+              ),
+            ),
+          ],
+        ):new Container(),
+*/
+
+        new Column(
+          children: [
+
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                data['vendor_policies']['shipping_policy_heading'],
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data: data['vendor_policies']['shipping_policy'],
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                data['vendor_policies']['refund_policy_heading'],
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data: data['vendor_policies']['refund_policy'],
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                data['vendor_policies']['cancellation_policy_heading'],
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data: data['vendor_policies']['cancellation_policy'],
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+
+          ],
+        ),
+      /* GlobalFile.getStringValue(data['vendor_policies'])!=""? new Column(
+          children: [
+
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                data['vendor_policies']['shipping_policy_heading'],
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data: data['vendor_policies']['shipping_policy'],
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                data['vendor_policies']['refund_policy_heading'],
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data: data['vendor_policies']['refund_policy'],
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                data['vendor_policies']['cancellation_policy_heading'],
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data: data['vendor_policies']['cancellation_policy'],
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+
+          ],
+        ):new Container(),
+      */  SizedBox(height: 20.0,),
+
+       GlobalFile.getStringValue(data['vendor_description'])!=""? new Center(
           child: SingleChildScrollView(
             child: Html(
               data: data['vendor_description'],
@@ -190,8 +496,70 @@ class DetailView extends State<VendoeDetailActivity> {
 
             ),
           ),
-        )
+        ):new Container(),
+
       ],
+    );
+  }
+
+  createNewMessage(String image) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return WillPopScope(
+                onWillPop: () {
+                  return Future.value(true);
+                },
+                child: Material(
+                  child: Container(
+                    color: Colors.black54,
+                    padding: const EdgeInsets.only(top: 100,left: 10,right: 10.0,bottom: 50.0),
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+
+                            new Container(
+                              width: 40.0,
+                              margin: EdgeInsets.only(right: 10.0),
+                              alignment: Alignment.topRight,
+                              child: FlatButton(
+
+                                  child: Icon(Icons.clear,color: Colors.white,size: 35.0,),
+                                  onPressed: () {
+
+                                    Navigator.of(context).pop();
+                                  }),
+                            ),
+                        Container(
+                          alignment: Alignment.bottomLeft,
+                          height: MediaQuery.of(context).size.height/1.5,
+                          decoration: BoxDecoration(
+
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.black,
+                              image: DecorationImage(
+                                  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+
+                                  image: new NetworkImage(
+                                      data['vendor_list_banner']
+                                  ),
+                                  fit: BoxFit.fill
+                              )
+                          ),
+                        )
+                          ],
+
+                    ),
+                  ),
+                ));
+          },
+        );
+      },
     );
   }
 }

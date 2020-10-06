@@ -39,6 +39,8 @@ dependencies:
   connectivity:
   provider:
   flutter_calendar_carousel:
+  flutter_google_maps:
+  location: ^3.0.2
   path:
 
 
@@ -68,6 +70,7 @@ flutter:
     - images/bg_1.png
     - images/logo_header.png
     - images/white_logo.png
+    - images/confirm.png
     - i18n/ar.json
     - i18n/en.json
 

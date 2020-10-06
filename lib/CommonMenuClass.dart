@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salon_app/Availabilty/AvailabiltyClass.dart';
+import 'package:salon_app/VendorList/ProductClass.dart';
 
+import 'Availabilty/AvailabiltySchduleClass.dart';
 import 'DrawerPackage/SideDrawer.dart';
 import 'Global/GlobalWidget.dart';
+import 'VendorList/ProductDetailClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'VendorList/VendorDetailClass.dart';
 import 'language/AppLocalizations.dart';
@@ -11,8 +14,14 @@ import 'language/AppLocalizations.dart';
 class CommonDashBord extends StatefulWidget{
   String From;
   bool back_icon;
+  var data;
 
-  CommonDashBord(this.From,this.back_icon);
+  CommonDashBord(From,back_icon, [data])
+  {
+    this.From=From;
+    this.back_icon=back_icon;
+    this.data=data;
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -32,7 +41,7 @@ class CommonView extends State<CommonDashBord>
 
     return new Scaffold(
 
-      appBar: GlobalWidget.getAppBar( AppLocalizations.of(context).translate('barber_account'),context,widget.back_icon),
+      appBar: GlobalWidget.getAppBar( getText(),context,widget.back_icon),
       drawer: SideDrawer(),
       key: _scaffoldKey,
       body: getBody(),
@@ -71,7 +80,46 @@ class CommonView extends State<CommonDashBord>
       case "vendor_avail":
        return AvailabiltyActivity();
         break;
+      case "Product_dtl":
+       return ProductDetailActivity(widget.data);
+        break;
+      case "Product_list":
+       return ProductActivity(widget.data);
+        break;
+      case "booking_page":
+       return SchduledClassActivity(widget.data);
+        break;
     }
+  }
+
+  String getText() {
+
+    switch(widget.From)
+    {
+      case "vendor_list":
+        return AppLocalizations.of(context).translate('barber_account');
+
+        break;
+      case "vendor_dtl":
+        return AppLocalizations.of(context).translate('barber_account');
+
+        break;
+      case "vendor_avail":
+        return AppLocalizations.of(context).translate('barber_account');
+
+        break;
+      case "Product_dtl":
+        return AppLocalizations.of(context).translate('our_shop');
+
+        break;
+      case "Product_list":
+        return AppLocalizations.of(context).translate('our_shop');
+        break;
+      default:
+        return AppLocalizations.of(context).translate('barber_account');
+        break;
+    }
+
   }
 
 }

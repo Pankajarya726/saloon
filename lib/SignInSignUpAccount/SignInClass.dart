@@ -142,7 +142,8 @@ class SignInView extends State<SignInActivity>
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
         }
-        if (value.length<6) {
+        if (value.length<6)
+        {
           return AppLocalizations.of(context).translate("Invalid");
         }
         return null;
@@ -163,7 +164,7 @@ class SignInView extends State<SignInActivity>
             // getShareddata();
             print("success");
             SubmitData();
-          /*  Navigator.of(context).push(new MaterialPageRoute(builder: (_) => CommonDashBord("vendor_list",false)));*/
+           //
           }
         },
         child: Text(AppLocalizations.of(context).translate("Submit"),style: GlobalWidget.textbtnstyle(),),
@@ -192,27 +193,39 @@ class SignInView extends State<SignInActivity>
   String TAG = "VenderAvailabiltyActivity";
 
   void SubmitData() async {
-    /* Map<String, String> body =
+     Map<String, String> body =
     {
-      'tour_destination_id': "${widget.taskId.toString()}",
-      'status_id': _user.toString(),
-      'salesman_comment': _description_controller.text.toString(),
+      'username': emailController.text.toString(),
+      'password': userPinController.text.toString(),
     };
 
     print("body$body");
-   */
+
+/*
 
     String Verder_Id = (await Utility.getStringPreference(GlobalConstant.Verder_Id));
     String Url = GlobalConstant.CommanUrlLogin ;
+*/
 
     ApiController apiController = new ApiController.internal();
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.GetLogin(Url,emailController.text.toString(),userPinController.text.toString()).then((value) {
+      apiController.GetLogin(body).then((value) {
+
+        var data1 = json.decode(value.body);
         try {
           Dialogs.hideProgressDialog(context);
-          var data1 = json.decode(value.body);
+          String token=data1['token'];
+          Utility.setStringPreference(GlobalConstant.token, token);
+          String user_email=data1['user_email'];
+          Utility.setStringPreference(GlobalConstant.user_email, user_email);
+          String store_id=data1['store_id'].toString();
+          Utility.setStringPreference(GlobalConstant.store_id, store_id);
+          String roles=data1['roles'][0];
+          Utility.setStringPreference(GlobalConstant.roles, roles);
+          Utility.setStringPreference(GlobalConstant.login, "1");
+          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => CommonDashBord("vendor_list",false)));
         /*  data = data1;
           Utility.log(TAG, data1);
           if (data1.length != 0) {
@@ -221,7 +234,8 @@ class SignInView extends State<SignInActivity>
             GlobalWidget.showMyDialog(context, "Error", data1.toString());
           }*/
         } catch (e) {
-          GlobalWidget.showMyDialog(context, "Error", "" + e.toString());
+         // GlobalWidget.showMyDialog(context, "", data1['message']);
+          GlobalWidget.showMyDialog(context, "", AppLocalizations.of(context).translate("incorrect_credential"));
         }
       });
     } else {

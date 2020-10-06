@@ -207,6 +207,17 @@ class GlobalWidget
             image: AssetImage('images/bg_1.png'),fit: BoxFit.fill));
   }
 
+  static getbackground1() {
+    return  BoxDecoration(
+        color: Colors.black,
+
+        image: DecorationImage(
+            colorFilter:
+            ColorFilter.mode(Colors.grey.withOpacity(0.2),
+                BlendMode.dstATop),
+            image: AssetImage('images/confirm.png'),fit: BoxFit.fill));
+  }
+
   static getHeader(BuildContext context) {
     return new Column(
       crossAxisAlignment: CrossAxisAlignment.start,

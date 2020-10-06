@@ -22,6 +22,8 @@ import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
+import '../CommonMenuClass.dart';
+
 
 class AvailabiltyActivity extends StatefulWidget {
  
@@ -155,17 +157,22 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
 
   @override
   Widget build(BuildContext context) {
-
-
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
       todayBorderColor: Colors.green,
       onDayPressed: (DateTime date, List<Event> events)
       {
         this.setState(() => _currentDate2 = date);
-        products=new List();
-        events.forEach((event){
+       String selected_date= new DateFormat.d().format(date).toUpperCase()+" - "+
+           new DateFormat.MMMM().format(date).toUpperCase()+" - "+
+           new DateFormat.y().format(date).toUpperCase()+"  "+DateFormat('EEEE').format(date);
+       products=new List();
+       print(_currentDate2);
+        Utility.setStringPreference(GlobalConstant.Selected_Date, selected_date);
+        Navigator.of(context).push(new MaterialPageRoute(
+            builder: (_) => new CommonDashBord("booking_page",true,data)));
+      /*  events.forEach((event){
           products.add(_currentDate2);
-        });
+        });*/
       },
       daysHaveCircularBorder: false,
       showOnlyCurrentMonthDate: false,
@@ -233,12 +240,12 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Expanded(flex: 4,
+              Expanded(
               child: data!=null?new ListView(
                 children: [
 
                   new Container(
-                    height: 40.0,
+                    height: 10.0,
                   ),
                   Container(
                     alignment: Alignment.center,
@@ -248,7 +255,17 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
                     ),
                   ),
 
-                  SizedBox(height: 20.0,),
+                  SizedBox(height: 10.0,),
+
+                  data['vendor_shop_logo']!=null?CircleAvatar(
+                    radius: 55,
+                    backgroundColor: Color(0xffFDCF09),
+                    child: CircleAvatar(
+                      radius: 55,
+                      backgroundImage:  NetworkImage(data['vendor_shop_logo']),
+                    ),
+                  ):new Container(),
+                  SizedBox(height: 10.0,),
 
                   Container(
                     alignment: Alignment.center,
@@ -261,15 +278,13 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
                     alignment: Alignment.center,
                     child: new Text(GlobalFile.getCaptialize(data['vendor_address']),  style: TextStyle(fontSize: 14.0, color: Colors.black),),
                   ),
+                  SizedBox(height: 10.0,),
                   Container(
                     alignment: Alignment.center,
                     child: new Text(
                       "10:00 AM to 8:00 PM ",
                       style: TextStyle(fontSize: 14.0, color: Colors.blue),
                     ),
-                  ),
-                  SizedBox(
-                    height:30.0,
                   ),
                   Container(
                     alignment: Alignment.center,
@@ -281,7 +296,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
                 ],
               ):new Container(),),
 
-              Expanded(flex: 6,
+              Expanded(
                 child:   ListView(
 
                   children: <Widget>[

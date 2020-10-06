@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/VendorList/VendorClass.dart';
 import 'package:salon_app/language/SelectlanguageActivity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../CommonMenuClass.dart';
 
 class SplashActivity extends StatefulWidget {
   @override
@@ -31,9 +34,8 @@ class SplashScreen extends State<SplashActivity> {
       ),
     );
   }
-
   Future<void> checkStatus() async {
-    String login = await Utility.getStringPreference('login');
+    String login = await Utility.getStringPreference(GlobalConstant.login);
 
     if (login.isEmpty) {
       Timer(
@@ -45,7 +47,7 @@ class SplashScreen extends State<SplashActivity> {
           Duration(seconds: 3),
           () => Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder:
-                  (context) => /*HomeActivity*/ VendorActivity())));
+                  (context) => /*HomeActivity*/ CommonDashBord("vendor_list",false))));
     }
   }
 }

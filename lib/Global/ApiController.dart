@@ -76,15 +76,14 @@ Future<http.Response> Get(String url) async {
     return response;
 
   }
-Future<http.Response> GetLogin(String url,String Email,String Password) async {
-  String username = Email;
-  String password = Password;
-  String basicAuth =
-      'Basic ' + base64Encode(utf8.encode('$username:$password'));
-  print(basicAuth);
+Future<http.Response> GetLogin(var body) async {
+    String url=GlobalConstant.CommanUrlLogin+"jwt-auth/v1/token";
+
+  print(json.encode(body));
     Utility.log(tag, "Api Call :\n $url ");
-    var response = await http.get(url,
-      headers: {'authorization': basicAuth},
+    var response = await http.post(url,
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(body)
     );
     print("${response.statusCode}");
     print("${response.body}");

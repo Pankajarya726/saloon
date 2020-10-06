@@ -11,6 +11,15 @@ class GlobalConstant
   static String Verder_Id="Vendor_id";
   static String User_Name="user_name";
   static String User_Email="user_email";
+  static String Selected_Date="selected_date";
+  static String token="token";
+  static String user_email="user_email";
+  static String store_id="store_id";
+  static String roles="roles";
+  static String login="login";
+
+  /*
+  https://wordpress.org/plugins/wcfm-marketplace-rest-api*/
 
   static getTextColor() {
     return const Color(0xFFbfb397);

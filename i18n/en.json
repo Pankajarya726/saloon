@@ -32,7 +32,19 @@
   "tandc": "By clicking Submit you're agreeing to the ",
   "tandct": "Terms Of Services ",
   "account": "If you don't have an account ",
-  "signup": "Sign Up . "
+  "signup": "Sign Up . ",
+  "barber_essential": "BARBER ESSENTIALS",
+  "our_shop": "OUR SHOP",
+  "back_shop": "BACK TO SHOP",
+  "purches": "PURCHASE",
+  "incorrect_credential": "Incorrect Credentials",
+  "make_appoint":"MAKE APPOINTMENT",
+  "Thanks_choose": "Thank you for choosing",
+  "See_you": "SEE YOU",
+  "sure": "Are you sure?",
+  "exit_msg": "Do you want to exit an App",
+  "NO": "NO",
+  "YES": "YES"
 
 
 }

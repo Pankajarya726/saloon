@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_google_maps/flutter_google_maps.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'Availabilty/AvailabiltyClass.dart';
+import 'NearByBarber/FullScreenMap.dart';
 import 'SignInSignUpAccount/RegularAccount.dart';
 import 'SignInSignUpAccount/SignInClass.dart';
 import 'Splash/SplashActivity.dart';
+import 'VendorList/ProductClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'language/AppLanguage.dart';
 import 'language/AppLocalizations.dart';
@@ -16,9 +20,9 @@ Future<void> main() async {
   await appLanguage.fetchLocale();
 
   WidgetsFlutterBinding.ensureInitialized();
+  runApp(
 
-
-  runApp(MyApp(
+  MyApp(
     appLanguage: appLanguage,
   ));
 }
@@ -90,7 +94,8 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
             ],
             debugShowCheckedModeBanner: false,
-            home: SplashActivity(),
+          //  home: SplashActivity(),
+            home: FullScreenMapActivity(),
           //  home: RegularAccount("barber"),
             //home: RegularAccount("user"),
            //     home: MyHomePageCal(),

@@ -32,7 +32,9 @@ class VendorView extends State<VendorActivity>
 
   @override
   Widget build(BuildContext context) {
-   return new Scaffold(
+   return WillPopScope(
+       onWillPop: _onBackPressed,
+       child:new Scaffold(
 
       body: _list.length==0?GlobalWidget.getNoRecord(context):
         new Container(
@@ -59,8 +61,13 @@ class VendorView extends State<VendorActivity>
                         {
                           Utility.setStringPreference(GlobalConstant.Verder_Id, _list[index].data['vendor_id'].toString());
 
-                          Navigator.of(context).push(new MaterialPageRoute(
+                          /*Navigator.of(context).push(new MaterialPageRoute(
                               builder: (_) => new CommonDashBord("vendor_dtl",true)));
+                          */
+
+                          Navigator.of(context).push(new MaterialPageRoute(
+                              builder: (_) => new CommonDashBord("Product_list",true,_list[index].data)));
+
                         },
                       child:/*new Column(
                         children: [
@@ -105,7 +112,7 @@ class VendorView extends State<VendorActivity>
 
                         child: new Text(GlobalFile.getCaptialize(_list[index].data['vendor_shop_name']),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 18.0),),
 
-                        margin: EdgeInsets.only(top: 5.0,right: 5.0,left: 5.0),
+                        margin: EdgeInsets.all(8.0),
                         padding: EdgeInsets.only(top: 5.0,right: 5.0,left: 10.0),
 
                         height: MediaQuery.of(context).size.height,
@@ -129,7 +136,7 @@ class VendorView extends State<VendorActivity>
             ],
           ),
         ),
-    );
+    ));
 
   }
 
@@ -189,8 +196,28 @@ class VendorView extends State<VendorActivity>
   void initState() {
     SubmitData();
   }
-  
-  
+
+  Future<bool> _onBackPressed() {
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text(AppLocalizations.of(context).translate("sure")),
+        content: new Text(AppLocalizations.of(context).translate("exit_msg")),
+        actions: <Widget>[
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(false),
+            child: Text(AppLocalizations.of(context).translate("NO")),
+          ),
+          SizedBox(height: 16),
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(true),
+            child: Text(AppLocalizations.of(context).translate("YES")),
+          ),
+        ],
+      ),
+    ) ??
+        false;
+  }
 }
 
 class DataModel
