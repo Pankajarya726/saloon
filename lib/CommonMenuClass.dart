@@ -6,6 +6,7 @@ import 'package:salon_app/VendorList/ProductClass.dart';
 import 'Availabilty/AvailabiltySchduleClass.dart';
 import 'DrawerPackage/SideDrawer.dart';
 import 'Global/GlobalWidget.dart';
+import 'NearByBarber/NearByClass.dart';
 import 'VendorList/ProductDetailClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'VendorList/VendorDetailClass.dart';
@@ -88,6 +89,9 @@ class CommonView extends State<CommonDashBord>
         break;
       case "booking_page":
        return SchduledClassActivity(widget.data);
+        break;
+      case "map_view":
+       return NearByActivity();
         break;
     }
   }

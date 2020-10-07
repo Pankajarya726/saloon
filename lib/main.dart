@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_google_maps/flutter_google_maps.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'Availabilty/AvailabiltyClass.dart';
 import 'NearByBarber/FullScreenMap.dart';
+import 'NearByBarber/NearByClass.dart';
+import 'SearchModel/SearchUsers.dart';
 import 'SignInSignUpAccount/RegularAccount.dart';
 import 'SignInSignUpAccount/SignInClass.dart';
 import 'Splash/SplashActivity.dart';
@@ -94,9 +95,9 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
             ],
             debugShowCheckedModeBanner: false,
-          //  home: SplashActivity(),
-            home: FullScreenMapActivity(),
-          //  home: RegularAccount("barber"),
+            home: SplashActivity(),
+          //  home: FullScreenMapActivity(),
+          //  home: SearchUsers(),
             //home: RegularAccount("user"),
            //     home: MyHomePageCal(),
           );

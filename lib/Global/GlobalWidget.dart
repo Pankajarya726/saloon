@@ -114,6 +114,7 @@ class GlobalWidget
   static TextFeildDecoration(String s) {
     return new InputDecoration(
       hintText: s,
+
      // fillColor: Colors.black,
       focusedBorder:UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.black),
@@ -135,7 +136,7 @@ class GlobalWidget
 
 
   static textbtnstyle() {
-    return TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 16.0);
+    return TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 22.0);
   }
 
   static getIcon(bool _obscureText) {

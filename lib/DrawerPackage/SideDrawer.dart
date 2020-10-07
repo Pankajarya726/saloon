@@ -1,13 +1,12 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:salon_app/Global/Utility.dart';
+import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-
+import 'package:salon_app/language/SelectlanguageActivity.dart';
 import '../CommonMenuClass.dart';
-
 class SideDrawer extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return new Container(
@@ -36,30 +35,36 @@ class SideDrawer extends StatelessWidget {
                           onTap: (){
                               Navigator.of(context).pop();
                           },
-                        ),),
-
-
-
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(height: 60.0,),
+
                 InkWell(
                   onTap: ()
                   {
                       Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CommonDashBord("map_view",true)));
                   },
                   child: getRow(AppLocalizations.of(context).translate('Barber_near')),
-                ),InkWell(
+                ),
+
+                InkWell(
                   onTap: ()
                   {
                       Navigator.of(context).pop();
+
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_acc')),
                 ),InkWell(
                   onTap: ()
                   {
                       Navigator.of(context).pop();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => SelectLanguageActivity()));
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_app')),
                 ),InkWell(
@@ -84,6 +89,10 @@ class SideDrawer extends StatelessWidget {
                   onTap: ()
                   {
                       Navigator.of(context).pop();
+                      Utility.setStringPreference(GlobalConstant.login, "");
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (BuildContext context) => SignInActivity()),
+                          ModalRoute.withName('/'));
                   },
                   child: getRow(AppLocalizations.of(context).translate('logout')),
                 ),

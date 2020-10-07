@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/Utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'AppLanguage.dart';
@@ -155,7 +156,7 @@ class SelectLanguageScreen extends State<SelectLanguageActivity> {
   }
 
   languageSelected(
-      BuildContext context, int value, AppLanguage appLanguage) {
+      BuildContext context, int value, AppLanguage appLanguage)  {
     print(_radioValue1);
     print("_radioValue1");
     switch (_radioValue1) {
@@ -166,10 +167,15 @@ class SelectLanguageScreen extends State<SelectLanguageActivity> {
         break;
       case 0:
         appLanguage.changeLanguage(Locale('ar'));
+
+         Utility.setStringPreference(GlobalConstant.language_select,"1");
+
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) => GlobalConstant.getMainScreen()));
         break;
       case 1:
+
+        Utility.setStringPreference(GlobalConstant.language_select,"1");
         appLanguage.changeLanguage(Locale('en'));
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) => GlobalConstant.getMainScreen()));

@@ -76,6 +76,23 @@ Future<http.Response> Get(String url) async {
     return response;
 
   }
+Future<http.Response> GetWithToken(String url) async {
+  String token = (await Utility.getStringPreference(GlobalConstant.token));
+
+  Utility.log(tag, "Api Call :\n $url ");
+    var response = await http.get(
+      url,
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+
+  }
 Future<http.Response> GetLogin(var body) async {
     String url=GlobalConstant.CommanUrlLogin+"jwt-auth/v1/token";
 

@@ -6,8 +6,18 @@ import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/Utility.dart';
+import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
+import 'package:flutter_html/flutter_html.dart';
+import 'package:salon_app/Global/ApiController.dart';
+import 'package:salon_app/Global/Dialogs.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:http/http.dart' as http;
+import 'package:salon_app/Global/GlobalFile.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/NetworkCheck.dart';
+import 'package:salon_app/Global/Utility.dart';
 class RegularAccount extends StatefulWidget
 {
   String from;
@@ -293,7 +303,9 @@ class AccView extends State<RegularAccount>
             // getShareddata();
             print("success");
           }*/
-          SendData();
+
+         getAdminToken();
+
         },
         child: Text(AppLocalizations.of(context).translate("Submit"),style: GlobalWidget.textbtnstyle(),),
       ),
@@ -322,28 +334,115 @@ class AccView extends State<RegularAccount>
   }
 
   Future<void> getandSetData() async {
-
     String User_Name = await Utility.getStringPreference(GlobalConstant.User_Name);
     String User_Email = await Utility.getStringPreference(GlobalConstant.User_Email);
     emailController.text=User_Email;
     nameController.text=User_Name;
     setState(() {
-
     });
   }
-  Future<void> SendData() async {
-
+  Future<void> SendData(String token) async
+  {
     List a1=new List();
+    if(widget.from=="barber")
+      {
+        a1.add('wcfm_vendor');
+      }else
+        {
+          a1.add('customer');
+        }
 
-    a1.add('wcfm_vendor');
 
-    Map<String, dynamic> map_submit() => {
+    Map<String, dynamic> map1() => {
+      'store_name': shopController.text.toString(),
+      'phone_number': phoneController.text.toString()
+    };
+      print(map1());
+      Map<String, dynamic> map_submit() => {
       'username': userIdController.text.toString(),
+      'name':nameController.text.toString(),
+
       'email':emailController.text.toString(),
       'roles': a1,
       'password': userPinController.text.toString(),
+       'meta':map1()
     };
+
+      var body_data=json.encode(map_submit());
     print(json.encode(map_submit()));
+    String url=GlobalConstant.CommanUrlLogin+"wp/v2/users";
+    print(url);
+    var response = await http.post(
+      url,
+      body: body_data,
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 ( compatible )',
+        'Accept': '*/*',
+        'Authorization': 'Bearer $token'
+      },
+    );
+
+
+    print("${response.statusCode}");
+
+    var data1 = json.decode(response.body);
+    print("${data1}");
+
+
+    try {
+      Dialogs.hideProgressDialog(context);
+      String id=data1['id'].toString();
+      print(id);
+      if(id.toString()!="null")
+        {
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (BuildContext context) => SignInActivity()),
+              ModalRoute.withName('/'));
+          GlobalWidget.GetToast(context, "Successfully Sign Up. ");
+        }else{
+        GlobalWidget.showMyDialog(context, "", data1['message']);
+      }
+/*
+   */
+    } catch (e) {
+      GlobalWidget.showMyDialog(context, "", data1['message']);
+    }
+
+  }
+
+  Future<void> getAdminToken() async {
+    Map<String, String> body =
+    {
+      'username': "admin",
+      'password':"admin123",
+    };
+
+    print("body$body");
+
+
+
+    ApiController apiController = new ApiController.internal();
+
+    if (await NetworkCheck.check()) {
+    Dialogs.showProgressDialog(context);
+    apiController.GetLogin(body).then((value) {
+
+    var data1 = json.decode(value.body);
+    try {
+      String token=data1['token'];
+      SendData(token);
+
+    } catch (e) {
+
+
+      Dialogs.hideProgressDialog(context);
+      GlobalWidget.showMyDialog(context, "", AppLocalizations.of(context).translate("incorrect_credential"));
+    }
+    });
+    } else {
+    GlobalWidget.GetToast(context, "No Internet Connection");
+    }
   }
   
 }

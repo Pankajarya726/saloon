@@ -110,69 +110,7 @@ class VendorView extends State<VendorActivity>
                       )*/
                       Container(
 
-                        child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(flex: 6,
-                            child: new Text(GlobalFile.getCaptialize(_list[index].data['vendor_shop_name']),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 18.0),),),
-                            Expanded(flex: 4,
-                            child: new Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-
-                              children: [
-                                new Container(
-                                  height: 20.0,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 5.0),
-                                      decoration: new BoxDecoration(
-                                          borderRadius: new BorderRadius.only(
-                                              topLeft:  const  Radius.circular(20.0),
-                                              bottomLeft: const  Radius.circular(20.0)),
-                                          gradient: new LinearGradient(
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.topRight,
-                                            colors: [
-                                              Colors.blueGrey.withOpacity(0.99),
-                                              Colors.blueGrey.withOpacity(0.12)
-                                            ],
-                                          )),
-                                      child: new Row(
-                                        children: [
-
-                                          new Text(
-                                            GlobalFile.getCaptialize(_list[index].data['vendor_email']),style: TextStyle(color: Colors.white,fontSize: 12.0),)
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(height: 10.0,),
-                                GlobalFile.getStringValue(_list[index].data['vendor_phone'])==""?new Container():new Container(
-                                  height: 20.0,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 5.0),
-                                      decoration: new BoxDecoration(
-                                          borderRadius: new BorderRadius.only(
-                                              topLeft:  const  Radius.circular(20.0),
-                                              bottomLeft: const  Radius.circular(20.0)),
-                                          gradient: new LinearGradient(
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.topRight,
-                                            colors: [
-                                              Colors.blueGrey.withOpacity(0.99),
-                                              Colors.blueGrey.withOpacity(0.12)
-                                            ],
-                                          )),
-                                      child: new Row(
-                                        children: [
-
-                                          new Text(
-                                            GlobalFile.getCaptialize(_list[index].data['vendor_phone']),style: TextStyle(color: Colors.white,fontSize: 12.0),)
-                                        ],
-                                      )),
-                                ),
-                              ],
-                            ),)
-                          ],
-                        ),
+                        child: new Text(GlobalFile.getCaptialize(_list[index].data['vendor_shop_name']),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 18.0),),
 
                         margin: EdgeInsets.all(8.0),
                         padding: EdgeInsets.only(top: 5.0,right: 5.0,left: 10.0),
@@ -184,15 +122,14 @@ class VendorView extends State<VendorActivity>
                             color: Colors.black,
                             image: DecorationImage(
                                 colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+
                                 image: new NetworkImage(
-                                    _list[index].data['vendor_banner']
+                                    _list[index].data['vendor_shop_logo']
                                 ),
                                 fit: BoxFit.fill
                             )
                         ),
                       ),
-
-
                     );
                   }),
                 ),)
@@ -224,7 +161,7 @@ class VendorView extends State<VendorActivity>
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.Get(Url).then((value)
+      apiController.GetWithToken(Url).then((value)
       {
         try
         {

@@ -121,6 +121,7 @@ class SignInView extends State<SignInActivity>
 
   UserPinFeild() {
     return TextFormField(
+      style: TextStyle(fontSize: 20.0),
       controller: userPinController,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
@@ -167,13 +168,15 @@ class SignInView extends State<SignInActivity>
            //
           }
         },
-        child: Text(AppLocalizations.of(context).translate("Submit"),style: GlobalWidget.textbtnstyle(),),
+        child: Text(AppLocalizations.of(context).translate("Submit").toUpperCase(),style: GlobalWidget.textbtnstyle(),),
       ),
     );
   }
 
   EmailFeild() {
     return TextFormField(
+
+      style: TextStyle(fontSize: 22.0),
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
@@ -201,11 +204,7 @@ class SignInView extends State<SignInActivity>
 
     print("body$body");
 
-/*
 
-    String Verder_Id = (await Utility.getStringPreference(GlobalConstant.Verder_Id));
-    String Url = GlobalConstant.CommanUrlLogin ;
-*/
 
     ApiController apiController = new ApiController.internal();
 

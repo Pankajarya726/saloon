@@ -33,16 +33,17 @@ dependencies:
   shared_preferences:
   json_annotation: ^1.2.0
   http: ^0.12.0
+  google_maps_flutter: ^0.5.32
+  location: ^3.0.2
   toast:
   custom_progress_dialog: ^1.0.5
   flutter_html:
   connectivity:
   provider:
   flutter_calendar_carousel:
-  flutter_google_maps:
-  location: ^3.0.2
+  rxdart: 0.18.1
+  loader_search_bar:
   path:
-
 
 dev_dependencies:
   flutter_test:

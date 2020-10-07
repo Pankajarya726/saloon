@@ -92,13 +92,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
-  crypto:
-    dependency: transitive
-    description:
-      name: crypto
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.1.5"
   css_colors:
     dependency: transitive
     description:
@@ -148,13 +141,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.2.1"
-  flinq:
-    dependency: transitive
-    description:
-      name: flinq
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.1.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -167,13 +153,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.12"
-  flutter_google_maps:
-    dependency: "direct main"
-    description:
-      name: flutter_google_maps
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.0"
   flutter_html:
     dependency: "direct main"
     description:
@@ -210,22 +189,8 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  google_directions_api:
-    dependency: transitive
-    description:
-      name: google_directions_api
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
-  google_maps:
-    dependency: transitive
-    description:
-      name: google_maps
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.4.5"
   google_maps_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
@@ -238,13 +203,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  google_polyline_algorithm:
-    dependency: transitive
-    description:
-      name: google_polyline_algorithm
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   html:
     dependency: transitive
     description:
@@ -280,13 +238,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.2"
-  js_wrapping:
-    dependency: transitive
-    description:
-      name: js_wrapping
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0"
   json_annotation:
     dependency: "direct main"
     description:
@@ -294,6 +245,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  loader_search_bar:
+    dependency: "direct main"
+    description:
+      name: loader_search_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3+3"
   location:
     dependency: "direct main"
     description:
@@ -427,6 +385,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.2+2"
+  rxdart:
+    dependency: "direct main"
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.18.1"
   screen:
     dependency: transitive
     description:
@@ -551,13 +516,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.2"
   vector_math:
     dependency: transitive
     description:

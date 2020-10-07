@@ -17,8 +17,12 @@ class GlobalConstant
   static String store_id="store_id";
   static String roles="roles";
   static String login="login";
+  static String language_select="language_select";
 
   /*
+  design
+  https://projects.invisionapp.com/share/TH6LVD2BK#/screens/144900325
+
   https://wordpress.org/plugins/wcfm-marketplace-rest-api*/
 
   static getTextColor() {

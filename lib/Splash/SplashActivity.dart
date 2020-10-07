@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/Utility.dart';
+import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/VendorList/VendorClass.dart';
 import 'package:salon_app/language/SelectlanguageActivity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,18 +37,32 @@ class SplashScreen extends State<SplashActivity> {
   }
   Future<void> checkStatus() async {
     String login = await Utility.getStringPreference(GlobalConstant.login);
+    String language_select = await Utility.getStringPreference(GlobalConstant.language_select);
 
-    if (login.isEmpty) {
-      Timer(
-          Duration(seconds: 3),
+    if (language_select.isEmpty) {
+      Timer( Duration(seconds: 3),
           () => Navigator.of(context).pushReplacement(MaterialPageRoute(
               builder: (context) => SelectLanguageActivity())));
-    } else {
-      Timer(
-          Duration(seconds: 3),
-          () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder:
-                  (context) => /*HomeActivity*/ CommonDashBord("vendor_list",false))));
+    } else
+    {
+      if(login.isEmpty)
+        {
+
+          Timer(
+              Duration(seconds: 3),
+                  () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => /*HomeActivity*/ SignInActivity())));
+
+        }else
+          {
+
+            Timer(
+                Duration(seconds: 3),
+                    () => Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => /*HomeActivity*/ CommonDashBord("vendor_list",false))));
+
+          }
+
     }
   }
 }

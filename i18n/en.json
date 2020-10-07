@@ -44,7 +44,8 @@
   "sure": "Are you sure?",
   "exit_msg": "Do you want to exit an App",
   "NO": "NO",
-  "YES": "YES"
-
+  "YES": "YES",
+  "TAPERED_USER_NEAR": "TAPERED USERS NEAR ME",
+  "SEARCH": "SEARCH"
 
 }
