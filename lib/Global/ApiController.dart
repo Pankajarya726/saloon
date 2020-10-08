@@ -80,11 +80,31 @@ Future<http.Response> GetWithToken(String url) async {
   String token = (await Utility.getStringPreference(GlobalConstant.token));
 
   Utility.log(tag, "Api Call :\n $url ");
+  Utility.log(tag, "Api Call :\n $token ");
     var response = await http.get(
       url,
       headers: {
-        'Content-type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 ( compatible )',
+        'Accept': '*/*',
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+
+  }
+Future<http.Response> GetWithMyToken(String url,String token) async {
+
+  Utility.log(tag, "Api Call :\n $url ");
+  Utility.log(tag, "Api Call :\n $token ");
+    var response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 ( compatible )',
+        'Accept': '*/*',
         'Authorization': 'Bearer $token'
       },
     );

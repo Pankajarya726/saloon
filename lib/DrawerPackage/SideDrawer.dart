@@ -57,6 +57,8 @@ class SideDrawer extends StatelessWidget {
                   {
                       Navigator.of(context).pop();
 
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => CommonDashBord("my_acc", true)));
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_acc')),
                 ),InkWell(

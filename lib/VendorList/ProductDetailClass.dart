@@ -31,8 +31,7 @@ class DetailView extends State<ProductDetailActivity> {
 
   @override
   Widget build(BuildContext context) {
-    data=widget.data;
-    // TODO: implement build
+   // TODO: implement build
     return new Scaffold(
       body: data != null
           ? new Container(
@@ -50,7 +49,7 @@ class DetailView extends State<ProductDetailActivity> {
 
   @override
   void initState() {
-
+    SubmitData();
   }
 
   getFulldata() {
@@ -62,32 +61,41 @@ class DetailView extends State<ProductDetailActivity> {
           height:20,
         ),
         Container(
-          alignment: Alignment.center,
+          alignment: Alignment.topLeft,
           child: new Text(
             GlobalFile.getCaptialize(data['name']),
             style: TextStyle(fontSize: 20.0, color: Colors.black),
           ),
         ),
 
-        Container(
+       /* Container(
           alignment: Alignment.center,
           child: new Text(
             GlobalFile.getCaptialize(data['slug']),
             style: TextStyle(fontSize: 20.0, color: Colors.black),
           ),
         ),
-        SizedBox(height: 5.0,),
+        SizedBox(height: 5.0,),*/
 
         Container(
           alignment: Alignment.center,
-          child: new Text("\$"+data['price'].toString(),
-            style: TextStyle(fontSize: 18.0, color: GlobalConstant.getTextColor()),
+          child: new Center(
+            child: SingleChildScrollView(
+              child: Html(
+                data: data['price_html'],
+
+                onLinkTap: (url) {
+                  print("Opening $url...");
+                },
+
+              ),
+            ),
           ),
         ),
 
 
         SizedBox(height: 5.0,),
-        Container(
+       /* Container(
           width: MediaQuery.of(context).size.width,
           height: 260.0,
           alignment: Alignment.center,
@@ -96,17 +104,25 @@ class DetailView extends State<ProductDetailActivity> {
               fit: BoxFit.fitWidth,
               placeholder: GlobalWidget.getPlaceHolder()),
         ),
-        SizedBox(height: 5.0,),
-        new Center(
-          child: SingleChildScrollView(
-            child: Html(
-              data: data['price_html'],
+       */
+        Container(
+          alignment: Alignment.bottomLeft,
+          child: new Text(GlobalFile.getCaptialize(data['name']),style: TextStyle(color: Colors.white,fontSize: 14.0),),
 
-              onLinkTap: (url) {
-                print("Opening $url...");
-              },
+          padding: EdgeInsets.only(bottom: 5.0,right: 5.0,left: 5.0),
+          height: MediaQuery.of(context).size.height/3,
+          decoration: BoxDecoration(
 
-            ),
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.black,
+              image: DecorationImage(
+                  colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.99), BlendMode.dstIn),
+
+                  image: new NetworkImage(
+                      data['images'][0]['src']
+                  ),
+                  fit: BoxFit.fill
+              )
           ),
         ),
         SizedBox(
@@ -114,7 +130,7 @@ class DetailView extends State<ProductDetailActivity> {
         ),
 
 
-        new Center(
+       /* new Center(
           child: SingleChildScrollView(
             child: Html(
               data: data['description'],
@@ -131,30 +147,238 @@ class DetailView extends State<ProductDetailActivity> {
         SizedBox(
           height: 10.0,
         ),
+*/
 
-
-        new Center(
-          child: SingleChildScrollView(
-            child: Html(
-              data: data['short_description'],
-
-              onLinkTap: (url) {
-                print("Opening $url...");
-              },
-
-            ),
-          ),
-        ),
 
         GetPurches(),
         SizedBox(
           height: 10.0,
         ),
-        GetBackToShop()
+      //  GetBackToShop(),
+
+        new Column(
+          children: [
+
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                AppLocalizations.of(context).translate("Description"),
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: new Column(
+                      children: [
+                        Html(
+                          data: data['description'],
+
+                          onLinkTap: (url) {
+                          },
+
+                        ),
+                        Html(
+                          data: data['short_description'],
+
+                          onLinkTap: (url) {
+                          },
+
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+               AppLocalizations.of(context).translate("review"),
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data: "",
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+            ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                AppLocalizations.of(context).translate("more_offers"),
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+
+              children: <Widget>[
+                new Center(
+                  child: SingleChildScrollView(
+                    child: Html(
+                      data:"",
+
+                      onLinkTap: (url) {
+                      },
+
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+ExpansionTile(
+              tilePadding: EdgeInsets.only(left: 5.0),
+              childrenPadding: EdgeInsets.all(0.0),
+              title: Text(
+                AppLocalizations.of(context).translate("store_poliecies"),
+                style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54
+                ),
+              ),
+
+              children: <Widget>[
+
+
+                ExpansionTile(
+                  tilePadding: EdgeInsets.only(left: 5.0),
+                  childrenPadding: EdgeInsets.all(0.0),
+                  title: Text(
+                    data['wcfm_product_policy_data']['shipping_policy_heading'],
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black54
+                    ),
+                  ),
+                  children: <Widget>[
+                    new Center(
+                      child: SingleChildScrollView(
+                        child: Html(
+                          data: data['wcfm_product_policy_data']['shipping_policy'],
+
+                          onLinkTap: (url) {
+                          },
+
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(thickness: 15.0,),
+                ExpansionTile(
+                  tilePadding: EdgeInsets.only(left: 5.0),
+                  childrenPadding: EdgeInsets.all(0.0),
+                  title: Text(
+                    data['wcfm_product_policy_data']['refund_policy_heading'],
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black54
+                    ),
+                  ),
+
+                  children: <Widget>[
+                    new Center(
+                      child: SingleChildScrollView(
+                        child: Html(
+                          data: data['wcfm_product_policy_data']['refund_policy'],
+
+                          onLinkTap: (url) {
+                          },
+
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(thickness: 15.0,),
+                ExpansionTile(
+                  tilePadding: EdgeInsets.only(left: 5.0),
+                  childrenPadding: EdgeInsets.all(0.0),
+                  title: Text(
+                    data['wcfm_product_policy_data']['cancellation_policy_heading'],
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black54
+                    ),
+                  ),
+
+                  children: <Widget>[
+                    new Center(
+                      child: SingleChildScrollView(
+                        child: Html(
+                          data: data['wcfm_product_policy_data']['cancellation_policy'],
+
+                          onLinkTap: (url) {
+                          },
+
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Divider(thickness: 15.0,),
+
+          ],
+        ),
       ],
     );
   }
 
+
+  void SubmitData() async
+  {
+    String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
+
+    String Url = GlobalConstant.CommanUrl+"products/"+widget.data.toString();
+
+
+    ApiController apiController = new ApiController.internal();
+
+    if (await NetworkCheck.check()) {
+      Dialogs.showProgressDialog(context);
+      apiController.GetWithMyToken(Url,token).then((value)
+      {
+        try
+        {
+          Dialogs.hideProgressDialog(context);
+          data = json.decode(value.body);
+          setState(() {
+          });
+        }catch(e)
+        {
+          // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+        }
+      });
+
+    }else
+    {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
 
   GetPurches() {
     return new Container(
@@ -163,10 +387,10 @@ class DetailView extends State<ProductDetailActivity> {
         shape: GlobalWidget.getButtonTheme(),
         color: GlobalWidget.getBtncolor(),
         textColor: GlobalWidget.getBtnTextColor(),
-        onPressed: () {
-
+        onPressed: ()
+        {
           Navigator.of(context).push(new MaterialPageRoute(
-              builder: (_) => new CommonDashBord("vendor_avail",true)));
+              builder: (_) => new CommonDashBord("vendor_avail",true,data)));
         },
         child: Text(AppLocalizations.of(context).translate("purches"),style: GlobalWidget.textbtnstyle(),),
       ),

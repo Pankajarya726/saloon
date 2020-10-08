@@ -7,6 +7,7 @@ import 'Availabilty/AvailabiltySchduleClass.dart';
 import 'DrawerPackage/SideDrawer.dart';
 import 'Global/GlobalWidget.dart';
 import 'NearByBarber/NearByClass.dart';
+import 'Profile/view_profile.dart';
 import 'VendorList/ProductDetailClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'VendorList/VendorDetailClass.dart';
@@ -79,7 +80,7 @@ class CommonView extends State<CommonDashBord>
        return VendoeDetailActivity();
         break;
       case "vendor_avail":
-       return AvailabiltyActivity();
+       return AvailabiltyActivity(widget.data);
         break;
       case "Product_dtl":
        return ProductDetailActivity(widget.data);
@@ -92,6 +93,9 @@ class CommonView extends State<CommonDashBord>
         break;
       case "map_view":
        return NearByActivity();
+        break;
+      case "my_acc":
+       return ViewProfile();
         break;
     }
   }
@@ -118,6 +122,9 @@ class CommonView extends State<CommonDashBord>
         break;
       case "Product_list":
         return AppLocalizations.of(context).translate('our_shop');
+        break;
+      case "my_acc":
+        return AppLocalizations.of(context).translate('account_head');
         break;
       default:
         return AppLocalizations.of(context).translate('barber_account');

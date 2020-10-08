@@ -46,6 +46,14 @@
   "NO": "NO",
   "YES": "YES",
   "TAPERED_USER_NEAR": "TAPERED USERS NEAR ME",
-  "SEARCH": "SEARCH"
+  "SEARCH": "SEARCH",
+  "Description": "DESCRIPTION",
+  "review": "REVIEW",
+  "more_offers": "MORE OFFERS",
+  "store_poliecies": "STORE POLICIES",
+  "select_date": "SELECT AVAILABLE DATE",
+  "selected_date": "SELECTED DATE",
+  "account_head": "MY ACCOUNT"
+
 
 }

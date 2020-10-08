@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
@@ -23,11 +25,15 @@ import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
 import '../CommonMenuClass.dart';
+import 'ConfirmationClass.dart';
 
 
 class AvailabiltyActivity extends StatefulWidget {
- 
-  // This widget is the home page of your application. It is stateful, meaning
+
+  var data_val;
+
+  AvailabiltyActivity(
+      this.data_val); // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
 
@@ -43,6 +49,7 @@ class AvailabiltyActivity extends StatefulWidget {
 }
 
 class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
+  ScrollController _scrollController = ScrollController();
 
   static var now1 = new DateTime.now();
   int year=now1.year;
@@ -97,8 +104,11 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
     /// Add more events to _markedDateMap EventList
     ///
     ///
+    data=widget.data_val['store'];
+    setState(() {
 
-    SubmitData();
+    });
+    //SubmitData();
     for(int i=0;i<30;i+=4)
       {
 
@@ -154,7 +164,10 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
     super.initState();
   }  var data;
 
-
+  String selected_date="";
+  List<String> litems = ["1","2","Third","4"];
+  _scrollToBottom(){  _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+  }
   @override
   Widget build(BuildContext context) {
     _calendarCarouselNoHeader = CalendarCarousel<Event>(
@@ -162,14 +175,22 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
       onDayPressed: (DateTime date, List<Event> events)
       {
         this.setState(() => _currentDate2 = date);
-       String selected_date= new DateFormat.d().format(date).toUpperCase()+" - "+
+        selected_date= new DateFormat.d().format(date).toUpperCase()+" - "+
            new DateFormat.MMMM().format(date).toUpperCase()+" - "+
            new DateFormat.y().format(date).toUpperCase()+"  "+DateFormat('EEEE').format(date);
        products=new List();
-       print(_currentDate2);
-        Utility.setStringPreference(GlobalConstant.Selected_Date, selected_date);
+
+       setState(() {
+         Timer(
+           Duration(seconds: 1),
+               () => _scrollController.jumpTo(_scrollController.position.maxScrollExtent),
+         );
+       });
+
+        print(_currentDate2);
+       /* Utility.setStringPreference(GlobalConstant.Selected_Date, selected_date);
         Navigator.of(context).push(new MaterialPageRoute(
-            builder: (_) => new CommonDashBord("booking_page",true,data)));
+            builder: (_) => new CommonDashBord("booking_page",true,widget.data_val)));*/
       /*  events.forEach((event){
           products.add(_currentDate2);
         });*/
@@ -183,7 +204,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
       weekFormat: false,
 //      firstDayOfWeek: 4,
       markedDatesMap: _markedDateMap,
-      height: 320.0,
+      height: 400.0,
       selectedDateTime: _currentDate2,
       targetDateTime: _targetDateTime,
       customGridViewPhysics: NeverScrollableScrollPhysics(),
@@ -220,7 +241,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
         fontSize: 12,
 
       ),
-      showHeader: false,
+      showHeader: true,
       onCalendarChanged: (DateTime date) {
         this.setState(() {
           _targetDateTime = date;
@@ -233,133 +254,143 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity> {
     );
 
     return new Scaffold(
-
         body:  new Container(
           color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: ListView(
+            controller: _scrollController,
             children: <Widget>[
-              Expanded(
-              child: data!=null?new ListView(
-                children: [
+              data!=null?new Container(
+                decoration: BoxDecoration(
 
-                  new Container(
-                    height: 10.0,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      GlobalFile.getCaptialize(data['vendor_display_name']),
-                      style: TextStyle(fontSize: 24.0, color: Colors.black),
+                    borderRadius: BorderRadius.circular(0),
+                    color: Colors.black,
+                    image: DecorationImage(
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.9), BlendMode.dstATop),
+
+                        image: new NetworkImage(
+                            widget.data_val['images'][0]['src']
+                        ),
+                        fit: BoxFit.fill
+                    )
+                ),
+                child: new Column(
+                  children: [
+
+                    new Container(
+                      height: 10.0,
                     ),
-                  ),
-
-                  SizedBox(height: 10.0,),
-
-                  data['vendor_shop_logo']!=null?CircleAvatar(
-                    radius: 55,
-                    backgroundColor: Color(0xffFDCF09),
-                    child: CircleAvatar(
-                      radius: 55,
-                      backgroundImage:  NetworkImage(data['vendor_shop_logo']),
-                    ),
-                  ):new Container(),
-                  SizedBox(height: 10.0,),
-
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      GlobalFile.getCaptialize(data['vendor_shop_name']),
-                      style: TextStyle(fontSize: 14.0, color: Colors.black),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(GlobalFile.getCaptialize(data['vendor_address']),  style: TextStyle(fontSize: 14.0, color: Colors.black),),
-                  ),
-                  SizedBox(height: 10.0,),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      "10:00 AM to 8:00 PM ",
-                      style: TextStyle(fontSize: 14.0, color: Colors.blue),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      "Select Available Date ".toUpperCase(),
-                      style: TextStyle(fontSize: 24.0, color: GlobalConstant.getTextColor()),
-                    ),
-                  ),
-                ],
-              ):new Container(),),
-
-              Expanded(
-                child:   ListView(
-
-                  children: <Widget>[
-                    //custom icon
-                    //custom icon without header
                     Container(
-                      padding: EdgeInsets.only(right: 20.0),
-                      margin: EdgeInsets.only(
-                        bottom: 10.0,
-                      ),
-                      color: Colors.white,
-                      child: new Row(
-                        children: <Widget>[
-
-                         /* Expanded(flex: 1,
-                            child:  FlatButton(
-                              child: Icon(Icons.arrow_back_ios),
-                              onPressed: () {
-                                setState(() {
-                                  _targetDateTime = DateTime(_targetDateTime.year, _targetDateTime.month -1);
-                                  _currentMonth = DateFormat.yMMM().format(_targetDateTime);
-                                });
-                              },
-                            ),),
-*/
-                          Container(
-                            margin: EdgeInsets.only(left: 20.0),
-                              child: Text(
-                                returnMonth(_targetDateTime),
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 20.0,
-                                ),
-                              )),
-
-                         /* Expanded(flex: 1,
-                            child:
-                            FlatButton(
-                              child: Icon(Icons.arrow_forward_ios),
-                              onPressed: () {
-                                setState(() {
-                                  _targetDateTime = DateTime(_targetDateTime.year, _targetDateTime.month +1);
-                                  _currentMonth = DateFormat.yMMM().format(_targetDateTime);
-                                });
-                              },
-                            ),),*/
-                        ],
+                      alignment: Alignment.center,
+                      child: new Text(
+                        GlobalFile.getCaptialize(widget.data_val['name']),
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
                       ),
                     ),
 
+                    SizedBox(height: 10.0,),
+
+                    data['vendor_shop_logo']!=null?new InkWell(
+                      onTap: (){
+                        Utility.setStringPreference(GlobalConstant.Verder_Id, data['vendor_id'].toString());
+
+                        Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (_) => new CommonDashBord("vendor_dtl",true)));
+                      },
+                      child: CircleAvatar(
+                        radius: 55,
+                        backgroundColor: Color(0xffFDCF09),
+                        child: CircleAvatar(
+                          radius: 55,
+                          backgroundImage:  NetworkImage(data['vendor_shop_logo']),
+                        ),
+                      ),
+                    ):new Container(),
+                    SizedBox(height: 10.0,),
+
                     Container(
-                      margin: EdgeInsets.all(10.0),
-                      child: _calendarCarouselNoHeader,
-                    ), //
+                      alignment: Alignment.center,
+                      child: new Text(
+                        GlobalFile.getCaptialize(data['vendor_shop_name']),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: new Text(GlobalFile.getCaptialize(data['vendor_address']),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),),
+                    ),
+                    SizedBox(height: 10.0,),
+                    Container(
+                      alignment: Alignment.center,
+                      child: new Text(
+                        "10:00 AM to 8:00 PM ",
+                        style: TextStyle(fontSize: 14.0, color: Colors.blue),
+                      ),
+                    ),
+
                   ],
-                ),),
-              //
+                ),
+              ):new Container(),
+              SizedBox(height: 10.0,),
+              Container(
+                alignment: Alignment.center,
+                child: new Text(
+                  AppLocalizations.of(context).translate("select_date"),
+                  style: TextStyle(fontSize: 20.0, color: GlobalConstant.getTextColor()),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left:10.0,right: 10.0),
+                child: _calendarCarouselNoHeader,
+              ),
+              ListView.builder(
+                  itemCount: 12,
+                  physics: ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: (){
+
+                        Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),selected_date)));
+
+                      },
+                      child: getData(index),
+                    );
+                  }),
+
 
             ],
           ),
         ));
   }
+
+
+  getData(int index) {
+    index=index+1;
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        new Row(
+          children: [
+            Expanded(flex: 1,
+              child: Icon(Icons.add,size: 30.0,color: Colors.grey,),),
+            SizedBox(width: 10.0,),
+            Expanded(flex: 4,
+              child: Text("Time : $index:00 AM "),),
+            Expanded(flex: 5,
+              child:
+              new Container(
+                padding: EdgeInsets.only(right: 10.0),
+                child: Text(AppLocalizations.of(context).translate('make_appoint'),style: TextStyle(color: GlobalConstant.getTextColor()),textAlign: TextAlign.right,),
+              ),)
+          ],
+        ),
+        new Divider(thickness: 1.0,)
+      ],
+    );
+  }
+
 
   List products=new List();
   String TAG = "VenderAvailabiltyActivity";

@@ -65,7 +65,7 @@ String _targetDateTime="";
   List<String> litems = ["1","2","Third","4"];
   @override
   Widget build(BuildContext context) {
-    data=widget.data;
+    data=widget.data['store'];
 
 
     return new Scaffold(
@@ -77,77 +77,85 @@ String _targetDateTime="";
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-                flex: 7,
-              child: data!=null?new ListView(
-                children: [
+              child: data!=null?new Container(
 
-                  new Container(
-                    height: 20.0,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      GlobalFile.getCaptialize(data['vendor_display_name']),
-                      style: TextStyle(fontSize: 24.0, color: Colors.black),
-                    ),
-                  ),
+                decoration: BoxDecoration(
 
-                  SizedBox(height: 20.0,),
-                  data['vendor_shop_logo']!=null?CircleAvatar(
-                    radius: 55,
-                    backgroundColor: Color(0xffFDCF09),
-                    child: CircleAvatar(
-                      radius: 55,
-                      backgroundImage:  NetworkImage(data['vendor_shop_logo']),
-                    ),
-                  ):new Container(),
-                  SizedBox(height: 20.0,),
+                    borderRadius: BorderRadius.circular(0),
+                    color: Colors.black,
+                    image: DecorationImage(
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.9), BlendMode.dstATop),
 
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      GlobalFile.getCaptialize(data['vendor_shop_name']),
-                      style: TextStyle(fontSize: 14.0, color: Colors.black),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(GlobalFile.getCaptialize(data['vendor_address']),  style: TextStyle(fontSize: 14.0, color: Colors.black),),
-                  ),
-
-                  SizedBox(height: 20.0,),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      "10:00 AM to 8:00 PM ",
-                      style: TextStyle(fontSize: 14.0, color: Colors.blue),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: new Text(
-                      "Select Available Date ".toUpperCase(),
-                      style: TextStyle(fontSize: 24.0, color: GlobalConstant.getTextColor()),
-                    ),
-                  ),
-
-                  SizedBox(height: 20.0,),
-                  Container(
-                      child: Text(
-                        GlobalFile.getStringValue(_targetDateTime),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20.0,
+                        image: new NetworkImage(
+                            widget.data['images'][0]['src']
                         ),
-                      )),
-                ],
+                        fit: BoxFit.fill
+                    )
+                ),
+                child: new ListView(
+                  children: [
+
+                    new Container(
+                      height: 10.0,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: new Text(
+                        GlobalFile.getCaptialize(widget.data['name']),
+                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                      ),
+                    ),
+
+                    SizedBox(height: 10.0,),
+                    data['vendor_shop_logo']!=null?CircleAvatar(
+                      radius: 55,
+                      backgroundColor: Color(0xffFDCF09),
+                      child: CircleAvatar(
+                        radius: 55,
+                        backgroundImage:  NetworkImage(data['vendor_shop_logo']),
+                      ),
+                    ):new Container(),
+                    SizedBox(height: 10.0,),
+
+                    Container(
+                      alignment: Alignment.center,
+                      child: new Text(
+                        GlobalFile.getCaptialize(data['vendor_shop_name']),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: new Text(GlobalFile.getCaptialize(data['vendor_address']),
+                        style: TextStyle(fontSize: 14.0, color: Colors.white),),
+                    ),
+
+                    SizedBox(height: 20.0,),
+
+                    Container(
+                      alignment: Alignment.center,
+                      child: new Text(
+                          AppLocalizations.of(context).translate("selected_date"),
+                        style: TextStyle(fontSize: 16.0, color: Colors.blue),
+                      ),
+                    ),
+
+                    Container(
+                        child: Text(
+                          GlobalFile.getStringValue(_targetDateTime),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20.0,
+                          ),
+                        )),
+                  ],
+                ),
               ):new Container(),),
 
               Expanded(
-                flex: 3,
                 child:   new ListView.builder
-                  (
+                  (padding: EdgeInsets.only(top: 20.0),
                     itemCount: litems.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return InkWell(

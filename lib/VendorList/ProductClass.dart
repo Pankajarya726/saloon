@@ -61,7 +61,7 @@ class ProductView extends State<ProductActivity>
                     return InkWell(
                       onTap:()
                         {
-                          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("Product_dtl",true,_list[index].data)));
+                          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("Product_dtl",true,_list[index].data["id"].toString())));
                         },
                       child: Container(
                         alignment: Alignment.bottomLeft,
@@ -157,32 +157,30 @@ class ProductView extends State<ProductActivity>
     return new Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          height:20,
-        ),
+
+        SizedBox(height: 5.0,),
+
         Container(
           alignment: Alignment.center,
           child: new Text(
             GlobalFile.getCaptialize(widget.data_pro['vendor_display_name']),
-            style: TextStyle(fontSize: 22.0, color: GlobalConstant.getTextColor()),
+            style: TextStyle(fontSize: 18.0, color: GlobalConstant.getTextColor()),
           ),
         ),
 
         SizedBox(
           height: 5.0,
         ),
+
         new InkWell(
-          child: new Container(
-              width: 60.0,
-              height: 60.0,
-              decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                      fit: BoxFit.fill,
-                      image: new NetworkImage(
-                          widget.data_pro['vendor_shop_logo'])
-                  )
-              )),
+          child: widget.data_pro['vendor_shop_logo']!=null?CircleAvatar(
+            radius: 40,
+            backgroundColor: Color(0xffFDCF09),
+            child: CircleAvatar(
+              radius: 40,
+              backgroundImage:  NetworkImage(widget.data_pro['vendor_shop_logo']),
+            ),
+          ):new Container(),
             onTap: ()
           {
             Navigator.of(context).push(new MaterialPageRoute(

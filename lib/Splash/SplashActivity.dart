@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
@@ -10,6 +11,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../CommonMenuClass.dart';
 
+import 'package:salon_app/Global/ApiController.dart';
+import 'package:salon_app/Global/Dialogs.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:http/http.dart' as http;
+import 'package:salon_app/Global/GlobalFile.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/NetworkCheck.dart';
+import 'package:salon_app/Global/Utility.dart';
+import 'package:salon_app/language/AppLocalizations.dart';
+
+
 class SplashActivity extends StatefulWidget {
   @override
   State createState() => SplashScreen();
@@ -20,6 +32,7 @@ class SplashScreen extends State<SplashActivity> {
   Future<void> initState() {
     super.initState();
     checkStatus();
+    getAdminToken();
   }
 
   @override
@@ -65,4 +78,36 @@ class SplashScreen extends State<SplashActivity> {
 
     }
   }
+
+
+  Future<void> getAdminToken() async {
+    Map<String, String> body =
+    {
+      'username': "admin",
+      'password':"admin123",
+    };
+
+    print("body$body");
+
+
+
+    ApiController apiController = new ApiController.internal();
+
+    if (await NetworkCheck.check()) {
+      apiController.GetLogin(body).then((value) {
+
+        var data1 = json.decode(value.body);
+        try {
+          String token=data1['token'];
+          Utility.setStringPreference(GlobalConstant.admin_token, token);
+
+
+        } catch (e) {
+
+      }
+      });
+    } else {
+    }
+  }
+
 }

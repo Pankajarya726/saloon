@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+import 'Appointment/AppointmentClass.dart';
 import 'Availabilty/AvailabiltyClass.dart';
 import 'NearByBarber/FullScreenMap.dart';
 import 'NearByBarber/NearByClass.dart';
+import 'Payment/Payments.dart';
+import 'Payment/payemnt_activity.dart';
 import 'SearchModel/SearchUsers.dart';
 import 'SignInSignUpAccount/RegularAccount.dart';
 import 'SignInSignUpAccount/SignInClass.dart';
@@ -96,7 +99,7 @@ class MyApp extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
             home: SplashActivity(),
-          //  home: FullScreenMapActivity(),
+            //home: AppointmentActivity(),
           //  home: SearchUsers(),
             //home: RegularAccount("user"),
            //     home: MyHomePageCal(),

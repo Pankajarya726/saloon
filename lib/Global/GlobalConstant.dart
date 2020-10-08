@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/VendorList/VendorClass.dart';
-
 import '../CommonMenuClass.dart';
 
 class GlobalConstant
 {
+
   static var CommanUrl="http://salon.microband.site/wp-json/wcfmmp/v1/";
   static var CommanUrlLogin="http://salon.microband.site/wp-json/";
   static String Verder_Id="Vendor_id";
@@ -13,6 +13,7 @@ class GlobalConstant
   static String User_Email="user_email";
   static String Selected_Date="selected_date";
   static String token="token";
+  static String admin_token="admin_token";
   static String user_email="user_email";
   static String store_id="store_id";
   static String roles="roles";
@@ -22,8 +23,13 @@ class GlobalConstant
   /*
   design
   https://projects.invisionapp.com/share/TH6LVD2BK#/screens/144900325
-
-  https://wordpress.org/plugins/wcfm-marketplace-rest-api*/
+  api
+  https://wordpress.org/plugins/wcfm-marketplace-rest-api
+  login
+  http://salon.microband.site/my-account/
+  card detail
+  https://myfatoorah.readme.io/docs/test-cards
+  */
 
   static getTextColor() {
     return const Color(0xFFbfb397);
@@ -33,5 +39,4 @@ class GlobalConstant
    // return CommonDashBord("vendor_list",false);
     return SignInActivity();
   }
-
 }

@@ -43,6 +43,7 @@ dependencies:
   flutter_calendar_carousel:
   rxdart: 0.18.1
   loader_search_bar:
+  myfatoorah_flutter:
   path:
 
 dev_dependencies:

@@ -35,8 +35,8 @@ class SignInActivity extends StatefulWidget
 class SignInView extends State<SignInActivity>
 {
   var _formKey=GlobalKey<FormState>();
-  final emailController = TextEditingController(text: "test_acc");
-  final userPinController = TextEditingController(text: "123456");
+  final emailController = TextEditingController();
+  final userPinController = TextEditingController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _obscureText1 = true;
   // Toggles the password show status
@@ -125,8 +125,6 @@ class SignInView extends State<SignInActivity>
       controller: userPinController,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-      keyboardType: TextInputType.number,
-
       obscureText: _obscureText1,
       decoration: InputDecoration(
         focusedBorder: UnderlineInputBorder(
