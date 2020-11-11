@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
@@ -44,7 +45,6 @@ class AccountView extends State<AccountSelection>
                    child:  ListView(
                        padding: GlobalWidget.getpadding(),
                        children: <Widget>[
-
                          NameFeild(),
                          GlobalWidget.sizeBox1(),
                          EmailFeild(),
@@ -59,6 +59,7 @@ class AccountView extends State<AccountSelection>
                          FlatButton(
                            onPressed: ()
                            {
+                             Navigator.of(context).pop();
                            },
                            child:
                            Container(
@@ -67,14 +68,12 @@ class AccountView extends State<AccountSelection>
                                  crossAxisAlignment: CrossAxisAlignment.center,
                                  mainAxisAlignment: MainAxisAlignment.center,
                                  children: [
-                                   Text(AppLocalizations.of(context).translate("account"),style: TextStyle(color: Colors.black),textAlign: TextAlign.center,),
-                                   Text(AppLocalizations.of(context).translate("signup"),style: TextStyle(color: Colors.black ,decoration: TextDecoration.underline,),textAlign: TextAlign.center,),
+                                   Text(AppLocalizations.of(context).translate("al_account"),style: TextStyle(color: Colors.black),textAlign: TextAlign.center,),
+                                   Text(AppLocalizations.of(context).translate("signin"),style: TextStyle(color: Colors.black ,decoration: TextDecoration.underline,),textAlign: TextAlign.center,),
                                  ],
                                )
                            ),
                          ),
-
-
                        ])),
              )
            ],
@@ -87,13 +86,16 @@ class AccountView extends State<AccountSelection>
 
   NameFeild() {
     return TextFormField(
+      style: TextStyle(fontSize: 22.0),
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: nameController,
-      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Name")),
-      validator: (value) {
-        if (value.isEmpty) {
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Name"),Icons.perm_identity),
+      validator: (value)
+      {
+        if (value.isEmpty)
+        {
           return AppLocalizations.of(context).translate("Please_Enter");
         }
         if (value.length<5)
@@ -104,14 +106,13 @@ class AccountView extends State<AccountSelection>
       },
     );
   }
-
   GetBarberButton() {
     return new Container(
       height: 50.0,
       child: FlatButton(
         shape: GlobalWidget.getButtonTheme(),
-        color: GlobalWidget.getBtncolor(),
-        textColor: GlobalWidget.getBtnTextColor(),
+        color: GlobalWidget.getBtncolorDark(),
+        textColor: GlobalWidget.getBtnTextColorDark(),
         onPressed: () {
           if (_formKey.currentState.validate()) {
             // getShareddata();
@@ -119,23 +120,22 @@ class AccountView extends State<AccountSelection>
             setSeeionValue("barber");
           }
         },
-        child: Text(AppLocalizations.of(context).translate("barber_account"),style: GlobalWidget.textbtnstyle(),),
+        child: Text(AppLocalizations.of(context).translate("barber_account"),style: GlobalWidget.textbtnstyleDark(),),
       ),
     );
   }
   GetRegularButton() {
-
     return new Container(
       height: 50.0,
       child: FlatButton(
         shape: GlobalWidget.getButtonTheme(),
         color: GlobalWidget.getBtncolor(),
         textColor: GlobalWidget.getBtnTextColor(),
-        onPressed: () {
+        onPressed: ()
+        {
           if (_formKey.currentState.validate()) {
             // getShareddata();
             print("success");
-
             setSeeionValue("user");
           }
         },
@@ -145,11 +145,12 @@ class AccountView extends State<AccountSelection>
   }
   EmailFeild() {
     return TextFormField(
+      style: TextStyle(fontSize: 22.0),
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: emailController,
-      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Email")),
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Email"),Icons.mail),
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
@@ -164,6 +165,8 @@ class AccountView extends State<AccountSelection>
   }
 
   void setSeeionValue(String s) {
+
+  //  SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     Utility.setStringPreference(GlobalConstant.User_Name, nameController.text.toString());
     Utility.setStringPreference(GlobalConstant.User_Email, emailController.text.toString());
     Navigator.of(context).push(new MaterialPageRoute(

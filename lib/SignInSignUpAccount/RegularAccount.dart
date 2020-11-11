@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
@@ -8,7 +7,6 @@ import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-
 import 'package:flutter_html/flutter_html.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
@@ -18,10 +16,10 @@ import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
+
 class RegularAccount extends StatefulWidget
 {
   String from;
-
   RegularAccount(this.from);
 
   @override
@@ -57,13 +55,14 @@ class AccView extends State<RegularAccount>
     getandSetData();
   }
 
-
   @override
   Widget build(BuildContext context)
   {
-    // TODO: implement build
     return new Scaffold(
-      appBar: GlobalWidget.getAppBar( widget.from=="barber"?AppLocalizations.of(context).translate('barber_account'):AppLocalizations.of(context).translate('regular_account'),context,true),
+      appBar: GlobalWidget.getAppBar(
+          widget.from=="barber"?
+          AppLocalizations.of(context).translate('barber_account'):
+          AppLocalizations.of(context).translate('regular_account'),context,true),
       body: new Container(
         height: MediaQuery.of(context).size.height,
         color: Colors.white,
@@ -78,7 +77,7 @@ class AccView extends State<RegularAccount>
                   GlobalWidget.sizeBox1(),
                   EmailFeild(),
                   GlobalWidget.sizeBox1(),
-                  widget.from=="barber"?new Column(
+                  widget.from=="barber"? new Column(
                     children: [
                       BarberShopFeild(),
                       GlobalWidget.sizeBox1(),
@@ -101,7 +100,6 @@ class AccView extends State<RegularAccount>
                       ),
                     ],
                   ),
-
                   GlobalWidget.sizeBox1(),
                   new Row(
                     children: [
@@ -116,12 +114,9 @@ class AccView extends State<RegularAccount>
                       ),
                     ],
                   ),
-
-
                   GlobalWidget.sizeBox1(),
                   GlobalWidget.sizeBox1(),
                   GetSubmitButton(),
-
                   GlobalWidget.sizeBox1(),
                   Container(
                     alignment: Alignment.center,
@@ -145,7 +140,7 @@ class AccView extends State<RegularAccount>
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: userIdController,
-      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("UserName")),
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("UserName"),Icons.perm_identity),
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
@@ -167,23 +162,24 @@ class AccView extends State<RegularAccount>
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: varificationController,
       decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Verification")),
-      validator: (value) {
+      /*validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
         }
         return null;
-      },
+      },*/
     );
   }
 
 
   NameFeild() {
     return TextFormField(
+
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: nameController,
-      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Name")),
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Name"),Icons.perm_identity),
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
@@ -204,7 +200,7 @@ class AccView extends State<RegularAccount>
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: emailController,
-      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Email")),
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Email"),Icons.markunread),
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
@@ -226,7 +222,7 @@ class AccView extends State<RegularAccount>
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: shopController,
-      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("shop")),
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("shop"),Icons.shop),
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
@@ -244,7 +240,7 @@ class AccView extends State<RegularAccount>
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: phoneController,
-      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Phone")),
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("Phone"),Icons.call),
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
@@ -272,6 +268,7 @@ class AccView extends State<RegularAccount>
         ),
         contentPadding:GlobalWidget.getContentPadding(),
         hintText: AppLocalizations.of(context).translate("Password"),
+        prefixIcon: Icon(Icons.lock),
         suffixIcon: IconButton(
           onPressed: () => _toggle1(),
           icon: GlobalWidget.getIcon(_obscureText1),
@@ -289,25 +286,22 @@ class AccView extends State<RegularAccount>
     );
   }
 
-  GetSubmitButton() {
-
+  GetSubmitButton()
+  {
     return new Container(
       height: 50.0,
       child: FlatButton(
         shape: GlobalWidget.getButtonTheme(),
-        color: GlobalWidget.getBtncolor(),
-        textColor: GlobalWidget.getBtnTextColor(),
+        color: GlobalWidget.getBtncolorDark(),
+        textColor: GlobalWidget.getBtnTextColorDark(),
         onPressed: () {
           // Validate returns true if the form is valid, otherwise false.
-         /* if (_formKey.currentState.validate()) {
-            // getShareddata();
+          if (_formKey.currentState.validate()) {
+            getAdminToken();
             print("success");
-          }*/
-
-         getAdminToken();
-
+          }
         },
-        child: Text(AppLocalizations.of(context).translate("Submit"),style: GlobalWidget.textbtnstyle(),),
+        child: Text(AppLocalizations.of(context).translate("Submit"),style: GlobalWidget.textbtnstyleDark(),),
       ),
     );
   }

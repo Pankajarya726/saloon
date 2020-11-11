@@ -30,6 +30,7 @@ class _PayemntActivityState extends State<PayemntActivity>
         backgroundColor: Colors.black, // Color(0xFF000000)
         isShowAppBar: true);
     initiatePayment();
+    executeRegularPayment();
   }
 
 
@@ -80,11 +81,6 @@ class _PayemntActivityState extends State<PayemntActivity>
         color: Colors.white,
         height: MediaQuery.of(context).size.height,
         child: Center(
-          child: new RaisedButton(onPressed: (){
-
-            executeRegularPayment();
-          },
-            child: Text("Init"),),
         ),
 
       ),
@@ -96,7 +92,7 @@ class _PayemntActivityState extends State<PayemntActivity>
     // You should call the "initiatePayment" API to can get this id and the ids of all other payment methods
     String paymentMethod = "1";
 
-    var request = new MFExecutePaymentRequest(paymentMethod, "100");
+    var request = new MFExecutePaymentRequest(paymentMethod, "5");
 
     MFSDK.executePayment(
         context,
@@ -107,16 +103,19 @@ class _PayemntActivityState extends State<PayemntActivity>
             {
               setState(()
               {
+                print("Success");
                 print(invoiceId);
                 print(result.response.toJson());
                 _response = result.response.toJson().toString();
-                GlobalWidget.showMyDialog(context, "Succes",invoiceId);
+              //  GlobalWidget.showMyDialog(context, "Succes",invoiceId);
+                Navigator.of(context).pop();
               })
             }
           else
             {
               setState(()
               {
+                print("Failure");
                 print(invoiceId);
                 int errorcode=1;
                 try

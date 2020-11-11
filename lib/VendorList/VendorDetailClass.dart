@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -12,11 +11,10 @@ import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-
 class VendoeDetailActivity extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
+  State<StatefulWidget> createState()
+  {
     return DetailView();
   }
 }
@@ -41,13 +39,13 @@ class DetailView extends State<VendoeDetailActivity> {
   String TAG = "VendorDetail";
 
   void SubmitData() async {
-    /* Map<String, String> body =
+    /*
+     Map<String, String> body =
     {
       'tour_destination_id': "${widget.taskId.toString()}",
       'status_id': _user.toString(),
       'salesman_comment': _description_controller.text.toString(),
     };
-
     print("body$body");
    */
 
@@ -115,6 +113,7 @@ class DetailView extends State<VendoeDetailActivity> {
         SizedBox(
           height: 20.0,
         ),
+
         Container(
           alignment: Alignment.center,
           child: new Text(
@@ -122,9 +121,9 @@ class DetailView extends State<VendoeDetailActivity> {
             style: TextStyle(fontSize: 16.0, color: Colors.black),
           ),
         ),
-/*
 
-        Container(
+    /*
+    Container(
           alignment: Alignment.center,
           child: new Text(data['vendor_phone'].toString(),
             style: TextStyle(fontSize: 16.0, color: Colors.black),
@@ -140,9 +139,11 @@ class DetailView extends State<VendoeDetailActivity> {
             style: TextStyle(fontSize: 16.0, color: Colors.black),
           ),
         ),
+
         SizedBox(
           height:20.0,
         ),
+
         Container(
           alignment: Alignment.center,
           child: new Text(
@@ -155,6 +156,7 @@ class DetailView extends State<VendoeDetailActivity> {
           alignment: Alignment.center,
           child: new Text(GlobalFile.getCaptialize(data['vendor_address'])),
         ),
+
         SizedBox(
           height:20.0,
         ),
@@ -278,12 +280,12 @@ class DetailView extends State<VendoeDetailActivity> {
                   onLinkTap: (url) {
                     print("Opening $url...");
                   },
-
                 ),
               ),
             ),
           ],
         ),
+
    /*     GlobalFile.getStringValue(data['store_tab_headings'])!=""?  new Column(
           children: [
 
@@ -317,7 +319,6 @@ class DetailView extends State<VendoeDetailActivity> {
 
         new Column(
           children: [
-
             Divider(thickness: 15.0,),
             ExpansionTile(
               tilePadding: EdgeInsets.only(left: 5.0),

@@ -160,9 +160,9 @@ String _targetDateTime="";
                     itemBuilder: (BuildContext ctxt, int index) {
                       return InkWell(
                         onTap: (){
-                          Navigator.of(context).push(new MaterialPageRoute(
+                    /*      Navigator.of(context).push(new MaterialPageRoute(
                               builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
-                        },
+                   */     },
                         child: getData(index),
                       );
                     }

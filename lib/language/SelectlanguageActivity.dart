@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import '../CommonMenuClass.dart';
 import 'AppLanguage.dart';
 import 'AppLocalizations.dart';
 
@@ -13,18 +15,18 @@ class SelectLanguageActivity extends StatefulWidget {
   @override
   State createState() => SelectLanguageScreen();
 }
-
 class SelectLanguageScreen extends State<SelectLanguageActivity> {
   int _radioValue1 = -1;
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     var appLanguage = Provider.of<AppLanguage>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
-
             decoration:GlobalWidget.getbackground(),
             height: MediaQuery.of(context).size.height,
             alignment: Alignment.center,
@@ -37,7 +39,7 @@ class SelectLanguageScreen extends State<SelectLanguageActivity> {
                     child:
                     GlobalWidget.getHeader(context),
                   ),
-                 Expanded(
+                  Expanded(
                    flex: 6,
                    child: new Column(
                      children: [
@@ -100,8 +102,7 @@ class SelectLanguageScreen extends State<SelectLanguageActivity> {
                        ),
                        new Padding(padding: EdgeInsets.only(top: 50)),
                        new MaterialButton(
-                         onPressed: () =>
-                             languageSelected(context, _radioValue1, appLanguage),
+                         onPressed: () => languageSelected(context, _radioValue1, appLanguage),
                          elevation: 8.0,
                          padding: EdgeInsets.all(20),
                          child: Container(
@@ -155,8 +156,9 @@ class SelectLanguageScreen extends State<SelectLanguageActivity> {
     print("$value _radioValue1");
   }
 
-  languageSelected(
-      BuildContext context, int value, AppLanguage appLanguage)  {
+  languageSelected(BuildContext context, int value, AppLanguage appLanguage) async
+  {
+    String login = await Utility.getStringPreference(GlobalConstant.login);
     print(_radioValue1);
     print("_radioValue1");
     switch (_radioValue1) {
@@ -167,18 +169,25 @@ class SelectLanguageScreen extends State<SelectLanguageActivity> {
         break;
       case 0:
         appLanguage.changeLanguage(Locale('ar'));
-
-         Utility.setStringPreference(GlobalConstant.language_select,"1");
-
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => GlobalConstant.getMainScreen()));
+        Utility.setStringPreference(GlobalConstant.language_select,"1");
+        if(login.isEmpty)
+        {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GlobalConstant.getMainScreen()));
+        }else
+        {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CommonDashBord("vendor_list",false)));
+        }
         break;
       case 1:
-
         Utility.setStringPreference(GlobalConstant.language_select,"1");
         appLanguage.changeLanguage(Locale('en'));
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => GlobalConstant.getMainScreen()));
+        if(login.isEmpty)
+          {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => GlobalConstant.getMainScreen()));
+          }else
+          {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => CommonDashBord("vendor_list",false)));
+          }
         break;
     }
   }

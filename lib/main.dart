@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-
 import 'Appointment/AppointmentClass.dart';
 import 'Availabilty/AvailabiltyClass.dart';
+import 'Availabilty/ConfirmationClass.dart';
 import 'NearByBarber/FullScreenMap.dart';
 import 'NearByBarber/NearByClass.dart';
 import 'Payment/Payments.dart';
 import 'Payment/payemnt_activity.dart';
+import 'SearchModel/SearchCategory.dart';
 import 'SearchModel/SearchUsers.dart';
 import 'SignInSignUpAccount/RegularAccount.dart';
 import 'SignInSignUpAccount/SignInClass.dart';
@@ -16,16 +17,14 @@ import 'VendorList/ProductClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'language/AppLanguage.dart';
 import 'language/AppLocalizations.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
-
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-
   MyApp(
     appLanguage: appLanguage,
   ));
@@ -39,37 +38,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context)
   {
-    return /*MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-
-        fontFamily: "TimeRomanBold",
-        accentColor: const Color(0xFF549afe),
-        backgroundColor:  const Color(0xFF549afe),
-        primaryColorDark: const Color(0xFFffffff),
-        primarySwatch: blue,
-        primaryTextTheme: TextTheme(
-            title: TextStyle(
-                color: Colors.black
-            )
-        ),
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SplashActivity(),
-    )*/
+    return
       ChangeNotifierProvider<AppLanguage>(
         create: (_) => appLanguage,
         child: Consumer<AppLanguage>(builder: (context, model, child) {
@@ -98,15 +67,15 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
             ],
             debugShowCheckedModeBanner: false,
-            home: SplashActivity(),
-            //home: AppointmentActivity(),
-          //  home: SearchUsers(),
-            //home: RegularAccount("user"),
+             home: SplashActivity(),
+             //home: SearchCategory(),
+              //home: DateRangePicker(),
+             //  home: SearchUsers(),
+            //  home: RegularAccount("user"),
            //     home: MyHomePageCal(),
           );
         }),
       );
-
   }
   static const MaterialColor blue = MaterialColor(
     _bluePrimaryValue,

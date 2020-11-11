@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:custom_progress_dialog/custom_progress_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 //import 'package:progress_dialog/progress_dialog.dart';
 
 class Dialogs {
@@ -34,7 +35,7 @@ class Dialogs {
     if (pd == null) {
       pd = ProgressDialog();
     }
-    pd.showProgressDialog(context,textToBeDisplayed:"Loading...");
+    pd.showProgressDialog(context,textToBeDisplayed:"Loading...",barrierColor: Colors.white);
   }
 
   static void hideProgressDialog(BuildContext context) {
@@ -58,6 +59,7 @@ class Dialogs {
       ),
     );
   }
+
 
   static Future<bool> exitApp(BuildContext context) {
     return showDialog(

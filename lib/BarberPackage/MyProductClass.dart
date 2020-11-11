@@ -1,0 +1,268 @@
+import 'dart:convert';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:salon_app/DrawerPackage/SideDrawer.dart';
+import 'package:salon_app/Global/ApiController.dart';
+import 'package:salon_app/Global/Dialogs.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:http/http.dart' as http;
+import 'package:salon_app/Global/GlobalFile.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/NetworkCheck.dart';
+import 'package:salon_app/Global/Utility.dart';
+import 'package:salon_app/language/AppLocalizations.dart';
+import '../CommonMenuClass.dart';
+
+class MyProductActivity extends StatefulWidget
+{
+
+  MyProductActivity();
+  @override
+  State<StatefulWidget> createState()
+  {
+    return ProductView();
+  }
+}
+
+class ProductView extends State<MyProductActivity> {
+  List<DataModel> _list = new List();
+  String delete_id = "";
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+        onWillPop: _onBackPressed,
+        child: new Scaffold(
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(new MaterialPageRoute(
+                  builder: (_) => new CommonDashBord("add_product", true, 0)),)
+                  .then((val) {
+                if (val != null) {
+                  Navigator.of(context).pushReplacement(
+                      new MaterialPageRoute(builder: (_) =>
+                      new CommonDashBord("vendor_list", false)));
+                }
+              });
+            },
+            backgroundColor: Colors.black,
+            label: Text(AppLocalizations.of(context).translate("add_pro")),
+            icon: Icon(Icons.add),
+          ),
+
+          body: new Container(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            color: Colors.white,
+            child: _list.length != 0 ? new GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              children: new List.generate(_list.length, (index) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(new MaterialPageRoute(
+                        builder: (_) => new CommonDashBord("add_product", true,
+                            _list[index].data["id"].toString())),)
+                        .then((val) {
+                      if (val != null) {
+                        Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                            builder: (_) =>
+                            new CommonDashBord("vendor_list", false)));
+                      }
+                    });
+                  },
+
+                  child: Container(
+                    alignment: Alignment.bottomLeft,
+                    child: new Row(
+                      children: [
+                        Expanded(flex: 9,
+                          child: new Text(GlobalFile.getCaptialize(
+                              _list[index].data['name']), style: TextStyle(
+                              color: Colors.white, fontSize: 14.0),),),
+                        Expanded(flex: 1,
+                          child: InkWell(
+                            onTap: () {
+                              delete_id = _list[index].data["id"].toString();
+                              DeleteProduct(context);
+                            },
+                            child: Icon(Icons.delete, color: Colors.white,),
+                          ),)
+                      ],
+                    ),
+                    margin: EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
+                    padding: EdgeInsets.only(bottom: 5.0, right: 5.0, left: 5.0),
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height,
+                    decoration: BoxDecoration(
+
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.black,
+                        image: DecorationImage(
+                            colorFilter: new ColorFilter.mode(Colors.black
+                                .withOpacity(0.6), BlendMode.dstATop),
+                            image: new NetworkImage(
+                                _list[index].data['images'][0]['src']
+                            ),
+                            fit: BoxFit.fill
+                        )
+                    ),
+                  ),
+                );
+              }),
+            ) : GlobalWidget.getNoRecord(context),
+          ),
+
+        ),
+      );
+  }
+
+  void DeleteData() async
+  {
+    String USER_ID = (await Utility.getStringPreference(
+        GlobalConstant.store_id));
+    String token = (await Utility.getStringPreference(GlobalConstant.token));
+
+    Map<String, dynamic> body =
+    {
+
+      'post_author': USER_ID
+    };
+
+    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/products/" +
+        delete_id;
+    ApiController apiController = new ApiController.internal();
+    if (await NetworkCheck.check())
+    {
+      Dialogs.showProgressDialog(context);
+      apiController.DeleteWithMyToken(Url, token).then((
+          value) {
+        var data1 = json.decode(value.body);
+         print(data1);
+        try {
+          Dialogs.hideProgressDialog(context);
+          if (value.statusCode == 200) {
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (_) => new CommonDashBord("vendor_list", false)));
+          }
+        } catch (e) {
+          GlobalWidget.showMyDialog(context, "", data1);
+        }
+      });
+    } else {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
+
+  Future<bool> _onBackPressed() {
+
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text(AppLocalizations.of(context).translate("sure")),
+        content: new Text(AppLocalizations.of(context).translate("exit_msg")),
+        actions: <Widget>[
+
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(false),
+            child: Text(AppLocalizations.of(context).translate("NO")),
+          ),
+          SizedBox(height: 16),
+          new GestureDetector(
+            onTap: () => Navigator.of(context).pop(true),
+            child: Text(AppLocalizations.of(context).translate("YES")),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
+
+  Future<bool> DeleteProduct(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text(AppLocalizations.of(context).translate("del_title")),
+          content: new Text(AppLocalizations.of(context).translate("del_msg")),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text(AppLocalizations.of(context).translate("NO")),
+            ),
+            new FlatButton(
+              onPressed: ()
+              { Navigator.of(context).pop(false);
+                DeleteData();
+              },
+              child: new Text(AppLocalizations.of(context).translate("YES")),
+            ),
+          ],
+        );
+      },
+    ) ??
+        false;
+  }
+
+  String TAG = "ProductView";
+
+  void SubmitData() async
+  {
+    /*
+    Map<String, String> body =
+    {
+      'tour_destination_id': "${widget.taskId.toString()}",
+      'status_id': _user.toString(),
+      'salesman_comment': _description_controller.text.toString(),
+    };
+    print("body$body");
+   */
+
+    String store_id = (await Utility.getStringPreference(
+        GlobalConstant.store_id));
+    String Url = GlobalConstant.CommanUrl + "store-vendors/" + store_id +
+        "/products/";
+    ApiController apiController = new ApiController.internal();
+    if (await NetworkCheck.check()) {
+      Dialogs.showProgressDialog(context);
+      apiController.Get(Url).then((value) {
+        try {
+          Dialogs.hideProgressDialog(context);
+          var data = value;
+          var data1 = json.decode(data.body);
+          Utility.log(TAG, data1);
+          if (data1.length != 0) {
+            for (int i = 0; i < data1.length; i++) {
+              _list.add(new DataModel(data1[i]));
+            }
+            setState(() {
+
+            });
+          } else {
+            //GlobalWidget.showMyDialog(context, "Error", data1.toString());
+          }
+        } catch (e) {
+          // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+        }
+      });
+    } else {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
+
+  @override
+  void initState() {
+    SubmitData();
+  }
+}
+
+class DataModel
+{
+  var data;
+  DataModel(this.data);
+}

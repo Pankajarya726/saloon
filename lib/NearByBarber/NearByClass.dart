@@ -10,17 +10,16 @@ import 'package:salon_app/SearchModel/PublishResult.dart';
 import 'package:salon_app/SearchModel/SearchModel.dart';
 import 'package:salon_app/SearchModel/SearchUsers.dart';
 import 'dart:math' show cos, sqrt, asin;
-
 import 'package:salon_app/language/AppLocalizations.dart';
 
 class NearByActivity extends StatefulWidget {
-
   NearByActivity();
-
   @override
   State createState() => MapSampleState();
 }
+
 class MapSampleState extends State<NearByActivity> {
+
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kLake = CameraPosition(
@@ -57,6 +56,7 @@ class MapSampleState extends State<NearByActivity> {
           markerId: MarkerId('value2'),
           position: LatLng(37.416000, -122.077000)),
     ]);
+
     */
     final GoogleMapController controller = await _controller.future;
     CameraPosition  _kLake = CameraPosition(
@@ -65,11 +65,11 @@ class MapSampleState extends State<NearByActivity> {
         tilt: 59.440717697143555,
         zoom: 19.151926040649414);
     setState(() {
-
       controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
     });
   }
-      @override
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: new Container(
@@ -78,17 +78,19 @@ class MapSampleState extends State<NearByActivity> {
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(flex: 4,
-              child: /* GoogleMap(
+
+           Expanded(
+              flex: 4,
+              child:  GoogleMap(
                 mapType: MapType.normal,
-                initialCameraPosition: _kGooglePlex,
+                initialCameraPosition: _kLake,
                 onMapCreated: (GoogleMapController controller) {
                   _controller.complete(controller);
                 },
                 markers: markers,
-              ),*/ new Container(
+              ), /*new Container(
 
-              )
+              )*/
             ),
             Expanded(
               flex: 6,
@@ -110,7 +112,6 @@ class MapSampleState extends State<NearByActivity> {
     controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 
-
   getBottomView() {
     return new Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +120,7 @@ class MapSampleState extends State<NearByActivity> {
           child: new Container(
             padding: EdgeInsets.only(top:20.0),
             alignment: Alignment.center,
-            child: Text(AppLocalizations.of(context).translate("TAPERED_USER_NEAR"),style: TextStyle(fontSize: 20.0,color: Colors.black),textAlign: TextAlign.center,),
+            child: Text(AppLocalizations.of(context).translate("TAPERED_USER_NEAR"),style: TextStyle(fontSize: 14.0,color: Colors.black),textAlign: TextAlign.center,),
           ),
           flex: 1,
         ),
@@ -199,9 +200,9 @@ class MapSampleState extends State<NearByActivity> {
                                     height: 100.0,
                                     alignment: Alignment.center,
                                     padding: EdgeInsets.all(2.0),
-                                    child: Image.network(
+                                   /* child: Image.network(
                                       'https://github.com/flutter/plugins/raw/master/packages/video_player/video_player/doc/demo_ipod.gif?raw=true',
-                                    ),
+                                    ),*/
                                   ),
                                 ),
                                 Expanded(

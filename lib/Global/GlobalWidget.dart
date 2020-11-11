@@ -1,23 +1,18 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import 'package:toast/toast.dart';
-
 import 'AppColor.dart';
-
 class GlobalWidget
 {
-
   static GetToast(BuildContext context,String msg)
   {
-    return     Toast.show(msg, context,
-        duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
+    return Toast.show(msg, context, duration: Toast.LENGTH_LONG, gravity: Toast.BOTTOM);
   }
 
-  static Future<void> showMyDialog(BuildContext context,String title ,String msg) async {
+  static Future<void> showMyDialog(BuildContext context,String title ,String msg) async
+  {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -48,74 +43,58 @@ class GlobalWidget
   static Widget getImage(imagename) {
     return Image(image: AssetImage('images/'+imagename));
   }
+
   static getPlaceHolder() {
     return  AssetImage("images/ic5.png");
   }
 
-  static getAppBar(String Title,BuildContext context,bool val) {
-    return /*PreferredSize(
-        preferredSize: Size.fromHeight(70.0), // here the desired height
-        child: new Container(
-          decoration: BoxDecoration(
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.black54,
-                    blurRadius: 15.0,
-                    offset: Offset(0.0, 0.65)
-                )
-              ],
-              color: colorPrimary
-          ),
-            width: double.infinity,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 40.0,),
-                Container(
-                  height: 30.0,
-                  child: getImage("logo_header.png"),
-                ),
-                Text(Title.toUpperCase(),style: TextStyle(color: GlobalConstant.getTextColor()),),
-
-              ],
-            ),
-          ),
-
-    )*/
-      PreferredSize(
-
+  static getAppBar(String Title,BuildContext context,bool val)
+  {
+    return PreferredSize(
           preferredSize: Size.fromHeight(70.0),
           child: AppBar(
             leading: val==true?IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context),
             ):new Container(),
+
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here
             ),
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: true, // hides leading widget
-            flexibleSpace: new Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 40.0,),
-                Container(
-                  height: 30.0,
-                  child: getImage("logo_header.png"),
-                ),
-                Text(Title.toUpperCase(),style: TextStyle(color: GlobalConstant.getTextColor()),),
 
-              ],
+            backgroundColor: Colors.white,
+
+            automaticallyImplyLeading: true, // hides leading widget
+
+            flexibleSpace: new Container(
+              alignment: Alignment.center,
+              child: new ListView(
+                shrinkWrap: true,
+              //  mainAxisAlignment: MainAxisAlignment.center,
+               // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+
+                  Container(
+
+                    alignment: Alignment.center,
+                    height: 30.0,
+                    child: getImage("logo_header.png"),
+                  ),
+
+                  Text(Title.toUpperCase(),style: TextStyle(color: GlobalConstant.getTextColor()),textAlign: TextAlign.center,),
+
+                ],
+              ),
             ),
           )
       ) ;
   }
 
-  static TextFeildDecoration(String s) {
+  static TextFeildDecoration(String s, [IconData perm_identity]) {
     return new InputDecoration(
       hintText: s,
-
-     // fillColor: Colors.black,
+      prefixIcon:    perm_identity!=null ?Icon(perm_identity):null,
+      //fillColor: Colors.black,
       focusedBorder:UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.black),
       ),
@@ -139,6 +118,10 @@ class GlobalWidget
     return TextStyle(fontWeight: FontWeight.bold,color: Colors.black,fontSize: 22.0);
   }
 
+  static textbtnstyleDark() {
+    return TextStyle(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 22.0);
+  }
+
   static getIcon(bool _obscureText) {
     return Icon(_obscureText ? Icons.visibility_off : Icons.visibility,);
   }
@@ -147,6 +130,7 @@ class GlobalWidget
   static getContentPadding() {
     return null;
   }
+
   static TextFeildDecoration1(String s) {
     return new InputDecoration(
       hintText: s,
@@ -161,26 +145,33 @@ class GlobalWidget
           borderSide: BorderSide(color: Colors.red)),
       filled: true,
      */
-
-
     );
   }
 
 
   static getButtonTheme() {
     return RoundedRectangleBorder(
-
         borderRadius: BorderRadius.circular(5.0),
         side: BorderSide(color: Colors.black)
     );
   }
 
+
   static getBtnTextColor() {
     return  Colors.black;
+  }
+  static getBtnTextColorDark() {
+    return  Colors.white;
   }
 
   static getBtncolor() {
     return Colors.transparent;
+  }
+
+
+
+  static getBtncolorDark() {
+    return Colors.black;
   }
 
 
@@ -189,7 +180,6 @@ class GlobalWidget
       alignment: Alignment.center,
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-
     );
   }
 
@@ -203,15 +193,20 @@ class GlobalWidget
 
   static getbackground() {
     return  BoxDecoration(
-        color: Colors.white.withOpacity(0.99),
-        image: DecorationImage(
-            image: AssetImage('images/bg_1.png'),fit: BoxFit.fill));
+        color: Colors.white,
+    image: new DecorationImage(
+    fit: BoxFit.cover,
+    colorFilter:
+    ColorFilter.mode(Colors.white.withOpacity(0.44),
+    BlendMode.dstATop),
+    image: AssetImage('images/bg_1.png'),
+      /*  image: DecorationImage(
+            image: AssetImage('images/bg_1.png'),fit: BoxFit.fill)*/));
   }
 
   static getbackground1() {
     return  BoxDecoration(
         color: Colors.black,
-
         image: DecorationImage(
             colorFilter:
             ColorFilter.mode(Colors.grey.withOpacity(0.2),
@@ -220,25 +215,45 @@ class GlobalWidget
   }
 
   static getHeader(BuildContext context) {
-    return new Column(
+    return
+      /*new Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 40.0,),
+       // SizedBox(height: 10.0,),
         new Container(
             alignment: Alignment.topLeft,
-            width: 100.0,
-            height: 80.0,
+            width: 150.0,
+            height: 150.0,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('images/logo_header.png')),)
+                  image: AssetImage('images/top_icon.png')),)
         ),
         new Container(
-
           margin: EdgeInsets.only(left: 20.0),
           alignment: Alignment.topLeft,
           child: Text(AppLocalizations.of(context).translate('Tapered'),style: TextStyle(color: Colors.black,fontSize: 40.0),),
         ),
       ],
-    );
+    )*/
+
+      Stack(
+        children: <Widget>[
+          new Container(
+              alignment: Alignment.topLeft,
+              width: 180.0,
+              height: 180.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('images/top_icon.png')),)
+          ),
+
+          new Container(
+            margin: EdgeInsets.only(left:130.0,top: 25.0),
+            alignment: Alignment.topLeft,
+            child: Text(AppLocalizations.of(context).translate('Tapered'),style: TextStyle(color:  const Color(0xFF757575),fontSize: 30.0),),
+          ),
+        ],
+      )
+    ;
   }
 }

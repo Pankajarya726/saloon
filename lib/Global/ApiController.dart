@@ -62,6 +62,24 @@ Future<http.Response> PostsNew(String url,var body) async {
 
   }
 
+Future<http.Response> PostsNewWithToken(String url,var body,String token) async {
+
+    Utility.log(tag, "Api Call :\n $url ");
+    Utility.log(tag, "Responsevaljson: " + body.toString());
+    var response = await http.post(url,
+      body: body,
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 ( compatible )',
+        'Accept': '*/*',
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+  }
+
 Future<http.Response> Get(String url) async {
 
     Utility.log(tag, "Api Call :\n $url ");
@@ -74,11 +92,11 @@ Future<http.Response> Get(String url) async {
     print("${response.statusCode}");
     print("${response.body}");
     return response;
-
   }
-Future<http.Response> GetWithToken(String url) async {
-  String token = (await Utility.getStringPreference(GlobalConstant.token));
+Future<http.Response> GetWithToken(String url) async
+{
 
+  String token = (await Utility.getStringPreference(GlobalConstant.token));
   Utility.log(tag, "Api Call :\n $url ");
   Utility.log(tag, "Api Call :\n $token ");
     var response = await http.get(
@@ -100,6 +118,24 @@ Future<http.Response> GetWithMyToken(String url,String token) async {
   Utility.log(tag, "Api Call :\n $url ");
   Utility.log(tag, "Api Call :\n $token ");
     var response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 ( compatible )',
+        'Accept': '*/*',
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print("${response.statusCode}");
+    print("${response.body}");
+    return response;
+
+  }
+Future<http.Response> DeleteWithMyToken(String url,String token) async {
+
+  Utility.log(tag, "Api Call :\n $url ");
+  Utility.log(tag, "Api Call :\n $token ");
+    var response = await http.delete(
       url,
       headers: {
         'Content-Type': 'application/json',

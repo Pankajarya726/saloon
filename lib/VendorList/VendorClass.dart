@@ -20,7 +20,6 @@ class VendorActivity extends StatefulWidget
 {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return VendorView();
   }
 
@@ -35,14 +34,14 @@ class VendorView extends State<VendorActivity>
    return WillPopScope(
        onWillPop: _onBackPressed,
        child:new Scaffold(
-
-      body: _list.length==0?GlobalWidget.getNoRecord(context):
+       body: _list.length==0?GlobalWidget.getNoRecord(context):
         new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child:  new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
               Expanded(flex: 1,
                 child: Container(
                   alignment: Alignment.center,
@@ -60,135 +59,121 @@ class VendorView extends State<VendorActivity>
                       onTap:()
                         {
                           Utility.setStringPreference(GlobalConstant.Verder_Id, _list[index].data['vendor_id'].toString());
-
-                          /*Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (_) => new CommonDashBord("vendor_dtl",true)));
-                          */
-
                           Navigator.of(context).push(new MaterialPageRoute(
                               builder: (_) => new CommonDashBord("Product_list",true,_list[index].data)));
-
                         },
-                      child:/*new Column(
-                        children: [
-                          new Container(
-                              margin: EdgeInsets.only(top: 5.0,right: 10.0),
-                              color: Colors.grey.shade100,
-                              child: new Center(
-                                child: new Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    new Container(
-                                      padding: EdgeInsets.only(top: 10.0,left: 10.0,bottom: 10.0),
-                                      child: new Text(GlobalFile.getCaptialize(_list[index].data['vendor_shop_name']),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 18.0),),
-                                    ),
-
-                                    new Container(
-                                        margin: EdgeInsets.only(left: 2.0,right: 2.0,top: 10.0,bottom: 10.0),
-                                        height:100.0,
-                                        decoration: new BoxDecoration(
-                                          //color: const Color(0xff7c94b6),
-                                          image: new DecorationImage(
-                                            fit: BoxFit.fill,
-                                            //colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                                            image: NetworkImage(
-                                                _list[index].data['vendor_shop_logo']),
-                                          ),
-                                        )),
-                                    *//*   FadeInImage(image: NetworkImage(
-                                    _list[index].data['vendor_shop_logo']),
-                                    fit: BoxFit.fitWidth,
-                                    placeholder:GlobalWidget.getPlaceHolder()),
-*//*
-
-
-                                  ],
-                                ),
-                              )
-                          )
-                        ],
-                      )*/
-                      Container(
-
+                      child: Container(
                         child: new Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(flex: 6,
-                            child: new Text(GlobalFile.getCaptialize(_list[index].data['vendor_shop_name']),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 18.0),),),
+                            child:Container(
+                              padding: EdgeInsets.all(5.0),
+                              child:  new Text(GlobalFile.getCaptialize(_list[index].data['vendor_shop_name']),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 18.0),),
+                            )),
                             Expanded(flex: 4,
-                            child: new Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                            child:  Stack(
+                              children: <Widget>[
+                            Positioned(
+                              bottom: 0.0,
+                              left: 0.0,
+                              right: 0.0,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors:
+                                    [
+                                      Color.fromARGB(200, 0, 0, 0),
+                                      Color.fromARGB(0, 0, 0, 0)
+                                    ],
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                  ),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 1.0, horizontal: 2.0),
+                                child:    new Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    new Container(
+                                      height: 20.0,
+                                      child: Container(
+                                          padding: EdgeInsets.only(left: 5.0),
+                                          decoration: new BoxDecoration(
+                                              borderRadius: new BorderRadius.only(
+                                                  topLeft:  const  Radius.circular(20.0),
+                                                  bottomLeft: const  Radius.circular(20.0)),
+                                              gradient: new LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.topRight,
+                                                colors: [
+                                                  Colors.blueGrey.withOpacity(0.99),
+                                                  Colors.blueGrey.withOpacity(0.12)
+                                                ],
+                                              )),
+                                          child: new Row(
+                                            children: [
 
-                              children: [
-                                new Container(
-                                  height: 20.0,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 5.0),
-                                      decoration: new BoxDecoration(
-                                          borderRadius: new BorderRadius.only(
-                                              topLeft:  const  Radius.circular(20.0),
-                                              bottomLeft: const  Radius.circular(20.0)),
-                                          gradient: new LinearGradient(
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.topRight,
-                                            colors: [
-                                              Colors.blueGrey.withOpacity(0.99),
-                                              Colors.blueGrey.withOpacity(0.12)
+                                              new Text(
+                                                GlobalFile.getCaptialize(_list[index].data['vendor_email']),style: TextStyle(color: Colors.white,fontSize: 12.0),)
                                             ],
                                           )),
-                                      child: new Row(
-                                        children: [
-
-                                          new Text(
-                                            GlobalFile.getCaptialize(_list[index].data['vendor_email']),style: TextStyle(color: Colors.white,fontSize: 12.0),)
-                                        ],
-                                      )),
-                                ),
-                                SizedBox(height: 10.0,),
-                                GlobalFile.getStringValue(_list[index].data['vendor_phone'])==""?new Container():new Container(
-                                  height: 20.0,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 5.0),
-                                      decoration: new BoxDecoration(
-                                          borderRadius: new BorderRadius.only(
-                                              topLeft:  const  Radius.circular(20.0),
-                                              bottomLeft: const  Radius.circular(20.0)),
-                                          gradient: new LinearGradient(
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.topRight,
-                                            colors: [
-                                              Colors.blueGrey.withOpacity(0.99),
-                                              Colors.blueGrey.withOpacity(0.12)
+                                    ),
+                                    SizedBox(height: 10.0,),
+                                    GlobalFile.getStringValue(_list[index].data['vendor_phone'])==""?new Container():new Container(
+                                      height: 20.0,
+                                      child: Container(
+                                          padding: EdgeInsets.only(left: 5.0),
+                                          decoration: new BoxDecoration(
+                                              borderRadius: new BorderRadius.only(
+                                                  topLeft:  const  Radius.circular(20.0),
+                                                  bottomLeft: const  Radius.circular(20.0)),
+                                              gradient: new LinearGradient(
+                                                begin: Alignment.topLeft,
+                                                end: Alignment.topRight,
+                                                colors: [
+                                                  Colors.blueGrey.withOpacity(0.99),
+                                                  Colors.blueGrey.withOpacity(0.12)
+                                                ],
+                                              )),
+                                            child: new Row(
+                                            children:
+                                            [
+                                              new Text(
+                                                GlobalFile.getCaptialize(_list[index].data['vendor_phone']),style: TextStyle(color: Colors.white,fontSize: 12.0),)
                                             ],
                                           )),
-                                      child: new Row(
-                                        children: [
-
-                                          new Text(
-                                            GlobalFile.getCaptialize(_list[index].data['vendor_phone']),style: TextStyle(color: Colors.white,fontSize: 12.0),)
-                                        ],
-                                      )),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),)
+                              ),
+                            )]),
+                         )
                           ],
                         ),
 
                         margin: EdgeInsets.all(8.0),
-                        padding: EdgeInsets.only(top: 5.0,right: 5.0,left: 10.0),
+                       // padding: EdgeInsets.only(top: 5.0,right: 5.0,left: 10.0),
 
                         height: MediaQuery.of(context).size.height,
                         decoration: BoxDecoration(
-
                             borderRadius: BorderRadius.circular(5),
                             color: Colors.black,
                             image: DecorationImage(
-                                colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
+                                colorFilter: new ColorFilter.mode(
+                                    Colors.black.withOpacity(0.6),
+                                    BlendMode.dstATop),
+                                image: new NetworkImage(
+                                    _list[index].data['vendor_banner']),
+                                fit: BoxFit.fill),/*
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.black,
+                            image: DecorationImage(
+                                colorFilter: new ColorFilter.mode(Colors.grey.withOpacity(0.66), BlendMode.dstATop),
                                 image: new NetworkImage(
                                     _list[index].data['vendor_banner']
                                 ),
                                 fit: BoxFit.fill
-                            )
+                            )*/
                         ),
                       ),
 
@@ -200,21 +185,19 @@ class VendorView extends State<VendorActivity>
           ),
         ),
     ));
-
   }
-
 
   String TAG="VendorView";
 
   void SubmitData() async
   {
-   /* Map<String, String> body =
+   /*
+   Map<String, String> body =
     {
       'tour_destination_id': "${widget.taskId.toString()}",
       'status_id': _user.toString(),
       'salesman_comment': _description_controller.text.toString(),
     };
-
     print("body$body");
    */
     String Url = GlobalConstant.CommanUrl+"store-vendors";

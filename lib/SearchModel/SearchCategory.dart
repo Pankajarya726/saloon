@@ -3,19 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:loader_search_bar/loader_search_bar.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:salon_app/Global/ApiController.dart';
+import 'package:salon_app/Global/Dialogs.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/NetworkCheck.dart';
+import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'SearchModel.dart';
 
-class SearchUsers extends StatefulWidget
+class SearchCategory extends StatefulWidget
 {
-  static String tag = 'SearchUsers';
+  static String tag = 'SearchCategory';
   @override
-  _SearchUsersState createState() => new _SearchUsersState();
+  _SearchCategoryState createState() => new _SearchCategoryState();
 }
 
-class _SearchUsersState extends State<SearchUsers>
+class _SearchCategoryState extends State<SearchCategory>
 {
 //  List<SearchModel> _items = new List();
   final subject = new PublishSubject<String>();
@@ -23,42 +29,16 @@ class _SearchUsersState extends State<SearchUsers>
   List<SearchModel> duplicateItems = List<SearchModel>();
   List<SearchModel> items = List<SearchModel>();
   var products;
-
   var listdata;
 
-
-  Future<void> UpdateData() async {
-
-   // products=data1['ds']['tables'][0]['rowsList'];
-    for (int i = 0; i < 50; i++) {
-      _addBook(i);
-    }
-    items.addAll(duplicateItems);
-    setState(() {
-    });
-
-/*
-    String userPass = (await Utility.getStringPreference(GlobalConstant.USER_PASSWORD));
-    String USER_ID = (await Utility.getStringPreference(GlobalConstant.USER_ID));
-    Map<String, dynamic> map2() => {
-      'dbPassword': userPass,
-      'dbUser': USER_ID,
-      'host': GlobalConstant.host,
-      'key': GlobalConstant.key,
-      'os': GlobalConstant.OS,
-      'procName': GlobalConstant.Mapp_SelectCity,
-      'rid': '',
-      'srvId': GlobalConstant.SrvID,
-      'timeout': GlobalConstant.TimeOut,
-    };
-
-    print("datatval2 ${json.encode(map2())}");
+  Future<void> UpdateData() async
+  {
     ApiController apiController = new ApiController.internal();
-
-    if (await NetworkCheck.check()) {
-
+    String token = (await Utility.getStringPreference(GlobalConstant.token));
+    if (await NetworkCheck.check())
+    {
       Dialogs.showProgressDialog(context);
-      apiController.PostsNew(GlobalConstant.SignUp, json.encode(map2()))
+      apiController.GetWithMyToken(GlobalConstant.CommanUrl+"products/categories/",token)
           .then((value)
       {
         try
@@ -66,23 +46,15 @@ class _SearchUsersState extends State<SearchUsers>
           Dialogs.hideProgressDialog(context);
           var data = value;
           var data1 = json.decode(data.body);
-          if (data1['status'] == 0)
+          for (int i = 0; i < data1.length; i++)
           {
-            products=data1['ds']['tables'][0]['rowsList'];
-            for (int i = 0; i < products.length; i++) {
-              _addBook(products[i]['cols']);
-            }
-            items.addAll(duplicateItems);
-            setState(() {
-            });
-          } else
-          {
-            if (data1['msg'].toString() == "Login failed for user") {
-              GlobalWidget.showMyDialog(context, "Error", "Invalid id or password.Please enter correct id psw or contact HR/IT");
-            } else {
-              GlobalWidget.showMyDialog(context, "Error", data1['msg'].toString());
-            }
+            _addBook(data1[i]);
           }
+          items.addAll(duplicateItems);
+          setState(()
+          {
+
+          });
         }catch(e)
         {
           GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
@@ -91,9 +63,7 @@ class _SearchUsersState extends State<SearchUsers>
     }else
     {
       GlobalWidget.GetToast(context, "No Internet Connection");
-    }*/
-
-
+    }
   }
 
 
@@ -122,9 +92,10 @@ class _SearchUsersState extends State<SearchUsers>
 
   void _addBook(dynamic book) {
     setState(() {
-      /*String Name=book['CityLbl'].toString();
-        print(Name);*/
-      duplicateItems.add(new SearchModel("name "+book.toString(), "id "+book.toString(),book));
+
+      String Name=book['name'].toString();
+        print(Name);
+      duplicateItems.add(new SearchModel(Name, book["id"].toString(),book));
     });
   }
 
@@ -145,11 +116,9 @@ class _SearchUsersState extends State<SearchUsers>
   }
 
   @override
-  Widget build(BuildContext context) {
-
-    return
-    new Scaffold(
-
+  Widget build(BuildContext context)
+  {
+    return new Scaffold(
       body: new Container(
         color: Colors.white,
         margin: EdgeInsets.only(top: 22.0),
@@ -166,12 +135,19 @@ class _SearchUsersState extends State<SearchUsers>
                       width: MediaQuery.of(context).size.width,
                       child:  Row(
                         children: <Widget>[
-                          Expanded(flex: 1,child: new Container(
+                          Expanded(flex: 1,child: new InkWell(
+                              onTap: ()
+                              {
+                                Navigator.of(context).pop();
+                              },
+                              child:  new Icon(Icons.close,color: Colors.black),
+                          ),),
+                           Expanded(flex: 1,child: new Container(
 
                             alignment: Alignment.center,
                             child:  new Icon(Icons.search,color: Colors.black),
                           ),),
-                          Expanded(flex: 8,child:new Container(
+                          Expanded(flex: 7,child:new Container(
                             padding: EdgeInsets.only(left: 20.0),
                             child: new TextField(
                               //focusNode: _focusNode,
@@ -179,7 +155,7 @@ class _SearchUsersState extends State<SearchUsers>
                               controller: controller,
                               cursorColor: Colors.black,
                               decoration: new InputDecoration(
-                                  hintText: AppLocalizations.of(context).translate("SEARCH"), border: InputBorder.none),
+                              hintText: AppLocalizations.of(context).translate("SEARCH"), border: InputBorder.none),
                               onChanged: (value){
                                 subject.add(value);
                               },
@@ -188,7 +164,7 @@ class _SearchUsersState extends State<SearchUsers>
 
                           Expanded(flex: 1,child: Container(
                             alignment: Alignment.centerRight,
-                            child: new IconButton(icon:Image.asset("drawable/clean.png",color: Colors.black,),iconSize: 20.0, onPressed: () {
+                            child: new IconButton(icon:Image.asset("images/clean.png",color: Colors.black,),iconSize: 20.0, onPressed: () {
                               controller.clear();
 
                               subject.add("");
@@ -215,7 +191,7 @@ class _SearchUsersState extends State<SearchUsers>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         new Container(padding: EdgeInsets.all(10.0),
-                          child: new Text(items[index].data.toString()),),
+                          child: new Text(items[index].data['name'].toString()),),
                         Divider(thickness: 2.0,)
                       ],
                     ),
@@ -224,14 +200,11 @@ class _SearchUsersState extends State<SearchUsers>
                       Utility.setStringPreference(GlobalConstant.COCO_CITY, items[index].data['CityLbl'].toString());
                       Utility.setStringPreference(GlobalConstant.COCO_CITY_CODE, items[index].data['CityLbl'].toString());
                       Utility.setStringPreference(GlobalConstant.COCO_ADDRESS, items[index].data['Address'].toString());
-
-
 */
-                      String idValue = ": \"" + "${items[index].data['CityId'].toString()}" + "\"";
-                      String Name_Value = ": \"" + "${items[index].data['CityLbl'].toString()}" + "\"";
-
-                       String id = "\"id\"";
-                       String name = "\"name\"";
+                      String idValue = ": \"" + "${items[index].data['id'].toString()}" + "\"";
+                      String Name_Value = ": \"" + "${items[index].data['name'].toString()}" + "\"";
+                      String id = "\"id\"";
+                      String name = "\"name\"";
                       var json = "{" + id + idValue +","+ name + Name_Value + "}";
                       Navigator.pop(context, json);
                     },

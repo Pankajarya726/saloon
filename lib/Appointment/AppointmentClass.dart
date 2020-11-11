@@ -12,8 +12,8 @@ import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-
 import '../CommonMenuClass.dart';
+import 'package:intl/intl.dart';
 
 class AppointmentActivity extends StatefulWidget
 {
@@ -22,39 +22,34 @@ class AppointmentActivity extends StatefulWidget
     return AppointmentView();
   }
 }
-
 class AppointmentView extends State<AppointmentActivity>
 {
+
   List<DataModel> _list=new List();
   @override
   Widget build(BuildContext context) {
    return WillPopScope(
-       onWillPop: _onBackPressed,
+
        child:new Scaffold(
        body: _list.length==0?GlobalWidget.getNoRecord(context):
         new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
-          child:  new Column(
+          child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: Text( AppLocalizations.of(context).translate('barber_list'),style: TextStyle(fontSize: 20.0),),
-                ),),
-
               Expanded(flex: 9,
-                child:
-                new ListView.builder
+                child: new ListView.builder
                   (padding: EdgeInsets.only(top: 20.0),
                     itemCount: _list.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return InkWell(
                         onTap: (){
-                          /*Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
-                        */},
+                          /*
+                          Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
+                         */
+                          },
                         child: getData(index),
                       );
                     }
@@ -65,12 +60,11 @@ class AppointmentView extends State<AppointmentActivity>
     ));
   }
 
-
   String TAG="AppointmentView";
-
   void SubmitData() async
   {
-   /* Map<String, String> body =
+   /*
+     Map<String, String> body =
     {
       'tour_destination_id': "${widget.taskId.toString()}",
       'status_id': _user.toString(),
@@ -78,14 +72,14 @@ class AppointmentView extends State<AppointmentActivity>
     };
     print("body$body");
    */
-    String Url = GlobalConstant.CommanUrl+"orders";
 
-
+    String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments";
     ApiController apiController = new ApiController.internal();
-
-    if (await NetworkCheck.check()) {
+    if (await NetworkCheck.check())
+    {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithToken(Url).then((value)
+      String token = (await Utility.getStringPreference(GlobalConstant.token));
+      apiController.GetWithMyToken(Url,token).then((value)
       {
         try
         {
@@ -97,10 +91,11 @@ class AppointmentView extends State<AppointmentActivity>
           {
             for(int i=0;i<data1.length;i++)
             {
-              Utility.log(TAG,data1[i].toString() );
+              Utility.log(TAG, data1[i].toString());
               _list.add(new DataModel(data1[i]));
             }
-            setState(() {
+            setState(()
+            {
               Utility.log(TAG, _list.length.toString());
             });
           } else {
@@ -122,48 +117,103 @@ class AppointmentView extends State<AppointmentActivity>
     SubmitData();
   }
 
-  Future<bool> _onBackPressed() {
-    return showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text(AppLocalizations.of(context).translate("sure")),
-        content: new Text(AppLocalizations.of(context).translate("exit_msg")),
-        actions: <Widget>[
-          new GestureDetector(
-            onTap: () => Navigator.of(context).pop(false),
-            child: Text(AppLocalizations.of(context).translate("NO")),
-          ),
-          SizedBox(height: 16),
-          new GestureDetector(
-            onTap: () => Navigator.of(context).pop(true),
-            child: Text(AppLocalizations.of(context).translate("YES")),
-          ),
-        ],
-      ),
-    ) ??
-        false;
-  }
-
   getData(int index)
   {
-    return new Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(_list[index].data["status"]),
-        Text(_list[index].data["date_created"]),
-        Text(_list[index].data["currency"]+"  "+_list[index].data["total"]),
-        Divider(
-          thickness: 1.0,
-        )
-      ],
+    return new Container(
+      padding: EdgeInsets.all(5.0),
+      child: new Column(
+        children: [
+          new Row(
+            children: [
+              SizedBox(width: 10.0,),
+              Expanded(flex: 2,
+                child: new Container(
+                  padding: EdgeInsets.all(5.0),
+                  alignment: Alignment.center,
+                  child: Text(_list[index].data["order_id"].toString()),
+                  height: 60,
+                  width: 60,
+                  decoration: BoxDecoration(
+                      color: GlobalConstant.getTextColor(),
+                      shape: BoxShape.circle
+                  ),
+                ),),
+              Expanded(
+                flex: 8,
+                child: new Container(
+                  child: Row(
+                    children: [
+                      SizedBox(width: 20.0,),
+                      Expanded(
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(_list[index].data["status"],style: TextStyle(color: Colors.black,fontSize: 16.0),),
+                            Text("Customer Status : "+_list[index].data["customer_status"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),),
+                            // Text(_list[index].data["customer_status"]),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 30.0,),
+                      Expanded(
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children:
+                          [
+                            new Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(flex: 2,
+                                    child:  Icon(Icons.watch_later,color: Colors.grey,)),
+                                SizedBox(width: 4.0,),
+                                Expanded(flex: 8,
+                                  child:  Text(formatTimestamp(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
+                              ],
+                            ), new Row(
+                            children: [
+                              Expanded(flex: 2,
+                                  child:  Icon(Icons.date_range,color: Colors.grey)),
+                              SizedBox(width: 4.0,),
+                              Expanded(flex: 8,
+                                child:  Text(get_Dateval(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
+                            ],
+                          ),
+
+                            /*
+                              Text(get_Dateval(_list[index].data["start"])),*/
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Divider(
+            thickness: 1.0,
+          )
+        ],
+      ),
     );
   }
 
+  String get_Dateval(int string)
+  {
+    int timeInMillis = string;
+    var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
+    var formattedDate = DateFormat.yMMMd().format(date); // Apr 8, 2020
+   // var formattedDate1 = DateFormat.HOUR24().format(date); // Apr 8, 2020
+    return formattedDate;
+  }
 }
-
+String formatTimestamp(int timestamp) {
+  var format = new DateFormat('hh:mm a');
+  var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  return format.format(date);
+}
 class DataModel
 {
   var data;
-
   DataModel(this.data);
 }
