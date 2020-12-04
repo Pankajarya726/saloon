@@ -85,5 +85,8 @@
   "duration": "Duration",
   "PaddingTime": "Padding Time",
   "LeadTime": "Lead Time",
-  "Interval": "Interval"
+  "Interval": "Interval",
+  "canbecancel": "Cancelled at least",
+  "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
+
 }

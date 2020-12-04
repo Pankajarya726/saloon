@@ -100,4 +100,8 @@ class GlobalConstant
     return  Text(s,style: TextStyle(fontSize: 20),);
   }
 
+  static getDurationStringText(String s) {
+    return  Text(s,style: TextStyle(fontSize: 12),);
+  }
+
 }

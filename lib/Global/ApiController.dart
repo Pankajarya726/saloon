@@ -6,8 +6,8 @@ import 'package:salon_app/Global/GlobalConstant.dart';
 import 'NetworkCheck.dart';
 import 'Utility.dart';
 import 'package:http/http.dart' as http;
-
 class ApiController {
+
   var tag = 'ApiController';
   static ApiController _instance = new ApiController.internal();
 
@@ -18,19 +18,19 @@ class ApiController {
   }
 
   static ApiController getInstance() {
-    if (_instance == null) {
+    if (_instance == null)
+    {
       _instance = new ApiController.internal();
     }
     return _instance;
   }
+
   Future<http.Response> getsNew(String url) async {
     Utility.log(tag,"Api Call :\n $url ");
-
-
-
     Map data = {
       'apikey': '12345678901234567890'
     };
+    
     //encode Map to JSON
     var body = json.encode(data);
     var response = await http.get(url,
@@ -56,10 +56,10 @@ Future<http.Response> PostsNew(String url,var body) async {
         'Accept': '*/*',
       },
     );
+
     print("${response.statusCode}");
     print("${response.body}");
     return response;
-
   }
 
 Future<http.Response> PostsNewWithToken(String url,var body,String token) async {
@@ -93,9 +93,9 @@ Future<http.Response> Get(String url) async {
     print("${response.body}");
     return response;
   }
+
 Future<http.Response> GetWithToken(String url) async
 {
-
   String token = (await Utility.getStringPreference(GlobalConstant.token));
   Utility.log(tag, "Api Call :\n $url ");
   Utility.log(tag, "Api Call :\n $token ");
@@ -113,6 +113,7 @@ Future<http.Response> GetWithToken(String url) async
     return response;
 
   }
+
 Future<http.Response> GetWithMyToken(String url,String token) async {
 
   Utility.log(tag, "Api Call :\n $url ");
@@ -127,7 +128,7 @@ Future<http.Response> GetWithMyToken(String url,String token) async {
       },
     );
     print("${response.statusCode}");
-    print("${response.body}");
+  Utility.log(tag,"${response.body}");
     return response;
 
   }

@@ -14,27 +14,44 @@ import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
+
 class CreateProduct extends StatefulWidget {
 
-   var id;
-   CreateProduct(this.id);
+    var id;
+    CreateProduct(this.id);
 
-   @override
-  _CreateProductState createState() => _CreateProductState();
+    @override
+    _CreateProductState createState() => _CreateProductState();
+
 }
 
 class _CreateProductState extends State<CreateProduct> with SingleTickerProviderStateMixin
 {
+
+  bool valuefirst = false;
+
+
   List <String> durationIntItems = GlobalConstant.GetIntItems();
   String durationInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> durationStringItems = GlobalConstant.GetStringItems();
   String durationString = GlobalConstant.GetStringItems()[0].toString();
 
+  List<String> PaddingTimeStringItems = GlobalConstant.GetStringItems();
+  String PaddingTimeString = GlobalConstant.GetStringItems()[0].toString();
+  List <String> PaddingTimeIntItems = GlobalConstant.GetIntItems();
+  String PaddingTimeInt = GlobalConstant.GetIntItems()[0].toString();
 
   List <String> IntervalIntItems = GlobalConstant.GetIntItems();
   String IntervalInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> IntervalStringItems = GlobalConstant.GetStringItems();
   String IntervalString = GlobalConstant.GetStringItems()[0].toString();
+
+
+  List <String> CancelIntItems = GlobalConstant.GetIntItems();
+  String CancelInt = GlobalConstant.GetIntItems()[0].toString();
+  List <String> CancelStringItems = GlobalConstant.GetStringItems();
+  String CancelString = GlobalConstant.GetStringItems()[0].toString();
+
 
   AnimationController _controller;
   var _formKey=GlobalKey<FormState>();
@@ -77,7 +94,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                 //padding: EdgeInsets.all(10.0),
                 children: [
                   new SizedBox(
-                      height: 100,
+                      height: 100.0,
                       width: 100.0,
                       child: new Container(
                         alignment: Alignment.center,
@@ -144,6 +161,43 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                     ],
                   ),
                   SizedBox(height: 20.0,),
+                  new Row(
+                    children: [
+                      Expanded(flex: 1,
+                        child: GlobalConstant.getDurationString(AppLocalizations.of(context).translate("PaddingTime")),),
+                      Expanded(flex: 1,
+                        child:  getIntervalInt(),),
+                      SizedBox(width: 20,),
+                      Expanded(flex: 1,
+                        child:  getIntervalString(),),
+                    ],
+                  ),
+                  SizedBox(height: 20.0,),
+                  new Row(
+                    children: [
+                    Expanded(flex:1,child: getCancelCheck(),),
+                      Expanded(flex: 9,
+                        child: GlobalConstant.getDurationStringText(AppLocalizations.of(context).translate("canbecanceltext")),),
+                    ],
+                  ),
+                  SizedBox(height: 5.0,),
+                  valuefirst==true? new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      new Row(
+                        children: [
+                          Expanded(flex: 1,
+                            child: GlobalConstant.getDurationString(AppLocalizations.of(context).translate("canbecancel")),),
+                          Expanded(flex: 1,
+                            child:  getCancelInt(),),
+                          SizedBox(width: 20,),
+                          Expanded(flex: 1,
+                            child:  getCancelString(),),
+                        ],
+                      ),
+                      SizedBox(height: 20.0,),
+                    ],
+                  ):new Container(),
                   GetSubmitButton(),
                   SizedBox(height: 20.0,),
                   GetBackToHome(),
@@ -228,7 +282,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
             // getShareddata();
             SubmitData();
             //
-
           }
         },
         child: Text(
@@ -402,18 +455,19 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
     Map<String, String> meta_data22() => {'_wc_appointment_duration': durationInt};
     Map<String, String> meta_data23() => {'_wc_appointment_interval_unit': IntervalString};
     Map<String, String> meta_data24() => {'_wc_appointment_interval': IntervalInt};
-    Map<String, String> meta_data25() => {'_wc_appointment_padding_duration_unit': "hour"};
-    Map<String, String> meta_data26() => {'_wc_appointment_padding_duration': "0"};
+    Map<String, String> meta_data25() => {'_wc_appointment_padding_duration_unit': PaddingTimeString};
+    Map<String, String> meta_data26() => {'_wc_appointment_padding_duration': PaddingTimeInt};
     Map<String, String> meta_data27() => {'_wc_appointment_min_date_unit': "day"};
     Map<String, String> meta_data28() => {'_wc_appointment_min_date': "0"};
     Map<String, String> meta_data29() => {'_wc_appointment_max_date_unit': "month"};
     Map<String, String> meta_data30() => {'_wc_appointment_max_date': "12"};
     Map<String, String> meta_data31() => {'_wc_appointment_user_can_cancel': ""};
-    Map<String, String> meta_data32() => {'_wc_appointment_cancel_limit_unit': "day"};
-    Map<String, String> meta_data33() => {'_wc_appointment_cancel_limit': "12"};
+    Map<String, String> meta_data32() => {'_wc_appointment_cancel_limit_unit': CancelString};
+    Map<String, String> meta_data33() => {'_wc_appointment_cancel_limit': CancelInt};
     Map<String, String> meta_data34() => {'_wc_appointment_requires_confirmation': ""};
     Map<String, String> meta_data35() => {'_wc_appointment_customer_timezones': "1"};
     Map<String, String> meta_data36() => {'_wc_appointment_cal_color': "#0073aa"};
+
     meta_data_a1.add(meta_data());
     meta_data_a1.add(meta_data2());
     meta_data_a1.add(meta_data3());
@@ -508,8 +562,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       textInputAction: TextInputAction.next,
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: priceController,
-      decoration: GlobalWidget.TextFeildDecoration(
-          AppLocalizations.of(context).translate("pro_price") ),
+      decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("pro_price") ),
       validator: (value)
       {
         if (value.isEmpty) {
@@ -525,7 +578,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       child:  new ListView.builder
         (
           scrollDirection: Axis.horizontal,
-
           physics: ClampingScrollPhysics(),
           shrinkWrap: true,
           itemCount: _list.length,
@@ -660,4 +712,122 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
             }).toList(),
           ));
   }
+
+  getPaddingTimeInt() {
+    return
+      new Theme(
+          data: GlobalConstant.getSpinnerTheme(context),
+          child: DropdownButton<String>(
+            value: PaddingTimeInt,
+            isExpanded: true,
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: GlobalConstant.getTextStyle(),
+            underline:GlobalConstant.getUnderline(),
+            onChanged: (String data) {
+              setState(() {
+                PaddingTimeInt = data;
+              });
+            },
+            items: PaddingTimeIntItems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ));
+  }
+  getPaddingTimeString() {
+    return
+      new Theme(
+          data: GlobalConstant.getSpinnerTheme(context),
+          child: DropdownButton<String>(
+            value: PaddingTimeString,
+            isExpanded: true,
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: GlobalConstant.getTextStyle(),
+            underline:GlobalConstant.getUnderline(),
+            onChanged: (String data) {
+              setState(() {
+                PaddingTimeString = data;
+              });
+            },
+            items: PaddingTimeStringItems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ));
+  }
+
+
+  getCancelInt() {
+    return
+      new Theme(
+          data: GlobalConstant.getSpinnerTheme(context),
+          child: DropdownButton<String>(
+            value: CancelInt,
+            isExpanded: true,
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: GlobalConstant.getTextStyle(),
+            underline:GlobalConstant.getUnderline(),
+            onChanged: (String data) {
+              setState(() {
+                CancelInt = data;
+              });
+            },
+            items: CancelIntItems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ));
+  }
+  getCancelString() {
+    return
+      new Theme(
+          data: GlobalConstant.getSpinnerTheme(context),
+          child: DropdownButton<String>(
+            value: CancelString,
+            isExpanded: true,
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: GlobalConstant.getTextStyle(),
+            underline:GlobalConstant.getUnderline(),
+            onChanged: (String data) {
+              setState(() {
+                CancelString = data;
+              });
+            },
+            items: CancelStringItems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ));
+  }
+
+  getCancelCheck() {
+    return   Checkbox(
+      checkColor: Colors.white,
+      activeColor: Colors.black54,
+
+      value: this.valuefirst,
+      onChanged: (bool value) {
+        setState(() {
+          this.valuefirst = value;
+        });
+      },
+    );
+  }
+
 }
