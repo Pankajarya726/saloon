@@ -80,5 +80,9 @@
   "add_pro": "Add Product",
   "fetch_cat": "Select Category",
   "del_title": "Do you want to delete this product?",
-  "del_msg": "Press Yes to delete..."
+  "del_msg": "Press Yes to delete...",
+  "duration": "Duration",
+  "PaddingTime": "Padding Time",
+  "LeadTime": "Lead Time",
+  "Interval": "Interval"
 }

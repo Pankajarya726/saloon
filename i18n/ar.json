@@ -81,5 +81,9 @@
   "add_pro": "أضف منتج",
   "fetch_cat": "اختر الفئة",
   "del_title": "هل تريد حذف هذا المنتج؟",
-  "del_msg": "اضغط على نعم للحذف ..."
+  "del_msg": "اضغط على نعم للحذف ...",
+  "duration": "Duration",
+  "PaddingTime": "Padding Time",
+  "LeadTime": "Lead Time",
+  "Interval": "Interval"
 }

@@ -47,4 +47,57 @@ class GlobalConstant
    // return CommonDashBord("vendor_list",false);
     return SignInActivity();
   }
+
+  static List<String> GetIntItems() {
+    List <String> durationIntItems =
+     [
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+    ];
+    return durationIntItems;
+  }
+  static List<String> GetStringItems() {
+    List <String> durationIntItems =
+     [
+      'Minute',
+      'Hour',
+      'Day',
+      'Month',
+    ];
+    return durationIntItems;
+  }
+
+
+  static getTextStyle() {
+    return TextStyle(color: Colors.black54, fontSize: 18);
+  }
+
+  static getSpinnerTheme(BuildContext context) {
+    return Theme.of(context).copyWith(
+      canvasColor: Colors.grey,
+    );
+  }
+
+  static getUnderline() {
+    return  Container(
+      height: 2,
+      color: Colors.grey,
+    );
+  }
+
+  static getDurationString(String s) {
+    return  Text(s,style: TextStyle(fontSize: 20),);
+  }
+
 }

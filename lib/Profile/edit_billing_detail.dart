@@ -23,7 +23,6 @@ class EditBillingDetail extends StatefulWidget {
 
 class _EditBillingDetailState extends State<EditBillingDetail> with SingleTickerProviderStateMixin
 {
-
   AnimationController _controller;
   @override
   void initState() {

@@ -81,6 +81,7 @@ class SplashScreen extends State<SplashActivity> {
       'username': "admin",
       'password':"admin123",
     };
+
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check())
     {
@@ -92,6 +93,7 @@ class SplashScreen extends State<SplashActivity> {
           String token=data1['token'];
           Utility.setStringPreference(GlobalConstant.admin_token, token);
         } catch (e) {
+
       }
       });
     } else {
