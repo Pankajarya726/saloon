@@ -177,10 +177,13 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
       uploadImage(_image);
     });
   }
+
   File _image;
-List<ImageModel> _list=new List();
+  List<ImageModel> _list=new List();
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return new Scaffold(
       appBar: new AppBar(),
       body: new Column(
@@ -189,12 +192,10 @@ List<ImageModel> _list=new List();
           child: new Row(
             children: [
               Expanded(
-               child:  new SizedBox(
-
+               child: new SizedBox(
                    child: new Container(
                      alignment: Alignment.center,
                      color: Colors.grey[200],
-
                      child: new IconButton(icon:Icon(Icons.add_photo_alternate),color: Colors.black,iconSize: 40.0,
                        onPressed: ()
                        {
@@ -206,8 +207,8 @@ List<ImageModel> _list=new List();
               ),
               SizedBox(width: 10.0),
               Expanded(
-               child:  new SizedBox(
-
+               child:
+               new SizedBox(
                    child: new Container(
                      alignment: Alignment.center,
                      color: Colors.grey[200],
