@@ -50,8 +50,8 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
           var data = json.decode(value.body);
           for(int i=0;i<data.length;i++)
           {
-             print(data[i]["media_details"]["sizes"]["large"]["source_url"]);
-            _list.add(new ImageModel(data[i]["media_details"]["sizes"]["large"]["source_url"].toString(),false));
+             print(data[i]["source_url"]);
+            _list.add(new ImageModel(data[i]["source_url"].toString(),false));
              setState(()
              {
 
@@ -236,18 +236,20 @@ List<ImageModel> _list=new List();
             height: MediaQuery.of(context).size.height,
             color: Colors.white,
             child: _list.length!=0?new GridView.count(
-              crossAxisCount: 2,
+              crossAxisCount: 3,
               shrinkWrap: true,
               children: new List.generate(_list.length, (index)
               {
                 return InkWell(
                   onTap:()
                   {
-                  /*  String idValue = ": \"" + "${items[index].data['id'].toString()}" + "\"";
+                  /*
+                    String idValue = ": \"" + "${items[index].data['id'].toString()}" + "\"";
                     String Name_Value = ": \"" + "${items[index].data['name'].toString()}" + "\"";
                     String id = "\"id\"";
                     String name = "\"name\"";
-                    var json = "{" + id + idValue +","+ name + Name_Value + "}";*/
+                    var json = "{" + id + idValue +","+ name + Name_Value + "}";
+                    */
                     //Navigator.pop(context, _list[index].image.toString());
 
                     _list[index].check=!_list[index].check;
