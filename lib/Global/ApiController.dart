@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'NetworkCheck.dart';
 import 'Utility.dart';
 import 'package:http/http.dart' as http;
+
 class ApiController {
 
   var tag = 'ApiController';
@@ -30,7 +32,7 @@ class ApiController {
     Map data = {
       'apikey': '12345678901234567890'
     };
-    
+
     //encode Map to JSON
     var body = json.encode(data);
     var response = await http.get(url,
@@ -40,10 +42,52 @@ class ApiController {
     print("${response.statusCode}");
     Utility.log("Api Response","${response.body}");
     return response;
-
   }
 
+  Future<http.Response> getsNewData(String url) async {
+    Utility.log(tag,"Api Call :\n $url ");
+    var headers = {
+    'Content-type': 'application/json',
+    'Accept': 'application/json',
+     'apiKey': '5ad97dec969a5d8c6f87d647601828bafebf1208f13d78e5c060ad4c3595a293',
+    };
+   /* Map<String, String> headers = new Map();
+    headers["content-type"] =  "application/x-www-form-urlencoded";
+    headers["X-Target-Environment"] =  "sandbox";
+    headers["apiKey"] =  "5ad97dec969a5d8c6f87d647601828bafebf1208f13d78e5c060ad4c3595a293";
+*/
+    Utility.log(tag,"Api Call :\n $headers ");
 
+
+    var response = await http.get('http://api.smartdatasystem.es/v1/sensors?',
+     headers: headers);
+    print("${response.statusCode}");
+    Utility.log("Api Response","${response.body}");
+    Utility.log("Api Response","${response.headers.containsKey('apiKey').toString()}");
+  /*  var request = http.Request('GET', uri);
+
+    request.headers.addAll(headers);
+
+
+    *//*http.StreamedResponse response = await request.send();
+*//*
+    final response = await request.send();
+    Utility.log(tag,response);
+    final respStr = await response.stream.bytesToString();
+
+    Utility.log(tag,response.headers);
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+      Utility.log(tag,response.reasonPhrase);
+    }
+    print(response);*/
+
+    /*Utility.log("Api Response","${response.body}");
+    return response;*/
+  }
 Future<http.Response> PostsNew(String url,var body) async {
 
     Utility.log(tag, "Api Call :\n $url ");
@@ -81,7 +125,6 @@ Future<http.Response> PostsNewWithToken(String url,var body,String token) async 
   }
 
 Future<http.Response> Get(String url) async {
-
     Utility.log(tag, "Api Call :\n $url ");
     var response = await http.get(url,
       headers: {

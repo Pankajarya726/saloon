@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:salon_app/Appointment/AppointmentClass.dart';
+import 'package:salon_app/Global/ApiController.dart';
+import 'package:salon_app/Global/Dialogs.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
+
 class GalleryActivity extends StatefulWidget
 {
   @override
@@ -16,16 +21,55 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
   AnimationController _controller;
   @override
   void initState() {
+
     _controller = AnimationController(vsync: this);
-    _list.add(new ImageModel("http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg",false));
+   /* _list.add(new ImageModel("http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2020/10/download-1.jpeg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/02/team-member-4.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/03/contact-title-img.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/03/services-title-img.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/03/about-title-img.jpg",false));
-    setState(() {
-    });
-    super.initState();
+   */
+     super.initState();
+     GetData();
+  }
+
+  void GetData() async
+  {
+    String token = (await Utility.getStringPreference(GlobalConstant.token));
+    String Url = GlobalConstant.CommanUrlLogin+"wp/v2/media/";
+    ApiController apiController = new ApiController.internal();
+    if (await NetworkCheck.check())
+    {
+      Dialogs.showProgressDialog(context);
+      apiController.GetWithMyToken(Url,token).then((value)
+      {
+        try
+        {
+          Dialogs.hideProgressDialog(context);
+          var data = json.decode(value.body);
+          for(int i=0;i<data.length;i++)
+          {
+             print(data[i]["media_details"]["sizes"]["large"]["source_url"]);
+            _list.add(new ImageModel(data[i]["media_details"]["sizes"]["large"]["source_url"].toString(),false));
+             setState(()
+             {
+
+             });
+          }
+          setState(() {
+
+          });
+        }catch(e)
+        {
+          // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+        }
+      });
+
+    }else
+    {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
   }
 
   @override

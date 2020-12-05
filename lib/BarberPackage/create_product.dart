@@ -30,7 +30,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
 
   bool valuefirst = false;
 
-
   List <String> durationIntItems = GlobalConstant.GetIntItems();
   String durationInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> durationStringItems = GlobalConstant.GetStringItems();
@@ -46,12 +45,10 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   List <String> IntervalStringItems = GlobalConstant.GetStringItems();
   String IntervalString = GlobalConstant.GetStringItems()[0].toString();
 
-
   List <String> CancelIntItems = GlobalConstant.GetIntItems();
   String CancelInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> CancelStringItems = GlobalConstant.GetStringItems();
   String CancelString = GlobalConstant.GetStringItems()[0].toString();
-
 
   AnimationController _controller;
   var _formKey=GlobalKey<FormState>();
@@ -69,6 +66,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       {
         GetData();
       }
+    //  GetDataNew();
       super.initState();
   }
 
@@ -99,7 +97,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                       child: new Container(
                         alignment: Alignment.center,
                         color: Colors.grey[200],
-
                         child: new IconButton(icon:Icon(Icons.add_photo_alternate),color: Colors.black,iconSize: 80.0,
                           onPressed: ()
                           {
@@ -123,6 +120,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                   ),
 
                   _list.length>0?getListingData():new Container(),
+
                   new Container(
                     padding: EdgeInsets.all(10.0),
                     child: Text(AppLocalizations.of(context).translate("add_product"),textAlign: TextAlign.center,),
@@ -148,7 +146,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                       child:  getDurationString(),),
                     ],
                   ),
+
                   SizedBox(height: 20.0,),
+
                   new Row(
                     children: [
                       Expanded(flex: 1,
@@ -160,18 +160,22 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                       child:  getIntervalString(),),
                     ],
                   ),
+
                   SizedBox(height: 20.0,),
+
                   new Row(
                     children: [
                       Expanded(flex: 1,
                         child: GlobalConstant.getDurationString(AppLocalizations.of(context).translate("PaddingTime")),),
                       Expanded(flex: 1,
-                        child:  getIntervalInt(),),
+                        child:  getPaddingTimeInt(),),
                       SizedBox(width: 20,),
                       Expanded(flex: 1,
-                        child:  getIntervalString(),),
+                        child:  getPaddingTimeString(),),
+
                     ],
                   ),
+
                   SizedBox(height: 20.0,),
                   new Row(
                     children: [
@@ -180,6 +184,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                         child: GlobalConstant.getDurationStringText(AppLocalizations.of(context).translate("canbecanceltext")),),
                     ],
                   ),
+
                   SizedBox(height: 5.0,),
                   valuefirst==true? new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,10 +220,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   {
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     String Url = GlobalConstant.CommanUrl+"products/"+widget.id.toString();
-
-
     ApiController apiController = new ApiController.internal();
-
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
@@ -252,6 +254,36 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       GlobalWidget.GetToast(context, "No Internet Connection");
     }
   }
+
+  void GetDataNew() async
+  {
+    String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
+    String Url ="https://api.smartdatasystem.es/v1/sensors?apiKey=5ad97dec969a5d8c6f87d647601828bafebf1208f13d78e5c060ad4c3595a293";
+
+    ApiController apiController = new ApiController.internal();
+
+    if (await NetworkCheck.check())
+    {
+      Dialogs.showProgressDialog(context);
+      apiController.getsNewData(Url).then((value)
+      {
+        try
+        {
+          Dialogs.hideProgressDialog(context);
+          setState(() {
+          });
+        }catch(e)
+        {
+          // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+        }
+      });
+
+    }else
+    {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
+
   GetBackToHome() {
     return new Container(
       height: 50.0,
@@ -268,6 +300,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       ),
     );
   }
+
   GetSubmitButton() {
     return new Container(
       height: 50.0,
@@ -277,11 +310,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         color: GlobalWidget.getBtncolorDark(),
         textColor: GlobalWidget.getBtnTextColorDark(),
         onPressed: () {
-          // Validate returns true if the form is valid, otherwise false.
           if (_formKey.currentState.validate()) {
             // getShareddata();
             SubmitData();
-            //
           }
         },
         child: Text(
@@ -310,6 +341,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       },
     );
   }
+
   ProductDescription()
   {
     return TextFormField(
@@ -348,7 +380,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
     );
   }
 
-
   _toggle1() {
     Navigator.of(context).push(new MaterialPageRoute(builder: (_)=>new SearchCategory()),).then((val)
     {
@@ -363,7 +394,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
           categoryController.text=name;
           Category_Id=Id;
           setState(() {
-
           });
         });
       }
@@ -373,7 +403,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   var categoryController=TextEditingController();
   String Category_Id="";
   CategoryClickFeild() {
+
     return GestureDetector(
+
       child: TextFormField(
         style: TextStyle(fontSize: 18.0, color: Colors.black),
         readOnly: true,
@@ -429,7 +461,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
     category_list.add(Category_Id);
     String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
     String token = (await Utility.getStringPreference(GlobalConstant.token));
-
     List meta_data_a1=new List();
     Map<String, String> meta_data() => {'_wcfm_product_author': USER_ID};
     Map<String, String> meta_data2() => {'_regular_price': priceController.text.toString()};
