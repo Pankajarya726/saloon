@@ -87,6 +87,9 @@
   "LeadTime": "Lead Time",
   "Interval": "Interval",
   "canbecancel": "Cancelled at least",
+  "upload_image": "Upload Image",
+  "select": "Select",
+  "upload_txt": "Are you sure to upload this image ? ",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 
 }

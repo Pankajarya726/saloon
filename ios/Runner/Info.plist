@@ -2,16 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs access to location when open.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>This app needs access to location when in the background.</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>This app needs access to location when open and in the background.</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>Salon App using music for playing the video files</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>Salon application using calender to show the events date and list of upcoming events</string>
     <key>NSCameraUsageDescription</key>
-    <string>Can I use the camera please?</string>
+    <string>Salon application is based on barber shop so if any barber wants to upload their service so barber will take photo from camera and upload it on serevr</string>
+    <key>NSContactsUsageDescription</key>
+    <string>Salon application inviting friends is simple when choosing them from the address book on your phone.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Grad application when user nearby barber so he can fetch current location of that place</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Salon application using  location is required for user current location</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Salon application using  location is required for user current location</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Can I use the mic please?</string>
+    <string>Salon application allow to microphone to access gallery for complain register</string>
+    <key>NSMotionUsageDescription</key>
+    <string>Salon application uses motion  </string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Salon application allow to microphone to access photo for complain register</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Salon application To be able to use the Voice Messages function, we need the permission.</string>
     <key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -51,5 +63,10 @@
 	</array>
 	<key>io.flutter.embedded_views_preview</key>
     <true/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+    <key>NSAllowsArbitraryLoads</key>
+     <true/>
+        </dict>
 </dict>
 </plist>

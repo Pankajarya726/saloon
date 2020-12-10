@@ -9,7 +9,12 @@ import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
+import 'package:salon_app/language/AppLocalizations.dart';
+import 'package:http/http.dart' as http;
+import 'package:async/async.dart';
+import 'dart:io';
 
+import 'package:toast/toast.dart';
 class GalleryActivity extends StatefulWidget
 {
   @override
@@ -21,21 +26,24 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
   AnimationController _controller;
   @override
   void initState() {
-
     _controller = AnimationController(vsync: this);
-   /* _list.add(new ImageModel("http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg",false));
+   /*
+    _list.add(new ImageModel("http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2020/10/download-1.jpeg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/02/team-member-4.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/03/contact-title-img.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/03/services-title-img.jpg",false));
     _list.add(new ImageModel("http://salon.microband.site/wp-content/uploads/2018/03/about-title-img.jpg",false));
    */
+
      super.initState();
      GetData();
   }
 
   void GetData() async
   {
+
+    _list=new List();
     String token = (await Utility.getStringPreference(GlobalConstant.token));
     String Url = GlobalConstant.CommanUrlLogin+"wp/v2/media/";
     ApiController apiController = new ApiController.internal();
@@ -51,21 +59,19 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
           for(int i=0;i<data.length;i++)
           {
              print(data[i]["source_url"]);
-            _list.add(new ImageModel(data[i]["source_url"].toString(),false));
+             _list.add(new ImageModel(data[i]["source_url"].toString(),false));
              setState(()
              {
 
              });
           }
           setState(() {
-
           });
         }catch(e)
         {
           // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
         }
       });
-
     }else
     {
       GlobalWidget.GetToast(context, "No Internet Connection");
@@ -78,17 +84,19 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
     super.dispose();
   }
 
-
-   Future<bool> SelectPhotoOption(BuildContext context) {
+   Future<bool> SelectPhotoOption(BuildContext context)
+   {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: new Row(
-            children: [
+            children:
+            [
               Expanded(
-                child:  new Text('Select'),
-              ),Expanded(
+                child:  new Text(AppLocalizations.of(context).translate("select")),
+              ),
+              Expanded(
                 child: InkWell(
                   onTap: (){
                     Navigator.of(context).pop();
@@ -108,8 +116,9 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
               children: [
                 Divider(thickness: 10.0,),
                 InkWell(
-                  onTap: (){
-                    Navigator.of(context).pop();
+                  onTap: ()
+                  {
+                     Navigator.of(context).pop();
                     _imgFromCamera();
                   },
                   child: new Container(
@@ -129,7 +138,8 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
                 ),
 
                 InkWell(
-                  onTap: (){
+                  onTap: ()
+                  {
                     Navigator.of(context).pop();
                     _imgFromGallery();
                   },
@@ -137,13 +147,16 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
                     padding: EdgeInsets.only(top: 20,bottom: 20.0),
                     child:  new Row(
                       children: [
+
                         Expanded(flex: 2,
                           child: Icon(Icons.image,color: Colors.black,),),
+
                         Expanded(flex: 8,
                           child:  new Container(
                             alignment: Alignment.centerLeft,
                             child: new Text('From Gallery',style: TextStyle(fontSize: 18.0),),
                           ),),
+
                       ],
                     ),
                   ),
@@ -151,6 +164,133 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
               ],
             ),
           ),
+        );
+      },
+    ) ?? false;
+  }
+
+    asyncFileUpload(File imageFile) async
+    {
+
+      Dialogs.showProgressDialog(context);
+      String token = (await Utility.getStringPreference(GlobalConstant.token));
+      String Url = GlobalConstant.CommanUrlLogin+"wp/v2/media/";
+
+      String fileName = imageFile.path.split("/").last;
+
+      Map<String, String> requestHeaders = {
+        'Content-type': 'multipart/form-data',
+        'charset': 'UTF-8',
+        'Authorization': 'Bearer $token',
+        'Content-Disposition':"attachment; filename=$fileName"
+      };
+
+
+      var request = http.MultipartRequest("POST", Uri.parse(Url));
+      request.headers.addAll(requestHeaders);
+      // open a bytestream
+      var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+      // get file length
+      var length = await imageFile.length();
+
+      // multipart that takes file
+      var multipartFile = new http.MultipartFile('file', stream, length,
+          filename: fileName);
+
+      // add file to multipart
+      request.files.add(multipartFile);
+
+
+      print(request.files);
+      print(request.toString());
+      var response = await request.send();
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
+      //GlobalFile.Showsnackbar(_globalKey, "Document Uploaded");
+      print(responseString);
+      print(response.statusCode);
+
+
+      //var data=json.decode(responseString);
+
+      if(response.statusCode==201)
+      {
+        GetData();
+      }else{
+      }
+    }
+
+    Future<bool> UploadImageOption(BuildContext context,File path)
+    {
+
+     return showDialog(
+
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Row(
+              children: [
+
+                Expanded(
+                  child:  new Text(AppLocalizations.of(context).translate("upload_image"),style: TextStyle(color: Colors.red[400]),),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.of(context).pop();
+                    },
+                    child:  new Container(
+                      alignment: Alignment.topRight,
+                      child: new Icon(Icons.close),
+                    ),
+                  ),
+                ),
+
+              ],
+          ),
+          content: new Container(
+            height: 250,
+            child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+
+                Divider(thickness: 2.0,),
+                SizedBox(height: 10,),
+                Text(AppLocalizations.of(context).translate("upload_txt"),style: TextStyle(color: Colors.black),),
+                SizedBox(height: 20,),
+                Container(
+                  height: 180,
+                  width: 180,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      image: DecorationImage(
+                        image:FileImage(path),
+                      )
+                  ),
+                )
+
+              ],
+            ),
+          ),
+
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: ()
+              {
+                Navigator.of(context).pop(false);
+                asyncFileUpload(path);
+              },
+              child: new Text(AppLocalizations.of(context).translate("YES")),
+            ),
+            new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: new Text(AppLocalizations.of(context).translate("NO")),
+            ),
+          ],
+
         );
       },
     ) ?? false;
@@ -232,6 +372,7 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
               ),
             ],
           ),),
+
           Expanded(flex: 9,
           child: new Container(
             height: MediaQuery.of(context).size.height,
@@ -242,27 +383,21 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
               children: new List.generate(_list.length, (index)
               {
                 return InkWell(
+
                   onTap:()
                   {
-                  /*
-                    String idValue = ": \"" + "${items[index].data['id'].toString()}" + "\"";
-                    String Name_Value = ": \"" + "${items[index].data['name'].toString()}" + "\"";
-                    String id = "\"id\"";
-                    String name = "\"name\"";
-                    var json = "{" + id + idValue +","+ name + Name_Value + "}";
-                    */
-                    //Navigator.pop(context, _list[index].image.toString());
-
                     _list[index].check=!_list[index].check;
-                    setState(() {
+                    setState(()
+                    {
                       Utility.log("CheckVal", _list[index].check);
                     });
                   },
+
                   child: Container(
                     alignment: Alignment.topRight,
-                    margin: EdgeInsets.only(top: 5.0,right: 5.0,left: 5.0),
-                    child: _list[index].check==true?Icon(Icons.check,color: Colors.green,):new Container(),
-                    padding: EdgeInsets.only(bottom: 5.0,right: 5.0,left: 5.0),
+                    margin: EdgeInsets.only(top: 2.0,right: 5.0,left: 2.0),
+                    child: _list[index].check==true?Icon(Icons.check,color: Colors.green,size: 60,):new Container(),
+                   // padding: EdgeInsets.only(bottom: 5.0,right: 5.0,left: 5.0),
                     height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -286,9 +421,11 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
 
   void uploadImage(File image) {
     Utility.log(TAG, image.path.toString());
+    UploadImageOption(context,image);
   }
   String TAG="Gallery Image";
 }
+
 class ImageModel
 {
   String image;

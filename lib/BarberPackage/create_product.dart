@@ -14,6 +14,7 @@ import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
+import 'package:html_editor/html_editor.dart';
 
 class CreateProduct extends StatefulWidget {
 
@@ -29,7 +30,8 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
 {
 
   bool valuefirst = false;
-
+  final GlobalKey<HtmlEditorState> keyEditor = GlobalKey();
+  final GlobalKey<HtmlEditorState> keyEditor_short_des = GlobalKey();
   List <String> durationIntItems = GlobalConstant.GetIntItems();
   String durationInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> durationStringItems = GlobalConstant.GetStringItems();
@@ -131,9 +133,23 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                   SizedBox(height: 20.0,),
                   CategoryClickFeild(),
                   SizedBox(height: 20.0,),
-                  ProductDescription(),
+                  //ProductDescription(),
+
+                  HtmlEditor(
+                    hint: AppLocalizations.of(context).translate("des").toString(),
+                    value:data['description'].toString(),
+                    key: keyEditor,
+                    height: 400,
+                  ),
+                  Divider(thickness:10.0,),
                   SizedBox(height: 20.0,),
-                  ProductSrtDescription(),
+                HtmlEditor(
+                    hint: AppLocalizations.of(context).translate("srt_des"),
+                    value: data['short_description'].toString(),
+                    key: keyEditor_short_des,
+                    height: 250,
+                  ),
+                  Divider(thickness: 10.0,),
                   SizedBox(height: 20.0,),
                   new Row(
                     children: [
@@ -221,6 +237,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     String Url = GlobalConstant.CommanUrl+"products/"+widget.id.toString();
     ApiController apiController = new ApiController.internal();
+
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
@@ -412,13 +429,10 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         onTap: () {
           _toggle1();
         },
-
         controller: categoryController,
         textInputAction: TextInputAction.next,
         onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-
         decoration: InputDecoration(
-
           contentPadding:GlobalWidget.getContentPadding(),
           hintText: AppLocalizations.of(context).translate("fetch_cat"),
           suffixIcon: IconButton(
@@ -439,15 +453,17 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         _toggle1();
       },);
   }
-
   String TAG="Create Product";
-
   void SubmitData() async
   {
-    List a1=new List();
-    List a2=new List();
-    List category_list=new List();
+      List a1=new List();
+      List a2=new List();
+      List category_list=new List();
 
+      final description_text = await keyEditor.currentState.text;
+      final srt_description_text = await keyEditor_short_des.currentState.text;
+
+      print(description_text);
       Map<String, String> mapobj_data2() => {'src': "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"};
 
       for(int i=0;i<_list.length;i++)
@@ -455,7 +471,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         Map<String, String> mapobj_data1() => {'src': _list[i].toString()};
         a1.add(mapobj_data1());
       }
-
 
     a2.add(mapobj_data2());
     category_list.add(Category_Id);
@@ -546,14 +561,14 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       'name': nameController.text.toString(),
       'type': "appointment",
       'status':"publish",
-      'regular_price':priceController.text.toString(),
-      'description':desController.text.toString(),
-      'short_description':srt_desController.text.toString(),
-      'gallery_images':a1,
-      'featured_images':a2,
-      'categories':category_list,
-      'post_author':USER_ID,
-      'meta_data':meta_data_a1
+      'regular_price': priceController.text.toString(),
+      'description':description_text.toString(),
+      'short_description': srt_description_text.toString(),
+      'gallery_images': a1,
+      'featured_images': a2,
+      'categories': category_list,
+      'post_author': USER_ID,
+      'meta_data': meta_data_a1
     };
 
       String id="";
