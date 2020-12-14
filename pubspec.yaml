@@ -35,7 +35,9 @@ dependencies:
   carousel_slider:
   path:
   photo_view:
-  html_editor:
+#  html_editor: ^1.0.1
+  #flutter_html_editor: ^1.0.0
+  flutter_summernote:
 
 dev_dependencies:
   flutter_test:

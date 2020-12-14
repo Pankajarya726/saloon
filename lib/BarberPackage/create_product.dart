@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:salon_app/BarberPackage/gallery_activity.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/SearchModel/SearchCategory.dart';
@@ -7,20 +8,13 @@ import 'package:salon_app/language/AppLocalizations.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
-import 'package:http/http.dart' as http;
-import 'package:salon_app/Global/GlobalFile.dart';
-import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
-import 'package:salon_app/language/AppLocalizations.dart';
-import '../CommonMenuClass.dart';
-import 'package:html_editor/html_editor.dart';
+
 
 class CreateProduct extends StatefulWidget {
-
     var id;
     CreateProduct(this.id);
-
     @override
     _CreateProductState createState() => _CreateProductState();
 
@@ -30,8 +24,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
 {
 
   bool valuefirst = false;
-  final GlobalKey<HtmlEditorState> keyEditor = GlobalKey();
-  final GlobalKey<HtmlEditorState> keyEditor_short_des = GlobalKey();
+  final GlobalKey<FlutterSummernoteState> keyEditor = GlobalKey();
+  final GlobalKey<FlutterSummernoteState> keyEditor_short_des = GlobalKey();
+
   List <String> durationIntItems = GlobalConstant.GetIntItems();
   String durationInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> durationStringItems = GlobalConstant.GetStringItems();
@@ -68,7 +63,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       {
         GetData();
       }
-    //  GetDataNew();
       super.initState();
   }
 
@@ -110,9 +104,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                                   {
                                     _list.add(val[i]);
                                   }
-                                setState(() {
-                                  Utility.log(TAG, _list.length);
-                                });
+                                  setState(() {
+                                    Utility.log(TAG, _list.length);
+                                  });
                                // Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) => new CommonDashBord("vendor_list",false)));
                               }
                             });
@@ -135,22 +129,27 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                   SizedBox(height: 20.0,),
                   //ProductDescription(),
 
-                  HtmlEditor(
+                  FlutterSummernote(
                     hint: AppLocalizations.of(context).translate("des").toString(),
-                    value:data['description'].toString(),
+                    value:widget.id.toString()!="0"?data['description'].toString():"",
                     key: keyEditor,
+
                     height: 400,
                   ),
+
                   Divider(thickness:10.0,),
                   SizedBox(height: 20.0,),
-                HtmlEditor(
+
+                  FlutterSummernote(
                     hint: AppLocalizations.of(context).translate("srt_des"),
-                    value: data['short_description'].toString(),
+                    value: widget.id.toString()!="0"?data['short_description'].toString():"",
                     key: keyEditor_short_des,
-                    height: 250,
+                    height: 350,
                   ),
+
                   Divider(thickness: 10.0,),
                   SizedBox(height: 20.0,),
+
                   new Row(
                     children: [
                       Expanded(flex: 1,
@@ -232,6 +231,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   }
   var data;
   List _list=new List();
+
   void GetData() async
   {
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
@@ -245,6 +245,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       {
         try
         {
+
           Dialogs.hideProgressDialog(context);
           data = json.decode(value.body);
           nameController.text=data['name'];
@@ -276,7 +277,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   {
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     String Url ="https://api.smartdatasystem.es/v1/sensors?apiKey=5ad97dec969a5d8c6f87d647601828bafebf1208f13d78e5c060ad4c3595a293";
-
     ApiController apiController = new ApiController.internal();
 
     if (await NetworkCheck.check())
@@ -422,7 +422,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   CategoryClickFeild() {
 
     return GestureDetector(
-
       child: TextFormField(
         style: TextStyle(fontSize: 18.0, color: Colors.black),
         readOnly: true,
@@ -453,6 +452,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         _toggle1();
       },);
   }
+
   String TAG="Create Product";
   void SubmitData() async
   {
@@ -460,10 +460,17 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       List a2=new List();
       List category_list=new List();
 
-      final description_text = await keyEditor.currentState.text;
-      final srt_description_text = await keyEditor_short_des.currentState.text;
+      String description_text_data =  keyEditor.currentState.text.toString();
+      String  srt_description_text_data =  keyEditor_short_des.currentState.text.toString();
 
-      print(description_text);
+      final txt = await keyEditor.currentState.getText();
+
+     print("txt---$txt");
+
+      print("descrip");
+      print(description_text_data);
+      print(srt_description_text_data);
+
       Map<String, String> mapobj_data2() => {'src': "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg"};
 
       for(int i=0;i<_list.length;i++)
@@ -472,47 +479,48 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         a1.add(mapobj_data1());
       }
 
-    a2.add(mapobj_data2());
-    category_list.add(Category_Id);
-    String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
-    String token = (await Utility.getStringPreference(GlobalConstant.token));
-    List meta_data_a1=new List();
-    Map<String, String> meta_data() => {'_wcfm_product_author': USER_ID};
-    Map<String, String> meta_data2() => {'_regular_price': priceController.text.toString()};
-    Map<String, String> meta_data3() => {'total_sales': "49"};
-    Map<String, String> meta_data4() => {'_tax_status': "taxable"};
-    Map<String, String> meta_data5() => {'_manage_stock': "no"};
-    Map<String, String> meta_data6() => {'_backorders': "no"};
-    Map<String, String> meta_data7() => {'_sold_individually': "no"};
-    Map<String, String> meta_data8() => {'_virtual': "yes"};
-    Map<String, String> meta_data9() => {'_downloadable': "no"};
-    Map<String, String> meta_data10() => {'_download_limit': "-1"};
-    Map<String, String> meta_data11() => {'_download_expiry': "-1"};
-    Map<String, String> meta_data12() => {'_stock': ""};
-    Map<String, String> meta_data13() => {'_wc_average_rating': "0"};
-    Map<String, String> meta_data14() => {'_wc_review_count': "0"};
-    Map<String, String> meta_data15() => {'_has_additional_costs': ""};
-    Map<String, String> meta_data16() => {'_wc_appointment_has_price_label': ""};
-    Map<String, String> meta_data17() => {'_wc_appointment_has_pricing': ""};
-    Map<String, String> meta_data18() => {'_wc_appointment_pricing': "a:0:{}"};
-    Map<String, String> meta_data19() => {'_wc_appointment_qty': "1"};
-    Map<String, String> meta_data20() => {'_wc_appointment_qty_min': "1"};
-    Map<String, String> meta_data21() => {'_wc_appointment_duration_unit': durationString};
-    Map<String, String> meta_data22() => {'_wc_appointment_duration': durationInt};
-    Map<String, String> meta_data23() => {'_wc_appointment_interval_unit': IntervalString};
-    Map<String, String> meta_data24() => {'_wc_appointment_interval': IntervalInt};
-    Map<String, String> meta_data25() => {'_wc_appointment_padding_duration_unit': PaddingTimeString};
-    Map<String, String> meta_data26() => {'_wc_appointment_padding_duration': PaddingTimeInt};
-    Map<String, String> meta_data27() => {'_wc_appointment_min_date_unit': "day"};
-    Map<String, String> meta_data28() => {'_wc_appointment_min_date': "0"};
-    Map<String, String> meta_data29() => {'_wc_appointment_max_date_unit': "month"};
-    Map<String, String> meta_data30() => {'_wc_appointment_max_date': "12"};
-    Map<String, String> meta_data31() => {'_wc_appointment_user_can_cancel': ""};
-    Map<String, String> meta_data32() => {'_wc_appointment_cancel_limit_unit': CancelString};
-    Map<String, String> meta_data33() => {'_wc_appointment_cancel_limit': CancelInt};
-    Map<String, String> meta_data34() => {'_wc_appointment_requires_confirmation': ""};
-    Map<String, String> meta_data35() => {'_wc_appointment_customer_timezones': "1"};
-    Map<String, String> meta_data36() => {'_wc_appointment_cal_color': "#0073aa"};
+          a2.add(mapobj_data2());
+          category_list.add(Category_Id);
+
+          String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
+          String token = (await Utility.getStringPreference(GlobalConstant.token));
+          List meta_data_a1=new List();
+          Map<String, String> meta_data() => {'_wcfm_product_author': USER_ID};
+          Map<String, String> meta_data2() => {'_regular_price': priceController.text.toString()};
+          Map<String, String> meta_data3() => {'total_sales': "49"};
+          Map<String, String> meta_data4() => {'_tax_status': "taxable"};
+          Map<String, String> meta_data5() => {'_manage_stock': "no"};
+          Map<String, String> meta_data6() => {'_backorders': "no"};
+          Map<String, String> meta_data7() => {'_sold_individually': "no"};
+          Map<String, String> meta_data8() => {'_virtual': "yes"};
+          Map<String, String> meta_data9() => {'_downloadable': "no"};
+          Map<String, String> meta_data10() => {'_download_limit': "-1"};
+          Map<String, String> meta_data11() => {'_download_expiry': "-1"};
+          Map<String, String> meta_data12() => {'_stock': ""};
+          Map<String, String> meta_data13() => {'_wc_average_rating': "0"};
+          Map<String, String> meta_data14() => {'_wc_review_count': "0"};
+          Map<String, String> meta_data15() => {'_has_additional_costs': ""};
+          Map<String, String> meta_data16() => {'_wc_appointment_has_price_label': ""};
+          Map<String, String> meta_data17() => {'_wc_appointment_has_pricing': ""};
+          Map<String, String> meta_data18() => {'_wc_appointment_pricing': "a:0:{}"};
+          Map<String, String> meta_data19() => {'_wc_appointment_qty': "1"};
+          Map<String, String> meta_data20() => {'_wc_appointment_qty_min': "1"};
+          Map<String, String> meta_data21() => {'_wc_appointment_duration_unit': durationString};
+          Map<String, String> meta_data22() => {'_wc_appointment_duration': durationInt};
+          Map<String, String> meta_data23() => {'_wc_appointment_interval_unit': IntervalString};
+          Map<String, String> meta_data24() => {'_wc_appointment_interval': IntervalInt};
+          Map<String, String> meta_data25() => {'_wc_appointment_padding_duration_unit': PaddingTimeString};
+          Map<String, String> meta_data26() => {'_wc_appointment_padding_duration': PaddingTimeInt};
+          Map<String, String> meta_data27() => {'_wc_appointment_min_date_unit': "day"};
+          Map<String, String> meta_data28() => {'_wc_appointment_min_date': "0"};
+          Map<String, String> meta_data29() => {'_wc_appointment_max_date_unit': "month"};
+          Map<String, String> meta_data30() => {'_wc_appointment_max_date': "12"};
+          Map<String, String> meta_data31() => {'_wc_appointment_user_can_cancel': ""};
+          Map<String, String> meta_data32() => {'_wc_appointment_cancel_limit_unit': CancelString};
+          Map<String, String> meta_data33() => {'_wc_appointment_cancel_limit': CancelInt};
+          Map<String, String> meta_data34() => {'_wc_appointment_requires_confirmation': ""};
+          Map<String, String> meta_data35() => {'_wc_appointment_customer_timezones': "1"};
+          Map<String, String> meta_data36() => {'_wc_appointment_cal_color': "#0073aa"};
 
     meta_data_a1.add(meta_data());
     meta_data_a1.add(meta_data2());
@@ -562,8 +570,8 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       'type': "appointment",
       'status':"publish",
       'regular_price': priceController.text.toString(),
-      'description':description_text.toString(),
-      'short_description': srt_description_text.toString(),
+      'description':description_text_data,
+      'short_description': srt_description_text_data,
       'gallery_images': a1,
       'featured_images': a2,
       'categories': category_list,
@@ -576,16 +584,16 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       {
         id=widget.id.toString();
       }
-
+      /*
     String Url=GlobalConstant.CommanUrlLogin+"wcfmmp/v1/products/"+id;
     ApiController apiController = new ApiController.internal();
-
     if(await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
       apiController.PostsNewWithToken(Url,json.encode(body),token).then((value)
       {
         var data1 = json.decode(value.body);
+
         try
         {
           Dialogs.hideProgressDialog(context);
@@ -599,7 +607,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       });
     } else {
       GlobalWidget.GetToast(context, "No Internet Connection");
-    }
+    }*/
   }
   ProductPrice() {
     return TextFormField(

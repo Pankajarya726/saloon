@@ -22,7 +22,6 @@ import 'VendorList/ProductDetailClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'VendorList/VendorDetailClass.dart';
 import 'language/AppLocalizations.dart';
-
 class CommonDashBord extends StatefulWidget {
   String From;
   bool back_icon;
@@ -36,7 +35,6 @@ class CommonDashBord extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return CommonView();
   }
 }
@@ -49,14 +47,17 @@ class CommonView extends State<CommonDashBord> {
  /*   SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.black));
 */
-    return new Scaffold(
-      appBar: GlobalWidget.getAppBar("" + getText(), context, widget.back_icon),
-      drawer: SideDrawer(),
-      key: _scaffoldKey,
-      body: getBody(),
-      bottomNavigationBar: getBottomView(),
+    return SafeArea(
+      child: new Scaffold(
+        appBar: GlobalWidget.getAppBar("" + getText(), context, widget.back_icon),
+        drawer: SideDrawer(),
+        key: _scaffoldKey,
+        body: getBody(),
+        bottomNavigationBar: getBottomView(),
+      ),
     );
   }
+
   getBottomView() {
     return new Container(
       padding: EdgeInsets.only(top: 10.0, left: 20.0, bottom: 10.0),
