@@ -111,6 +111,7 @@ Future<http.Response> PostsNewWithToken(String url,var body,String token) async 
 
     Utility.log(tag, "Api Call :\n $url ");
     Utility.log(tag, "Responsevaljson: " + body.toString());
+    Utility.log(tag, "Responsevaljson: " +token);
     var response = await http.post(url,
       body: body,
       headers: {
@@ -120,6 +121,7 @@ Future<http.Response> PostsNewWithToken(String url,var body,String token) async 
         'Authorization': 'Bearer $token'
       },
     );
+
     print("${response.statusCode}");
     print("${response.body}");
     return response;

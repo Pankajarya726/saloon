@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
              home: SplashActivity(),
-             //home: SearchCategory(),
+             //home: PayemntActivity(),
               //home: DateRangePicker(),
              //  home: SearchUsers(),
             //  home: RegularAccount("user"),

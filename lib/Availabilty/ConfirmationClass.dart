@@ -22,9 +22,7 @@ class Confirmation extends StatefulWidget
   String target_date = "";
   var mapbilling;
   var appointment;
-
   Confirmation(this.mapbilling, this.appointment);
-
   @override
   State<StatefulWidget> createState() {
     return ConfirmView();
@@ -47,6 +45,7 @@ class ConfirmView extends State<Confirmation>
               child: new ListView(
                 shrinkWrap: true,
                 children: [
+
                     new Container(
                       alignment: Alignment.center,
                       width: 100.0,
@@ -55,11 +54,12 @@ class ConfirmView extends State<Confirmation>
                         image: DecorationImage(
                           image: AssetImage('images/white_logo.png'),
                         ),
-                      )),
+                      )
+                    ),
 
-                      SizedBox(
-                        height: 30.0,
-                      ),
+                    SizedBox(
+                      height: 30.0,
+                    ),
 
                      new Container(
                         alignment: Alignment.center,
@@ -77,10 +77,11 @@ class ConfirmView extends State<Confirmation>
                       ),
                     ),
 
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  new Container(
+                    SizedBox(
+                      height: 30.0,
+                    ),
+
+                    new Container(
                     alignment: Alignment.center,
                     child: Text(
                       AppLocalizations.of(context).translate('See_you') +
@@ -123,16 +124,17 @@ class ConfirmView extends State<Confirmation>
             builder: (BuildContext context) =>
                 CommonDashBord("vendor_list", false)),
         ModalRoute.withName('/'));
+    /*return Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => CommonDashBord("my_appoint", true)));*/
     return Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => CommonDashBord("my_appoint", true)));
+        builder: (context) => CommonDashBord("my_order", true)));
   }
 
   Future<void> UpdateData1() async {
     List a1 = new List();
     List a2 = new List();
 
-    Map<String, dynamic> mapobj_meta() =>
-        {'key': "خيارات (100ر.س)", 'value': "قصير"};
+    Map<String, dynamic> mapobj_meta() => {'key': "خيارات (100ر.س)", 'value': "قصير"};
 
     Map<String, dynamic> mapobj_meta1() => {'key': "Location", 'value': "home"};
 
@@ -163,34 +165,44 @@ class ConfirmView extends State<Confirmation>
           "status": "processing",
           'billing': widget.mapbilling,
           'customer_id': USER_ID,
+          "_customer_user": USER_ID,
           'line_items': a1,
           'appointment': widget.appointment,
         };
 
     print("datatval2 ${json.encode(map2())}");
+    String url=GlobalConstant.CommanUrlLogin + "wc/v3/orders/";
+    url="http://salon.microband.site/wp-json/wc/v2/orders?";
     ApiController apiController = new ApiController.internal();
     GlobalFile globalFile = new GlobalFile();
-    if (await NetworkCheck.check()) {
+
+    if (await NetworkCheck.check())
+    {
       String token = (await Utility.getStringPreference(GlobalConstant.token));
       Dialogs.showProgressDialog(context);
       apiController.PostsNewWithToken(
-              GlobalConstant.CommanUrlLogin + "wc/v3/orders/",
+              url,
               json.encode(map2()),
-              token)
-          .then((value) async {
-        try {
+              token).then((value) async {
+        try
+        {
           Dialogs.hideProgressDialog(context);
-          var data1 = json.decode(value.body);
-          Navigator.of(context).push(
-              new MaterialPageRoute(builder: (_) => new PayemntActivity()));
-          /*
-         if (data1['status'] == 0)
+          try
           {
-           // products=data1['ds']['tables'][0]['rowsList'];
-          } else
+            var data1 = json.decode(value.body);
+          }catch(e)
           {
-            GlobalWidget.showMyDialog(context, "Error", data1['msg'].toString());
+
           }
+         // Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new PayemntActivity()));
+         /*
+             if (data1['status'] == 0)
+              {
+               // products=data1['ds']['tables'][0]['rowsList'];
+              } else
+              {
+                GlobalWidget.showMyDialog(context, "Error", data1['msg'].toString());
+              }
           */
         } catch (e) {
           GlobalWidget.showMyDialog(context, "Error", "" + e.toString());
@@ -208,14 +220,14 @@ class ConfirmView extends State<Confirmation>
   }
 
   var data;
-
   void SubmitData() async
   {
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     String Product_ID = (await Utility.getStringPreference(GlobalConstant.Product_ID));
     String Url = GlobalConstant.CommanUrl + "products/" + Product_ID;
     ApiController apiController = new ApiController.internal();
-    if (await NetworkCheck.check()) {
+    if (await NetworkCheck.check())
+    {
       Dialogs.showProgressDialog(context);
       apiController.GetWithMyToken(Url, token).then((value) {
         try {

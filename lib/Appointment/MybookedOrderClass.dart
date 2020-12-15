@@ -15,34 +15,38 @@ import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 import 'package:intl/intl.dart';
 
-class AppointmentActivity extends StatefulWidget
+class OrderActivity extends StatefulWidget
 {
   @override
   State<StatefulWidget> createState() {
-    return AppointmentView();
+    return OrderView();
   }
 }
 
-class AppointmentView extends State<AppointmentActivity>
+class OrderView extends State<OrderActivity>
 {
-  List<DataModel> _list=new List();
+  List<DataModel> _list = new List();
+
   @override
   Widget build(BuildContext context) {
    return WillPopScope(
        child:new Scaffold(
-        body: _list.length==0?GlobalWidget.getNoRecord(context): new Container(
+       body: _list.length==0 ? GlobalWidget.getNoRecord(context): new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+
               Expanded(flex: 9,
                 child: new ListView.builder
-                  (padding: EdgeInsets.only(top: 20.0),
+                  (
+                    padding: EdgeInsets.only(top: 20.0),
                     itemCount: _list.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return InkWell(
-                        onTap: (){
+                        onTap: ()
+                         {
                           /*
                           Navigator.of(context).push(new MaterialPageRoute(
                           builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
@@ -58,7 +62,7 @@ class AppointmentView extends State<AppointmentActivity>
     ));
   }
 
-  String TAG="AppointmentView";
+  String TAG="OrderView";
   void SubmitData() async
   {
    /*
@@ -70,7 +74,10 @@ class AppointmentView extends State<AppointmentActivity>
     };
     print("body$body");
    */
-    String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments";
+
+    String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
+
+    String Url = GlobalConstant.CommanUrlLogin+"wc-Orders/v1/Orders?customer_id="+USER_ID;
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check())
     {
@@ -108,6 +115,7 @@ class AppointmentView extends State<AppointmentActivity>
     {
       GlobalWidget.GetToast(context, "No Internet Connection");
     }
+
   }
 
   @override
@@ -190,7 +198,6 @@ class AppointmentView extends State<AppointmentActivity>
                   ),
                 ),
               ),
-
             ],
           ),
 

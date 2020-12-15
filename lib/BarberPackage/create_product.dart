@@ -10,9 +10,10 @@ import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-
-class CreateProduct extends StatefulWidget {
+class CreateProduct extends StatefulWidget
+{
     var id;
     CreateProduct(this.id);
     @override
@@ -49,6 +50,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
 
   AnimationController _controller;
   var _formKey=GlobalKey<FormState>();
+
   var nameController=TextEditingController();
   var priceController=TextEditingController();
   var desController=TextEditingController();
@@ -57,6 +59,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   @override
   void initState()
   {
+       // keyEditor.currentState.getTextJavascriptChannel.call(null).toString();
+       // keyEditor_short_des.currentState.getTextJavascriptChannel.call(null).toString();
+
       _controller = AnimationController(vsync: this);
       Utility.log(TAG, widget.id);
       if(widget.id.toString()!="0")
@@ -67,9 +72,20 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   }
 
   @override
-  void dispose() {
+  void dispose()
+  {
     _controller.dispose();
     super.dispose();
+  }
+
+  WebViewController _controller_web;
+  JavascriptChannel _toasterJavascriptChannel(BuildContext context) {
+    return JavascriptChannel(
+      name: 'Toaster',
+      onMessageReceived: (JavascriptMessage message) {
+        print('JavascriptMessage: ${message.message}');
+      },
+    );
   }
 
   @override
@@ -127,25 +143,30 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
                   SizedBox(height: 20.0,),
                   CategoryClickFeild(),
                   SizedBox(height: 20.0,),
-                  //ProductDescription(),
+                  ProductDescription(),
 
-                  FlutterSummernote(
+                  //add customer id in order api and get customer order
+
+                  /*FlutterSummernote(
                     hint: AppLocalizations.of(context).translate("des").toString(),
                     value:widget.id.toString()!="0"?data['description'].toString():"",
                     key: keyEditor,
 
                     height: 400,
                   ),
+*/
+                 // Divider(thickness:10.0,),
 
-                  Divider(thickness:10.0,),
                   SizedBox(height: 20.0,),
-
-                  FlutterSummernote(
+                  ProductSrtDescription(),
+/*
+                 FlutterSummernote(
                     hint: AppLocalizations.of(context).translate("srt_des"),
                     value: widget.id.toString()!="0"?data['short_description'].toString():"",
                     key: keyEditor_short_des,
                     height: 350,
                   ),
+*/
 
                   Divider(thickness: 10.0,),
                   SizedBox(height: 20.0,),
@@ -263,7 +284,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
           });
         }catch(e)
         {
-          // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
         }
       });
 
@@ -368,13 +388,32 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: desController,
       decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("des") ),
-      validator: (value) {
+      validator: (value)
+      {
         if (value.isEmpty)
         {
           return AppLocalizations.of(context).translate("Please_Enter");
         }
         return null;
       },
+    );
+  }
+
+  ProductWeb()
+  {
+    return Container(
+      height: 20,
+      child: WebView(
+        initialUrl: 'https://www.google.com',
+        javascriptMode: JavascriptMode.unrestricted,
+        javascriptChannels: [_toasterJavascriptChannel(context)].toSet(),
+        onWebViewCreated: (WebViewController container) {
+          _controller_web = container;
+        },
+        onPageFinished: (url) {
+          _controller_web.evaluateJavascript('User Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148');
+        },
+      ),
     );
   }
 
@@ -407,11 +446,10 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         {
           var data=json.decode(val);
           String name="${data['name']}";
-          String Id="${data['id']}";
+          String Id = "${data['id']}";
           categoryController.text=name;
           Category_Id=Id;
-          setState(() {
-          });
+          setState(() {});
         });
       }
     });
@@ -460,12 +498,14 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       List a2=new List();
       List category_list=new List();
 
-      String description_text_data =  keyEditor.currentState.text.toString();
-      String  srt_description_text_data =  keyEditor_short_des.currentState.text.toString();
+     /* String description_text_data =  keyEditor.currentState.text.toString();
+      String  srt_description_text_data =  keyEditor_short_des.currentState.text.toString();*/
 
-      final txt = await keyEditor.currentState.getText();
+      String description_text_data = desController.text.toString();
+      String  srt_description_text_data =  srt_desController.text.toString();
 
-     print("txt---$txt");
+      //final txt = await keyEditor.currentState.getText();
+      // print("txt---$txt");
 
       print("descrip");
       print(description_text_data);
@@ -584,7 +624,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       {
         id=widget.id.toString();
       }
-      /*
     String Url=GlobalConstant.CommanUrlLogin+"wcfmmp/v1/products/"+id;
     ApiController apiController = new ApiController.internal();
     if(await NetworkCheck.check())
@@ -593,7 +632,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       apiController.PostsNewWithToken(Url,json.encode(body),token).then((value)
       {
         var data1 = json.decode(value.body);
-
         try
         {
           Dialogs.hideProgressDialog(context);
@@ -607,8 +645,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
       });
     } else {
       GlobalWidget.GetToast(context, "No Internet Connection");
-    }*/
+    }
   }
+
   ProductPrice() {
     return TextFormField(
       style: TextStyle(fontSize: 18.0, color: Colors.black),

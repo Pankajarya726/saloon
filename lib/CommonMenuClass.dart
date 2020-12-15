@@ -9,6 +9,7 @@ import 'package:salon_app/Profile/edit_personal_info_class.dart';
 import 'package:salon_app/Profile/edit_other_detail.dart';
 import 'package:salon_app/VendorList/ProductClass.dart';
 import 'Appointment/AppointmentClass.dart';
+import 'Appointment/MybookedOrderClass.dart';
 import 'Availabilty/AvailabiltySchduleClass.dart';
 import 'BarberPackage/MyProductClass.dart';
 import 'BarberPackage/create_product.dart';
@@ -63,6 +64,7 @@ class CommonView extends State<CommonDashBord> {
       padding: EdgeInsets.only(top: 10.0, left: 20.0, bottom: 10.0),
       child: new Row(
         children: [
+
           Expanded(
             flex: 8,
             child: Text(
@@ -120,6 +122,9 @@ class CommonView extends State<CommonDashBord> {
         break;
       case "my_appoint":
         return AppointmentActivity();
+        break;
+      case "my_order":
+        return OrderActivity();
         break;
       case "add_product":
         return CreateProduct(widget.data);
