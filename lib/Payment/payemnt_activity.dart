@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
@@ -41,13 +42,13 @@ class _PayemntActivityState extends State<PayemntActivity>
 
 
 
-  /*
     Initiate Payment
-   */
+
+
   var _response;
   void initiatePayment() {
 
-   /* var request = new MFInitiatePaymentRequest(5.5, MFCurrencyISO.KUWAIT_KWD);
+ var request = new MFInitiatePaymentRequest(5.5, MFCurrencyISO.KUWAIT_KWD);
 
     MFSDK.initiatePayment(
         request,
@@ -68,19 +69,21 @@ class _PayemntActivityState extends State<PayemntActivity>
               })
             }
         });
-*/
+
+
     var request = new MFInitiatePaymentRequest(0.100, MFCurrencyISO.KUWAIT_KWD);
 
     MFSDK.initiatePayment(request, MFAPILanguage.EN,
             (MFResult<MFInitiatePaymentResponse> result) => {
 
-        /*  if(result.isSuccess()) {
+  if(result.isSuccess()) {
             print(result.response.toJson().toString())
           }
           else
           {
             print(result.error.message)
-          }*/
+          }
+
         });
     setState(() {
      // _response = _loading;
@@ -162,3 +165,4 @@ class _PayemntActivityState extends State<PayemntActivity>
   }
 
 }
+*/

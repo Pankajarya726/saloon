@@ -90,6 +90,9 @@
   "upload_image": "Upload Image",
   "select": "Select",
   "upload_txt": "Are you sure to upload this image ? ",
+  "order_dtl": "Order Detail",
+  "company": "Company",
+  "total": "Total",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 
 }

@@ -23,6 +23,7 @@ class Confirmation extends StatefulWidget
   var mapbilling;
   var appointment;
   Confirmation(this.mapbilling, this.appointment);
+
   @override
   State<StatefulWidget> createState() {
     return ConfirmView();
@@ -118,19 +119,24 @@ class ConfirmView extends State<Confirmation>
   }
 
   Future<bool> _onBackPressed() {
+
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) =>
                 CommonDashBord("vendor_list", false)),
         ModalRoute.withName('/'));
+
     /*return Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => CommonDashBord("my_appoint", true)));*/
+
     return Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => CommonDashBord("my_order", true)));
+
   }
 
-  Future<void> UpdateData1() async {
+  Future<void> UpdateData1() async
+  {
     List a1 = new List();
     List a2 = new List();
 
@@ -151,9 +157,7 @@ class ConfirmView extends State<Confirmation>
           'total': data['price'].toString(),
           'meta_data': a2,
         };
-
     a1.add(mapobj_items());
-
     /* Map<String, dynamic> map1() => {
       'line_items': a1,
     };*/
@@ -172,13 +176,13 @@ class ConfirmView extends State<Confirmation>
 
     print("datatval2 ${json.encode(map2())}");
     String url=GlobalConstant.CommanUrlLogin + "wc/v3/orders/";
-    url="http://salon.microband.site/wp-json/wc/v2/orders?";
+  //  url="http://salon.microband.site/wp-json/wc/v2/orders?";
+
     ApiController apiController = new ApiController.internal();
     GlobalFile globalFile = new GlobalFile();
-
     if (await NetworkCheck.check())
     {
-      String token = (await Utility.getStringPreference(GlobalConstant.token));
+      String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
       Dialogs.showProgressDialog(context);
       apiController.PostsNewWithToken(
               url,
@@ -248,10 +252,8 @@ class ConfirmView extends State<Confirmation>
   String Order_Time = "";
   String TAG = "Confirmation Class";
   Future<void> getLocalData() async {
-    widget.Barber_name =
-        (await Utility.getStringPreference(GlobalConstant.Order_Name));
-    widget.target_date =
-        (await Utility.getStringPreference(GlobalConstant.Order_Date));
+    widget.Barber_name = (await Utility.getStringPreference(GlobalConstant.Order_Name));
+    widget.target_date = (await Utility.getStringPreference(GlobalConstant.Order_Date));
     Order_Time = (await Utility.getStringPreference(GlobalConstant.Order_Time));
     Utility.log(TAG, widget.Barber_name);
     Utility.log(TAG, widget.target_date);

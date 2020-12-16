@@ -1,11 +1,14 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 
+*/
 /*
 TODO: The following data are using for testing only, so that when you go live
       don't forget to replace the following test credentials with the live
       credentials provided by MyFatoorah Company.
-*/
+*//*
+
 
 // Base Url
 final String baseUrl = "https://apitest.myfatoorah.com";
@@ -64,9 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
 //    MFSDK.setUpAppBar(isShowAppBar: false);
   }
 
-  /*
+  */
+/*
     Send Payment
-   */
+   *//*
+
   void sendPayment() {
     var request = MFSendPaymentRequest(
         invoiceValue: 0.100,
@@ -98,9 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /*
+  */
+/*
     Initiate Payment
-   */
+   *//*
+
   void initiatePayment() {
     var request = new MFInitiatePaymentRequest(5.5, MFCurrencyISO.KUWAIT_KWD);
     MFSDK.initiatePayment(
@@ -128,9 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /*
+  */
+/*
     Execute Regular Payment
-   */
+   *//*
+
   void executeRegularPayment() {
     // The value "1" is the paymentMethodId of KNET payment method.
     // You should call the "initiatePayment" API to can get this id and the ids of all other payment methods
@@ -166,9 +175,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /*
+  */
+/*
     Execute Direct Payment
-   */
+   *//*
+
   void executeDirectPayment() {
     // The value "2" is the paymentMethodId of Visa/Master payment method.
     // You should call the "initiatePayment" API to can get this id and the ids of all other payment methods
@@ -216,9 +227,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /*
+  */
+/*
     Execute Direct Payment with Recurring
-   */
+   *//*
+
   void executeDirectPaymentWithRecurring() {
     // The value "2" is the paymentMethodId of Visa/Master payment method.
     // You should call the "initiatePayment" API to can get this id and the ids of all other payment methods
@@ -267,9 +280,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /*
+  */
+/*
     Payment Enquiry
-   */
+   *//*
+
   void getPaymentStatus() {
     var request = MFPaymentStatusRequest(invoiceId: "12345");
 
@@ -298,9 +313,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /*
+  */
+/*
     Cancel Token
-   */
+   *//*
+
   void cancelToken() {
     MFSDK.cancelToken(
         "Put your token here",
@@ -327,9 +344,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  /*
+  */
+/*
     Cancel Recurring Payment
-   */
+   *//*
+
   void cancelRecurringPayment() {
     MFSDK.cancelRecurringPayment(
         "Put RecurringId here",
@@ -421,4 +440,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
+}*/

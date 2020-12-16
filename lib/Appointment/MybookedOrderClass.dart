@@ -31,13 +31,12 @@ class OrderView extends State<OrderActivity>
   Widget build(BuildContext context) {
    return WillPopScope(
        child:new Scaffold(
-       body: _list.length==0 ? GlobalWidget.getNoRecord(context): new Container(
+       body: _list.length == 0 ? GlobalWidget.getNoRecord(context): new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: new Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
               Expanded(flex: 9,
                 child: new ListView.builder
                   (
@@ -47,10 +46,11 @@ class OrderView extends State<OrderActivity>
                       return InkWell(
                         onTap: ()
                          {
-                          /*
-                          Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
-                         */
+                           Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) => new CommonDashBord("order_dtl", true,_list[index].data)));
+                           /*
+                            Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
+                           */
                           },
                         child: getData(index),
                       );
@@ -72,17 +72,17 @@ class OrderView extends State<OrderActivity>
       'status_id': _user.toString(),
       'salesman_comment': _description_controller.text.toString(),
     };
-    print("body$body");
    */
 
     String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
-
-    String Url = GlobalConstant.CommanUrlLogin+"wc-Orders/v1/Orders?customer_id="+USER_ID;
+    String url=GlobalConstant.CommanUrlLogin + "wc/v2/orders?customer=";
+    //String url="http://salon.microband.site/wp-json/wc/v2/orders?customer=";
+    String Url = url+USER_ID;
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      String token = (await Utility.getStringPreference(GlobalConstant.token));
+      String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
       apiController.GetWithMyToken(Url,token).then((value)
       {
         try
@@ -95,7 +95,7 @@ class OrderView extends State<OrderActivity>
           {
             for(int i=0;i<data1.length;i++)
             {
-              Utility.log(TAG, data1[i].toString());
+               Utility.log(TAG, data1[i].toString());
               _list.add(new DataModel(data1[i]));
             }
             setState(()
@@ -115,7 +115,6 @@ class OrderView extends State<OrderActivity>
     {
       GlobalWidget.GetToast(context, "No Internet Connection");
     }
-
   }
 
   @override
@@ -138,7 +137,7 @@ class OrderView extends State<OrderActivity>
                 child: new Container(
                   padding: EdgeInsets.all(5.0),
                   alignment: Alignment.center,
-                  child: Text(_list[index].data["order_id"].toString()),
+                  child: Text(_list[index].data["billing"]["first_name"].toString()),
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
@@ -147,7 +146,7 @@ class OrderView extends State<OrderActivity>
                   ),
                 ),),
 
-              Expanded(
+               Expanded(
                 flex: 8,
                 child: new Container(
                   child: Row(
@@ -157,43 +156,20 @@ class OrderView extends State<OrderActivity>
                         child: new Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(_list[index].data["status"],style: TextStyle(color: Colors.black,fontSize: 16.0),),
-                            Text("Customer Status : "+_list[index].data["customer_status"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),),
+
+                           Text(_list[index].data["line_items"][0]["name"].toString(),style: TextStyle(fontSize: 16.0),),
+                           Text(_list[index].data["status"],style: TextStyle(color: Colors.black,fontSize: 14.0),),
+                           Text("Order at : "+_list[index].data["date_created"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),),
                             // Text(_list[index].data["customer_status"]),
                           ],
                         ),
                       ),
                       SizedBox(width: 30.0,),
-                      Expanded(
-                        child: new Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children:
-                          [
-                            new Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Expanded(flex: 2,
-                                    child:  Icon(Icons.watch_later,color: Colors.grey,)),
-                                SizedBox(width: 4.0,),
-                                Expanded(flex: 8,
-                                  child:  Text(formatTimestamp(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
-                              ],
-                            ),
-                            new Row(
-                              children: [
-                              Expanded(flex: 2,
-                                  child:  Icon(Icons.date_range,color: Colors.grey)),
-                              SizedBox(width: 4.0,),
-                              Expanded(flex: 8,
-                                child:  Text(get_Dateval(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
-                            ],
-                          ),
-
                             /*
-                              Text(get_Dateval(_list[index].data["start"])),*/
+                              Text(get_Dateval(_list[index].data["start"])),*//*
                           ],
                         ),
-                      )
+                      )*/
                     ],
                   ),
                 ),

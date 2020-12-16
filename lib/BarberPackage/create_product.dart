@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_summernote/flutter_summernote.dart';
+//import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:salon_app/BarberPackage/gallery_activity.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/SearchModel/SearchCategory.dart';
@@ -25,9 +25,9 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
 {
 
   bool valuefirst = false;
-  final GlobalKey<FlutterSummernoteState> keyEditor = GlobalKey();
+ /* final GlobalKey<FlutterSummernoteState> keyEditor = GlobalKey();
   final GlobalKey<FlutterSummernoteState> keyEditor_short_des = GlobalKey();
-
+*/
   List <String> durationIntItems = GlobalConstant.GetIntItems();
   String durationInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> durationStringItems = GlobalConstant.GetStringItems();

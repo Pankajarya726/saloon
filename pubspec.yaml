@@ -30,14 +30,14 @@ dependencies:
   flutter_calendar_carousel:
   rxdart: 0.18.1
   loader_search_bar:
-  myfatoorah_flutter:
+  #myfatoorah_flutter:
   image_picker:
   carousel_slider:
   path:
   photo_view:
 #  html_editor: ^1.0.1
   #flutter_html_editor: ^1.0.0
-  flutter_summernote:
+ # flutter_summernote:
 
 dev_dependencies:
   flutter_test:

@@ -6,8 +6,6 @@ import 'Availabilty/AvailabiltyClass.dart';
 import 'Availabilty/ConfirmationClass.dart';
 import 'NearByBarber/FullScreenMap.dart';
 import 'NearByBarber/NearByClass.dart';
-import 'Payment/Payments.dart';
-import 'Payment/payemnt_activity.dart';
 import 'SearchModel/SearchCategory.dart';
 import 'SearchModel/SearchUsers.dart';
 import 'SignInSignUpAccount/RegularAccount.dart';

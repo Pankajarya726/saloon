@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:salon_app/Appointment/OrderDetailClass.dart';
 import 'package:salon_app/Availabilty/AvailabiltyClass.dart';
 import 'package:salon_app/BarberPackage/barber_home.dart';
 import 'package:salon_app/FaqsTerms/faqs_and_terms.dart';
@@ -23,6 +24,7 @@ import 'VendorList/ProductDetailClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'VendorList/VendorDetailClass.dart';
 import 'language/AppLocalizations.dart';
+
 class CommonDashBord extends StatefulWidget {
   String From;
   bool back_icon;
@@ -72,6 +74,7 @@ class CommonView extends State<CommonDashBord> {
               style: TextStyle(color: Colors.white, fontSize: 20.0),
             ),
           ),
+
           Expanded(
             flex: 2,
             child: InkWell(
@@ -147,11 +150,15 @@ class CommonView extends State<CommonDashBord> {
       case "my_feqs":
         return FaqsAndTerms();
         break;
+      case "order_dtl":
+        return OrderDetailActivity(widget.data);
+        break;
     }
   }
 
   String getText() {
-    switch (widget.From) {
+    switch (widget.From)
+    {
       case "vendor_list":
         if (roles == "wcfm_vendor") {
           return AppLocalizations.of(context).translate('barber_account');
@@ -197,6 +204,9 @@ class CommonView extends State<CommonDashBord> {
         break;
       case "my_feqs":
         return AppLocalizations.of(context).translate('feqs');
+        break;
+      case "order_dtl":
+        return AppLocalizations.of(context).translate('order_dtl');
         break;
       default:
         return AppLocalizations.of(context).translate('barber_account');
