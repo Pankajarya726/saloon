@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:salon_app/Appointment/OrderDetailClass.dart';
 import 'package:salon_app/Availabilty/AvailabiltyClass.dart';
 import 'package:salon_app/BarberPackage/barber_home.dart';
+import 'package:salon_app/CartPackage/GetCartItemClass.dart';
 import 'package:salon_app/FaqsTerms/faqs_and_terms.dart';
 import 'package:salon_app/Profile/edit_billing_detail.dart';
 import 'package:salon_app/Profile/edit_personal_info_class.dart';
@@ -149,6 +150,9 @@ class CommonView extends State<CommonDashBord> {
         break;
       case "my_feqs":
         return FaqsAndTerms();
+        break;
+      case "my_cart":
+        return CartActivity();
         break;
       case "order_dtl":
         return OrderDetailActivity(widget.data);

@@ -178,6 +178,40 @@ Future<http.Response> GetWithMyToken(String url,String token) async {
     return response;
 
   }
+Future<http.Response> DelWithMyToken(String url,String token) async {
+
+  Utility.log(tag, "Api Call :\n $url ");
+  Utility.log(tag, "Api Call :\n $token ");
+    var response = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 ( compatible )',
+        'Accept': '*/*',
+        'Authorization': 'Bearer $token'
+      },
+    );
+    print("${response.statusCode}");
+  Utility.log(tag,"${response.body}");
+    return response;
+
+  }
+Future<http.Response> Delt(String url) async {
+
+  Utility.log(tag, "Api Call :\n $url ");
+    var response = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'User-Agent': 'Mozilla/5.0 ( compatible )',
+        'Accept': '*/*',
+      },
+    );
+    print("${response.statusCode}");
+  Utility.log(tag,"${response.body}");
+    return response;
+
+  }
 Future<http.Response> DeleteWithMyToken(String url,String token) async {
 
   Utility.log(tag, "Api Call :\n $url ");

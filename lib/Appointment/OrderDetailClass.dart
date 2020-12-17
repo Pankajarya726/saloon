@@ -12,11 +12,12 @@ class OrderDetailActivity extends StatefulWidget
   State<StatefulWidget> createState() {
     return OrderDetailView();
   }
+
 }
 
 class OrderDetailView extends State<OrderDetailActivity>
 {
-  List AppointMent_List=new List();
+  List AppointMent_List = new List();
 
   @override
   Widget build(BuildContext context)
@@ -25,7 +26,8 @@ class OrderDetailView extends State<OrderDetailActivity>
       backgroundColor: Colors.white,
       body: new ListView(
         shrinkWrap: true,
-        children: [
+        children:
+        [
           new Container(
             padding: EdgeInsets.all(10.0),
             child: Row(
@@ -34,7 +36,9 @@ class OrderDetailView extends State<OrderDetailActivity>
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:
-                    [  Text(widget.data["line_items"][0]["name"].toString(),style: TextStyle(fontSize: 16.0),),
+                    [
+                      Text(widget.data["line_items"][0]["name"].toString(),style: TextStyle(fontSize: 16.0),),
+
                       SizedBox(height: 10,),
 
                       new Row(
@@ -43,8 +47,8 @@ class OrderDetailView extends State<OrderDetailActivity>
                           Expanded(child:  Text(widget.data["currency"]+" "+widget.data["total"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),textAlign: TextAlign.end,),),
                         ],
                       ),
-                      SizedBox(height: 10,),
 
+                      SizedBox(height: 10,),
 
                       new Row(
                        children: [
@@ -53,8 +57,6 @@ class OrderDetailView extends State<OrderDetailActivity>
                        ],
                      ),
 
-
-                    //  Divider(thickness: 2.0,),
                      ],
                   ),
                 ),
@@ -62,6 +64,7 @@ class OrderDetailView extends State<OrderDetailActivity>
               ],
             ),
           ),
+
           SizedBox(height: 20,),
 
           billingInfo(AppLocalizations.of(context).translate("firstName"),widget.data["billing"]["first_name"]),
@@ -100,6 +103,7 @@ class OrderDetailView extends State<OrderDetailActivity>
       children: [
         new Row(
           children: [
+
             Expanded(flex: 2,
               child: new Container(
                 padding: EdgeInsets.all(5.0),
@@ -122,6 +126,7 @@ class OrderDetailView extends State<OrderDetailActivity>
                 ],
               ),
             )
+
           ],
         ),
         Divider()
@@ -141,14 +146,13 @@ class OrderDetailView extends State<OrderDetailActivity>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           new Row(
-
             children:
             [
               Expanded(child: Text(title),),
               Expanded(child: Text(description,textAlign: TextAlign.end,),),
             ],
           ),
-         // SizedBox(height: 10,),
+
           Divider(thickness: 2.0,)
         ],
       ),

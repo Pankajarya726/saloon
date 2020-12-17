@@ -56,6 +56,16 @@ class SideDrawer extends StatelessWidget
                   },
                   child: getRow(AppLocalizations.of(context).translate('home')),
                 ),
+                 InkWell(
+                  onTap: ()
+                  {
+                      Navigator.of(context).pop();
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (BuildContext context) =>  CommonDashBord("my_cart",false)),
+                          ModalRoute.withName('/'));
+                  },
+                  child: getRow(AppLocalizations.of(context).translate('my_cart')),
+                ),
                 InkWell(
                   onTap: ()
                   {

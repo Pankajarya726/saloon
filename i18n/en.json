@@ -92,5 +92,9 @@
   "order_dtl": "Order Detail",
   "company": "Company",
   "total": "Total",
+  "book_date": "Booking Date",
+  "duration": "Duration",
+  "time": "Time",
+  "my_cart": "My Cart",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

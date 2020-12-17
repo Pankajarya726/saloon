@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:salon_app/CommonMenuClass.dart';
 import 'Appointment/AppointmentClass.dart';
 import 'Availabilty/AvailabiltyClass.dart';
 import 'Availabilty/ConfirmationClass.dart';
+import 'CartPackage/GetCartItemClass.dart';
 import 'NearByBarber/FullScreenMap.dart';
 import 'NearByBarber/NearByClass.dart';
 import 'SearchModel/SearchCategory.dart';
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
              home: SplashActivity(),
-             //home: PayemntActivity(),
+             //home: CommonDashBord("my_cart",false),
               //home: DateRangePicker(),
              //  home: SearchUsers(),
             //  home: RegularAccount("user"),

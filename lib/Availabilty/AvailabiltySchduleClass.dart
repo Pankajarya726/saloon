@@ -23,16 +23,12 @@ import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-
-
 class SchduledClassActivity extends StatefulWidget {
  
     var data;
-
     SchduledClassActivity(this.data);
-
-  @override
-  _SchduledClassActivityState createState() => new _SchduledClassActivityState();
+    @override
+    _SchduledClassActivityState createState() => new _SchduledClassActivityState();
 }
 
 class _SchduledClassActivityState extends State<SchduledClassActivity> {
@@ -43,9 +39,7 @@ class _SchduledClassActivityState extends State<SchduledClassActivity> {
         color: Colors.red,
         //borderRadius: BorderRadius.all(Radius.circular(2)),
         border: Border.all(color: Colors.blue, width: 1.0)),
-
   );
-
   String returnMonth(DateTime date) {
     return new DateFormat.MMMM().format(date).toUpperCase()+"  "+new DateFormat.y().format(date).toUpperCase();
   }
@@ -55,19 +49,15 @@ class _SchduledClassActivityState extends State<SchduledClassActivity> {
     /// Add more events to _markedDateMap EventList
     ///
     ///
-
-
      SubmitData();
-
     super.initState();
   }  var data;
-String _targetDateTime="";
+
+  String _targetDateTime="";
   List<String> litems = ["1","2","Third","4"];
   @override
   Widget build(BuildContext context) {
     data=widget.data['store'];
-
-
     return new Scaffold(
 
         body:  new Container(
@@ -77,15 +67,12 @@ String _targetDateTime="";
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Expanded(
-              child: data!=null?new Container(
-
+               child: data!=null?new Container(
                 decoration: BoxDecoration(
-
                     borderRadius: BorderRadius.circular(0),
                     color: Colors.black,
                     image: DecorationImage(
                         colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.9), BlendMode.dstATop),
-
                         image: new NetworkImage(
                             widget.data['images'][0]['src']
                         ),
@@ -155,7 +142,8 @@ String _targetDateTime="";
 
               Expanded(
                 child:   new ListView.builder
-                  (padding: EdgeInsets.only(top: 20.0),
+                  (
+                    padding: EdgeInsets.only(top: 20.0),
                     itemCount: litems.length,
                     itemBuilder: (BuildContext ctxt, int index) {
                       return InkWell(

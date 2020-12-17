@@ -11,6 +11,7 @@ import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
+
 class VendoeDetailActivity extends StatefulWidget {
   @override
   State<StatefulWidget> createState()
@@ -48,7 +49,6 @@ class DetailView extends State<VendoeDetailActivity> {
     };
     print("body$body");
    */
-
     String Verder_Id = (await Utility.getStringPreference(GlobalConstant.Verder_Id));
     String Url = GlobalConstant.CommanUrl + "store-vendors/"+Verder_Id;
 
@@ -57,14 +57,19 @@ class DetailView extends State<VendoeDetailActivity> {
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
       apiController.Get(Url).then((value) {
-        try {
+        try
+        {
           Dialogs.hideProgressDialog(context);
           var data1 = json.decode(value.body);
           data = data1;
           Utility.log(TAG, data1);
-          if (data1.length != 0) {
-            setState(() {});
-          } else {
+          if (data1.length != 0)
+          {
+            setState(() {
+
+            });
+          } else
+          {
             GlobalWidget.showMyDialog(context, "Error", data1.toString());
           }
         } catch (e) {

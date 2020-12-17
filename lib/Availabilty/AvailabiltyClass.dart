@@ -23,13 +23,11 @@ import 'package:salon_app/Profile/edit_billing_detail.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 import 'ConfirmationClass.dart';
-
 class AvailabiltyActivity extends StatefulWidget
 {
     var data_val;
     AvailabiltyActivity(this.data_val);
     final String title="cal";
-
     @override
     _AvailabiltyActivityState createState() => new _AvailabiltyActivityState();
 }
@@ -46,6 +44,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
   DateTime _targetDateTime =  DateTime(now1.year, now1.month, now1.day);
   String min_date=now1.year.toString()+"-"+now1.month.toString()+"-"+now1.day.toString();
   String max_date="";
+
    static Widget _eventIcon = new Container(
     decoration: new BoxDecoration(
         color: Colors.red,
@@ -53,7 +52,8 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         border: Border.all(color: Colors.blue, width: 1.0)),
   );
 
-  String returnMonth(DateTime date) {
+  String returnMonth(DateTime date)
+  {
     return new DateFormat.MMMM().format(date).toUpperCase()+"  "+new DateFormat.y().format(date).toUpperCase();
   }
 
@@ -84,16 +84,17 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         ),
       ],
       */
-
     },
   );
+
   CalendarCarousel  _calendarCarouselNoHeader;
   @override
   void initState()
   {
-    var today = new DateTime.now();
-    dateval=today;
-    var OneDaysFromNow = today.add(new Duration(days: 1));
+     removeCartData();
+     var today = new DateTime.now();
+     dateval=today;
+     var OneDaysFromNow = today.add(new Duration(days: 1));
      max_date=OneDaysFromNow.year.toString()+"-"+OneDaysFromNow.month.toString()+"-"+OneDaysFromNow.day.toString();
      data=widget.data_val['store'];
      setState(()
@@ -105,7 +106,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         new DateFormat.MMMM().format(today).toUpperCase()+" - "+
         new DateFormat.y().format(today).toUpperCase()+"  "+DateFormat('EEEE').format(today);
 
-    GetSlots();
+      GetSlots();
 
       for(int i=0;i<10;i++)
       {
@@ -120,7 +121,6 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
   String selected_date="";
   DateTime dateval;
   List<String> litems = ["1","2","Third","4"];
-
   @override
   Widget build(BuildContext context)
   {
@@ -143,14 +143,16 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         GetSlots();
         print(_currentDate2);
 
-       /* Utility.setStringPreference(GlobalConstant.Selected_Date, selected_date);
+       /*
+        Utility.setStringPreference(GlobalConstant.Selected_Date, selected_date);
         Navigator.of(context).push(new MaterialPageRoute(
-            builder: (_) => new CommonDashBord("booking_page",true,widget.data_val)));*/
+            builder: (_) => new CommonDashBord("booking_page",true,widget.data_val)));
+            */
       /*  events.forEach((event){
           products.add(_currentDate2);
         });*/
-
       },
+
       daysHaveCircularBorder: false,
       showOnlyCurrentMonthDate: false,
       weekendTextStyle: TextStyle(
@@ -205,6 +207,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
           _currentMonth = DateFormat.yMMM().format(_targetDateTime);
         });
       },
+
       onDayLongPressed: (DateTime date)
       {
         print('long pressed date $date');
@@ -217,8 +220,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
           child: ListView(
             controller: _scrollController,
             children: <Widget>[
-
-              data!=null?new Container(
+              data!=null? new Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),
                     color: Colors.black,
@@ -233,7 +235,6 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
 
                 child: new Column(
                   children: [
-
                     new Container(
                       height: 10.0,
                     ),
@@ -247,7 +248,6 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                     ),
 
                     SizedBox(height: 10.0,),
-
                     data['vendor_shop_logo']!=null?new InkWell(
                       onTap: ()
                       {
@@ -263,6 +263,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         ),
                       ),
                     ):new Container(),
+
                     SizedBox(height: 10.0,),
 
                     Container(
@@ -272,11 +273,13 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         style: TextStyle(fontSize: 14.0, color: Colors.white),
                       ),
                     ),
+
                     Container(
                       alignment: Alignment.center,
                       child: new Text(GlobalFile.getCaptialize(data['vendor_address']),
                         style: TextStyle(fontSize: 14.0, color: Colors.white),textAlign: TextAlign.center,),
                     ),
+
                     SizedBox(height: 10.0,),
 
                     /*
@@ -290,7 +293,6 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                   ],
                 ),
               ):new Container(),
-
 
               Container(
                 padding: EdgeInsets.all(20.0),
@@ -332,8 +334,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         )
                     ),
                     Expanded(flex: 1,
-                      child:
-                      FlatButton(
+                      child: FlatButton(
                         child: Icon(Icons.arrow_forward_ios,size: 20.0,),
                         onPressed: () {
                           setState(() {
@@ -364,10 +365,9 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         Utility.setStringPreference(GlobalConstant.Order_Time, AppointMent_List[index].date);
                         var dateinmilli=dateval.millisecondsSinceEpoch;
                         var timezone=dateval.toUtc();
-                        print(dateval);
-                        print(timezone);
-
-                        Map<String, dynamic> appointment() =>
+                       // removeCartData();
+                        addCartData(index);
+                         /*   Map<String, dynamic> appointment() =>
                             {
                               "timezone" : "Asia/Karachi",
                               "time" : AppointMent_List[index].date,
@@ -378,11 +378,13 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                               "duration" : "60",
                               "cost" : "5"
                             };
-                           //print(appointment());
-                           /* Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (_) => new Confirmation( )));
+
+                           print(appointment());*/
+                           /*
+                            Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation()));
                           */
-                       getExistData(appointment());
+                      //  getExistData(appointment());
+
                       },
                       child: getData(index),
                     );
@@ -391,7 +393,6 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
           ),
         ));
   }
-
 
   var profile;
 
@@ -430,8 +431,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                       Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray)));
                     }
                   });
-                }else
-                {
+                }else{
                   Map<String, dynamic> mapBilling() => {
                     "first_name" : profile['meta']['first_name'][0],
                     "last_name" :  profile['meta']['last_name'][0],
@@ -462,47 +462,113 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
           }
         } catch (e)
         {
+
         }
       });
     } else {
       GlobalWidget.GetToast(context, "No Internet Connection");
     }
   }
-
-  void addCartData(var index) async
+  void removeCartData() async
   {
-    //nkln
-    Map<String, dynamic> body =
-    {
-    "id":widget.data_val['id'],
-    "qty":1,
-    "wc_appointments_field_timezone":"Asia/Riyadh",
-    "wc_appointments_field_start_date_month":serevr_month,
-    "wc_appointments_field_start_date_day":serevr_day,
-    "wc_appointments_field_start_date_year":serevr_year,
-    "wc_appointments_field_start_date_time":AppointMent_List[index].date,
-    "wc_appointments_field_addons_duration":0,
-    "wc_appointments_field_addons_cost":0,
-    "add-to-cart":widget.data_val['id'],
-    };
-
-    String store_id = (await Utility.getStringPreference(GlobalConstant.store_id));
     String token = (await Utility.getStringPreference(GlobalConstant.token));
-    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/cart/add-item";
+    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/cart/empty-cart";
     String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
+
 
     ApiController apiController = new ApiController.internal();
 
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.PostsNewWithToken(Url,body,token).then((value)
+     // apiController.DelWithMyToken(Url,token).then((value)
+      apiController.Delt(Url).then((value)
       {
         try
         {
           Dialogs.hideProgressDialog(context);
           var data1 = json.decode(value.body);
-          // data = data1;
+        } catch (e)
+        {
+
+        }
+      });
+    } else {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
+  void addCartData(var index) async
+  {
+    //nkln
+    Map<String, dynamic> body =
+    {
+   /* "id":widget.data_val['id'],
+    "qty":1,
+    "wc_appointments_field_timezone":"Asia/Karachi",
+    "wc_appointments_field_start_date_month":int.parse(serevr_month),
+    "wc_appointments_field_start_date_day":int.parse(serevr_day),
+    "wc_appointments_field_start_date_year":int.parse(serevr_year),
+    "wc_appointments_field_start_date_time":"14:00",
+    "wc_appointments_field_addons_duration":0,
+    "wc_appointments_field_addons_cost":0,
+    "add-to-cart":widget.data_val['id'],*/
+
+    "id":widget.data_val['id'].toString(),
+    "qty":1,
+    "wc_appointments_field_timezone":"Asia/Karachi",
+    "wc_appointments_field_start_date_month":serevr_month,
+    "wc_appointments_field_start_date_day":serevr_day,
+    "wc_appointments_field_start_date_year":2020,
+    "wc_appointments_field_start_date_time":AppointMent_List[index].data,
+    "wc_appointments_field_addons_duration":0,
+    "wc_appointments_field_addons_cost":0,
+    "add-to-cart":widget.data_val['id'].toString()
+    };
+
+    String store_id = (await Utility.getStringPreference(GlobalConstant.store_id));
+    String token = (await Utility.getStringPreference(GlobalConstant.token));
+    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/cart/add-item";
+    String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
+    print(widget.data_val['id'].toString());
+
+    Map<String, String> headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+      'Authorization': 'Bearer $token'};
+    // make POST request
+    var response = await http.post(Url, headers: headers, body:
+    {
+      "id":widget.data_val['id'].toString(),
+      "qty":"1",
+      "wc_appointments_field_timezone":"Asia/Karachi",
+      "wc_appointments_field_start_date_month":serevr_month,
+      "wc_appointments_field_start_date_day":serevr_day,
+      "wc_appointments_field_start_date_year":serevr_year,
+      "wc_appointments_field_start_date_time":"14:00",
+      "wc_appointments_field_addons_duration":"0",
+      "wc_appointments_field_addons_cost":"0",
+      "add-to-cart":widget.data_val['id'].toString(),
+    });
+    // check the status code for the result
+    print(response.body);
+    GlobalWidget.GetToast(context, response.body);
+    int statusCode = response.statusCode;
+    // this API passes back the id of the new item added to the body
+    String body1 = response.body;
+/*
+    ApiController apiController = new ApiController.internal();
+    print(json.encode(body));
+    if (await NetworkCheck.check())
+    {
+      Dialogs.showProgressDialog(context);
+      apiController.PostsNewWithToken(Url,body,token).then((value)
+     // apiController.PostsNew(Url,json.encode(body)).then((value)
+      {
+        try
+        {
+          Dialogs.hideProgressDialog(context);
+
+          GlobalWidget.GetToast(context, value.body);
+          var data1 = json.decode(value.body);
 
         } catch (e)
         {
@@ -510,7 +576,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
       });
     } else {
       GlobalWidget.GetToast(context, "No Internet Connection");
-    }
+    }*/
   }
 
   getData(int index) {
@@ -578,11 +644,11 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                  print(date.split("T"));
                  var array_val=date.split("T");
                  var dateTime = DateFormat.jm().format(DateFormat("hh:mm").parse("${array_val[1]}"));
-                 AppointMent_List.add(new Datamodel("${dateTime}", data[i]));
+                 print(dateTime);
+                 AppointMent_List.add(new Datamodel("${dateTime}", "${array_val[1]}"));
                }
             setState(()
             {
-
               //Timer(Duration(seconds: 1), () => _scrollController.jumpTo(_scrollController.position.maxScrollExtent),);
             });
           } else {
