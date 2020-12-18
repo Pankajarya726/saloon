@@ -46,11 +46,12 @@ class OrderView extends State<OrderActivity>
                       return InkWell(
                         onTap: ()
                          {
-                           Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) => new CommonDashBord("order_dtl", true,_list[index].data)));
+                           Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("order_dtl", true,_list[index].data)));
                            /*
                             Navigator.of(context).push(new MaterialPageRoute(
                             builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
                            */
+
                           },
                         child: getData(index),
                       );

@@ -72,21 +72,23 @@ class AccView extends State<RegularAccount>
                 shrinkWrap: true,
                 padding: GlobalWidget.getpadding(),
                 children: <Widget>[
-
                   NameFeild(),
                   GlobalWidget.sizeBox1(),
                   EmailFeild(),
                   GlobalWidget.sizeBox1(),
-                  widget.from=="barber"? new Column(
-                    children: [
-                      BarberShopFeild(),
-                      GlobalWidget.sizeBox1(),
-                    ],
-                  ):new Container(),
+
+                    widget.from=="barber"? new Column(
+                      children: [
+                        BarberShopFeild(),
+                        GlobalWidget.sizeBox1(),
+                      ],
+                    ):new Container(),
+
                   UserIdFeild(),
                   GlobalWidget.sizeBox1(),
                   UserPinFeild(),
                   GlobalWidget.sizeBox1(),
+
                   new Row(
                     children: [
                       Expanded(
@@ -305,6 +307,7 @@ class AccView extends State<RegularAccount>
       ),
     );
   }
+
   GetOTPButton() {
 
     return new Container(

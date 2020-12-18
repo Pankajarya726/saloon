@@ -12,7 +12,6 @@ class OrderDetailActivity extends StatefulWidget
   State<StatefulWidget> createState() {
     return OrderDetailView();
   }
-
 }
 
 class OrderDetailView extends State<OrderDetailActivity>

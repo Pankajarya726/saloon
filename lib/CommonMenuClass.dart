@@ -27,6 +27,7 @@ import 'VendorList/VendorDetailClass.dart';
 import 'language/AppLocalizations.dart';
 
 class CommonDashBord extends StatefulWidget {
+
   String From;
   bool back_icon;
   var data;
@@ -42,19 +43,15 @@ class CommonDashBord extends StatefulWidget {
     return CommonView();
   }
 }
-
 class CommonView extends State<CommonDashBord> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
- /*   SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Colors.black));
-*/
     return SafeArea(
       child: new Scaffold(
         appBar: GlobalWidget.getAppBar("" + getText(), context, widget.back_icon),
-        drawer: SideDrawer(),
+        drawer: SideDrawer(roles),
         key: _scaffoldKey,
         body: getBody(),
         bottomNavigationBar: getBottomView(),
@@ -160,7 +157,8 @@ class CommonView extends State<CommonDashBord> {
     }
   }
 
-  String getText() {
+  String getText()
+  {
     switch (widget.From)
     {
       case "vendor_list":
@@ -225,7 +223,6 @@ class CommonView extends State<CommonDashBord> {
   }
 
   String roles = "";
-
   Future<String> getRole() async {
     roles = await Utility.getStringPreference(GlobalConstant.roles);
     setState(() {

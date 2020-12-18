@@ -28,6 +28,7 @@ class AvailabiltyActivity extends StatefulWidget
     var data_val;
     AvailabiltyActivity(this.data_val);
     final String title="cal";
+
     @override
     _AvailabiltyActivityState createState() => new _AvailabiltyActivityState();
 }
@@ -91,7 +92,6 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
   @override
   void initState()
   {
-     removeCartData();
      var today = new DateTime.now();
      dateval=today;
      var OneDaysFromNow = today.add(new Duration(days: 1));
@@ -101,17 +101,11 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
      {
      });
 
-    setServerDate(today);
-    selected_date = new DateFormat.d().format(today).toUpperCase()+" - "+
-        new DateFormat.MMMM().format(today).toUpperCase()+" - "+
-        new DateFormat.y().format(today).toUpperCase()+"  "+DateFormat('EEEE').format(today);
-
+      setServerDate(today);
+      selected_date = new DateFormat.d().format(today).toUpperCase()+" - "+ new DateFormat.MMMM().format(today).toUpperCase()+" - "+ new DateFormat.y().format(today).toUpperCase()+"  "+DateFormat('EEEE').format(today);
       GetSlots();
 
-      for(int i=0;i<10;i++)
-      {
-        products.add("i $i");
-      }
+
     setState(() {
     });
     super.initState();
@@ -121,6 +115,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
   String selected_date="";
   DateTime dateval;
   List<String> litems = ["1","2","Third","4"];
+
   @override
   Widget build(BuildContext context)
   {
@@ -148,6 +143,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         Navigator.of(context).push(new MaterialPageRoute(
             builder: (_) => new CommonDashBord("booking_page",true,widget.data_val)));
             */
+
       /*  events.forEach((event){
           products.add(_currentDate2);
         });*/
@@ -173,8 +169,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
       weekDayBackgroundColor: Colors.grey[200],
         weekDayPadding: EdgeInsets.all(8.0),
         weekdayTextStyle: TextStyle(color: Colors.black,fontSize: 10.0),
-      markedDateCustomTextStyle:
-      TextStyle(
+      markedDateCustomTextStyle: TextStyle(
         fontSize: 16,
         color: Colors.blue,
       ),
@@ -196,18 +191,21 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         fontSize: 16,
         color: Colors.pinkAccent,
       ),
-      inactiveDaysTextStyle: TextStyle(
+
+        inactiveDaysTextStyle: TextStyle(
         color: Colors.tealAccent,
         fontSize: 12,
       ),
+
       showHeader: false,
-      onCalendarChanged: (DateTime date) {
-        this.setState(() {
+      onCalendarChanged: (DateTime date)
+      {
+        this.setState(()
+        {
           _targetDateTime = date;
           _currentMonth = DateFormat.yMMM().format(_targetDateTime);
         });
       },
-
       onDayLongPressed: (DateTime date)
       {
         print('long pressed date $date');
@@ -220,6 +218,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
           child: ListView(
             controller: _scrollController,
             children: <Widget>[
+
               data!=null? new Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),
@@ -227,6 +226,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                     image: DecorationImage(
                         colorFilter: new ColorFilter.mode(Colors.grey.withOpacity(0.6), BlendMode.dstATop),
                         image: new NetworkImage(
+
                             widget.data_val['images'][0]['src']
                         ),
                         fit: BoxFit.fill
@@ -235,6 +235,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
 
                 child: new Column(
                   children: [
+
                     new Container(
                       height: 10.0,
                     ),
@@ -289,7 +290,9 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         "10:00 AM to 8:00 PM ",
                         style: TextStyle(fontSize: 14.0, color: Colors.blue),
                       ),
-                    ),*/
+                    ),
+                    */
+
                   ],
                 ),
               ):new Container(),
@@ -333,6 +336,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                           ),
                         )
                     ),
+
                     Expanded(flex: 1,
                       child: FlatButton(
                         child: Icon(Icons.arrow_forward_ios,size: 20.0,),
@@ -366,7 +370,9 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         var dateinmilli=dateval.millisecondsSinceEpoch;
                         var timezone=dateval.toUtc();
                        // removeCartData();
-                        addCartData(index);
+
+                       addCartData(index);
+
                          /*   Map<String, dynamic> appointment() =>
                             {
                               "timezone" : "Asia/Karachi",
@@ -469,61 +475,9 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
       GlobalWidget.GetToast(context, "No Internet Connection");
     }
   }
-  void removeCartData() async
-  {
-    String token = (await Utility.getStringPreference(GlobalConstant.token));
-    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/cart/empty-cart";
-    String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
 
-
-    ApiController apiController = new ApiController.internal();
-
-    if (await NetworkCheck.check())
-    {
-      Dialogs.showProgressDialog(context);
-     // apiController.DelWithMyToken(Url,token).then((value)
-      apiController.Delt(Url).then((value)
-      {
-        try
-        {
-          Dialogs.hideProgressDialog(context);
-          var data1 = json.decode(value.body);
-        } catch (e)
-        {
-
-        }
-      });
-    } else {
-      GlobalWidget.GetToast(context, "No Internet Connection");
-    }
-  }
   void addCartData(var index) async
   {
-    //nkln
-    Map<String, dynamic> body =
-    {
-   /* "id":widget.data_val['id'],
-    "qty":1,
-    "wc_appointments_field_timezone":"Asia/Karachi",
-    "wc_appointments_field_start_date_month":int.parse(serevr_month),
-    "wc_appointments_field_start_date_day":int.parse(serevr_day),
-    "wc_appointments_field_start_date_year":int.parse(serevr_year),
-    "wc_appointments_field_start_date_time":"14:00",
-    "wc_appointments_field_addons_duration":0,
-    "wc_appointments_field_addons_cost":0,
-    "add-to-cart":widget.data_val['id'],*/
-
-    "id":widget.data_val['id'].toString(),
-    "qty":1,
-    "wc_appointments_field_timezone":"Asia/Karachi",
-    "wc_appointments_field_start_date_month":serevr_month,
-    "wc_appointments_field_start_date_day":serevr_day,
-    "wc_appointments_field_start_date_year":2020,
-    "wc_appointments_field_start_date_time":AppointMent_List[index].data,
-    "wc_appointments_field_addons_duration":0,
-    "wc_appointments_field_addons_cost":0,
-    "add-to-cart":widget.data_val['id'].toString()
-    };
 
     String store_id = (await Utility.getStringPreference(GlobalConstant.store_id));
     String token = (await Utility.getStringPreference(GlobalConstant.token));
@@ -533,50 +487,39 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
 
     Map<String, String> headers = {
       "Content-Type": "application/x-www-form-urlencoded",
-      'Authorization': 'Bearer $token'};
-    // make POST request
-    var response = await http.post(Url, headers: headers, body:
-    {
-      "id":widget.data_val['id'].toString(),
-      "qty":"1",
-      "wc_appointments_field_timezone":"Asia/Karachi",
-      "wc_appointments_field_start_date_month":serevr_month,
-      "wc_appointments_field_start_date_day":serevr_day,
-      "wc_appointments_field_start_date_year":serevr_year,
-      "wc_appointments_field_start_date_time":"14:00",
-      "wc_appointments_field_addons_duration":"0",
-      "wc_appointments_field_addons_cost":"0",
-      "add-to-cart":widget.data_val['id'].toString(),
-    });
-    // check the status code for the result
-    print(response.body);
-    GlobalWidget.GetToast(context, response.body);
-    int statusCode = response.statusCode;
-    // this API passes back the id of the new item added to the body
-    String body1 = response.body;
-/*
-    ApiController apiController = new ApiController.internal();
-    print(json.encode(body));
+      'Authorization': 'Bearer $token'
+    };
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.PostsNewWithToken(Url,body,token).then((value)
-     // apiController.PostsNew(Url,json.encode(body)).then((value)
+
+      var response = await http.post(Url, headers: headers, body:
       {
-        try
-        {
-          Dialogs.hideProgressDialog(context);
-
-          GlobalWidget.GetToast(context, value.body);
-          var data1 = json.decode(value.body);
-
-        } catch (e)
-        {
-        }
+        "id":widget.data_val['id'].toString(),
+        "qty":"1",
+        "wc_appointments_field_timezone":"Asia/Karachi",
+        "wc_appointments_field_start_date_month":serevr_month,
+        "wc_appointments_field_start_date_day":serevr_day,
+        "wc_appointments_field_start_date_year":serevr_year,
+        "wc_appointments_field_start_date_time":"14:00",
+        "wc_appointments_field_addons_duration":"0",
+        "wc_appointments_field_addons_cost":"0",
+        "add-to-cart":widget.data_val['id'].toString(),
       });
-    } else {
+      // check the status code for the result
+      print(response.body);
+      Dialogs.hideProgressDialog(context);
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (_) => new CommonDashBord("my_cart",true)));
+     // GlobalWidget.GetToast(context, response.body);
+      int statusCode = response.statusCode;
+      // this API passes back the id of the new item added to the body
+      String body1 = response.body;
+    }else
+    {
       GlobalWidget.GetToast(context, "No Internet Connection");
-    }*/
+    }
+
   }
 
   getData(int index) {
@@ -620,9 +563,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
     AppointMent_List=new List();
     setState(()
     {
-
     });
-
     String Verder_Id = (await Utility.getStringPreference(GlobalConstant.Verder_Id));
     String Url = GlobalConstant.CommanUrlLogin + "wc-appointments/v1/slots/?product_ids=${widget.data_val['id']}&min_date=$min_date&max_date=$max_date";
     ApiController apiController = new ApiController.internal();
@@ -651,7 +592,8 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
             {
               //Timer(Duration(seconds: 1), () => _scrollController.jumpTo(_scrollController.position.maxScrollExtent),);
             });
-          } else {
+          } else
+          {
             GlobalWidget.showMyDialog(context, "Error", data1.toString());
           }
         } catch (e) {
@@ -663,7 +605,8 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
     }
   }
 
-  void setServerDate(DateTime today) {
+  void setServerDate(DateTime today)
+  {
     serevr_day=new DateFormat.d().format(today).toUpperCase();
     serevr_month= new DateFormat.M().format(today).toUpperCase();
     serevr_year= new DateFormat.y().format(today).toUpperCase();

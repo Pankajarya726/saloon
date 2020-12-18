@@ -495,7 +495,6 @@ class DetailView extends State<VendoeDetailActivity> {
           child: SingleChildScrollView(
             child: Html(
               data: data['vendor_description'],
-
               onLinkTap: (url) {
                 print("Opening $url...");
               },
@@ -528,16 +527,13 @@ class DetailView extends State<VendoeDetailActivity> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-
-                            new Container(
+                        new Container(
                               width: 40.0,
                               margin: EdgeInsets.only(right: 10.0),
                               alignment: Alignment.topRight,
                               child: FlatButton(
-
                                   child: Icon(Icons.clear,color: Colors.white,size: 35.0,),
                                   onPressed: () {
-
                                     Navigator.of(context).pop();
                                   }),
                             ),

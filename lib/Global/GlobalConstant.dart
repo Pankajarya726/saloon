@@ -14,6 +14,7 @@ class GlobalConstant
   static String Order_Name="order_name";
   static String Order_Date="order_date";
   static String Order_Time="order_time";
+  static String Order_Product_Id="order_product_id";
   static String User_Email="user_email";
   static String Selected_Date="selected_date";
   static String token="token";

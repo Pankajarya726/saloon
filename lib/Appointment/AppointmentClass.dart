@@ -14,7 +14,6 @@ import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 import 'package:intl/intl.dart';
-
 class AppointmentActivity extends StatefulWidget
 {
   @override

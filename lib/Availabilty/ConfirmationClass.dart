@@ -194,6 +194,8 @@ class ConfirmView extends State<Confirmation>
           try
           {
             var data1 = json.decode(value.body);
+
+            removeCartData();
           }catch(e)
           {
 
@@ -221,13 +223,15 @@ class ConfirmView extends State<Confirmation>
   void initState() {
     getLocalData();
     SubmitData();
+
   }
 
   var data;
   void SubmitData() async
   {
+
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
-    String Product_ID = (await Utility.getStringPreference(GlobalConstant.Product_ID));
+    String Product_ID = (await Utility.getStringPreference(GlobalConstant.Order_Product_Id));
     String Url = GlobalConstant.CommanUrl + "products/" + Product_ID;
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check())
@@ -242,6 +246,34 @@ class ConfirmView extends State<Confirmation>
           });
         } catch (e) {
           // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+        }
+      });
+    } else {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
+
+
+  void removeCartData() async
+  {
+
+    String Product_ID = (await Utility.getStringPreference(GlobalConstant.Order_Product_Id));
+    String token = (await Utility.getStringPreference(GlobalConstant.token));
+    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/cart/remove-item?id="+Product_ID;
+    ApiController apiController = new ApiController.internal();
+
+    if (await NetworkCheck.check())
+    {
+     // Dialogs.showProgressDialog(context);
+      apiController.DelWithMyToken(Url,token).then((value)
+      //apiController.Delt(Url).then((value)
+      {
+        try
+        {
+         // Dialogs.hideProgressDialog(context);
+
+        } catch (e)
+        {
         }
       });
     } else {

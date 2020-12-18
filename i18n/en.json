@@ -95,6 +95,10 @@
   "book_date": "Booking Date",
   "duration": "Duration",
   "time": "Time",
-  "my_cart": "My Cart",
+  "my_cart": "MY CART",
+  "check_out": "CHECK OUT",
+  "empty_cart": "Empty Cart",
+  "my_order": "MY ORDER",
+  "remov_msg": "You want to remove this item from cart",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

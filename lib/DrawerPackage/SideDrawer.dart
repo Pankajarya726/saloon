@@ -9,6 +9,10 @@ import '../CommonMenuClass.dart';
 
 class SideDrawer extends StatelessWidget
 {
+  String roles="";
+
+  SideDrawer(this.roles);
+
   @override
   Widget build(BuildContext context)
   {
@@ -56,16 +60,18 @@ class SideDrawer extends StatelessWidget
                   },
                   child: getRow(AppLocalizations.of(context).translate('home')),
                 ),
-                 InkWell(
+
+                roles != "wcfm_vendor"?
+                InkWell(
                   onTap: ()
                   {
                       Navigator.of(context).pop();
                       Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) =>  CommonDashBord("my_cart",false)),
+                          MaterialPageRoute(builder: (BuildContext context) =>  CommonDashBord("my_cart",true)),
                           ModalRoute.withName('/'));
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_cart')),
-                ),
+                ):new Container(),
                 InkWell(
                   onTap: ()
                   {
@@ -75,7 +81,8 @@ class SideDrawer extends StatelessWidget
                   },
                   child: getRow(AppLocalizations.of(context).translate('Barber_near')),
                 ),
-                InkWell(
+
+               InkWell(
                   onTap: ()
                   {
                       Navigator.of(context).pop();
@@ -83,15 +90,23 @@ class SideDrawer extends StatelessWidget
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_acc')),
                 ),
-                InkWell(
+                roles != "wcfm_vendor"? InkWell(
                   onTap: ()
                   {
                       Navigator.of(context).pop();
-               //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommonDashBord("my_appoint", true)));
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommonDashBord("my_order", true)));
                   },
+                  child: getRow(AppLocalizations.of(context).translate('my_order')),
+                ):new Container(),
+                 roles == "wcfm_vendor"? InkWell(
+                  onTap: ()
+                  {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommonDashBord("my_appoint", true)));
+                  },
                   child: getRow(AppLocalizations.of(context).translate('my_app')),
-                ),InkWell(
+                ):new Container(),
+                InkWell(
                   onTap: ()
                   {
                       Navigator.of(context).pop();
