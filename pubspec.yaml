@@ -31,10 +31,12 @@ dependencies:
   rxdart: 0.18.1
   loader_search_bar:
   #myfatoorah_flutter:
+  my_fatoorah:
   image_picker:
   carousel_slider:
   path:
   photo_view:
+  flutter_webview_plugin:
 #  html_editor: ^1.0.1
   #flutter_html_editor: ^1.0.0
  # flutter_summernote:

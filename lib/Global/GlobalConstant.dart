@@ -25,7 +25,17 @@ class GlobalConstant
   static String login="login";
   static String language_select="language_select";
 
+  static var myFattorhUrl="https://apitest.myfatoorah.com";
+
+  static var MyFatoorhToken="rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL";
+
   /*
+  payemnt
+  https://myfatoorah.readme.io/docs/demo-information
+  mastercardinfo
+  5123450000000008
+  05 / 21
+  100
   https://wclovers.github.io/wcfm-rest-api/#create-a-product
   design by nistha
   https://marvelapp.com/prototype/5eeh4id/screen/73234207
@@ -38,6 +48,7 @@ class GlobalConstant
   card detail
   https://myfatoorah.readme.io/docs/test-cards
   http://salon.microband.site/?store-setup=yes&step=store
+
   */
 
   static getTextColor() {
@@ -45,7 +56,6 @@ class GlobalConstant
   }
 
   static getMainScreen() {
-   // return CommonDashBord("vendor_list",false);
     return SignInActivity();
   }
 

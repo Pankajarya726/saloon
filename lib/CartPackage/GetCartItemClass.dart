@@ -12,8 +12,6 @@ import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
-
-
 class CartActivity extends StatefulWidget
 {
   @override
@@ -25,7 +23,6 @@ class CartActivity extends StatefulWidget
 
 class CartViewDetail extends State<CartActivity>
 {
-
   @override
   Widget build(BuildContext context)
   {
@@ -110,6 +107,7 @@ class CartViewDetail extends State<CartActivity>
           data=data1;
           listdata=data1["items"];
           setState(() {
+
           });
           Utility.log("TAG", listdata);
           /*

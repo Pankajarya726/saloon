@@ -145,6 +145,7 @@ Future<http.Response> GetWithToken(String url) async
   String token = (await Utility.getStringPreference(GlobalConstant.token));
   Utility.log(tag, "Api Call :\n $url ");
   Utility.log(tag, "Api Call :\n $token ");
+
     var response = await http.get(
       url,
       headers: {
@@ -154,16 +155,17 @@ Future<http.Response> GetWithToken(String url) async
         'Authorization': 'Bearer $token'
       },
     );
+
     print("${response.statusCode}");
     print("${response.body}");
     return response;
+}
 
-  }
-
-Future<http.Response> GetWithMyToken(String url,String token) async {
+  Future<http.Response> GetWithMyToken(String url,String token) async {
 
   Utility.log(tag, "Api Call :\n $url ");
   Utility.log(tag, "Api Call :\n $token ");
+
     var response = await http.get(
       url,
       headers: {
@@ -173,15 +175,17 @@ Future<http.Response> GetWithMyToken(String url,String token) async {
         'Authorization': 'Bearer $token'
       },
     );
-    print("${response.statusCode}");
-  Utility.log(tag,"${response.body}");
+
+    Utility.log(tag,"${response.body}");
     return response;
 
   }
+
 Future<http.Response> DelWithMyToken(String url,String token) async {
 
-  Utility.log(tag, "Api Call :\n $url ");
-  Utility.log(tag, "Api Call :\n $token ");
+    Utility.log(tag, "Api Call :\n $url ");
+    Utility.log(tag, "Api Call :\n $token ");
+
     var response = await http.delete(
       url,
       headers: {
@@ -191,11 +195,12 @@ Future<http.Response> DelWithMyToken(String url,String token) async {
         'Authorization': 'Bearer $token'
       },
     );
-    print("${response.statusCode}");
-  Utility.log(tag,"${response.body}");
+
+    Utility.log(tag,"${response.body}");
     return response;
 
   }
+
 Future<http.Response> Delt(String url) async {
 
   Utility.log(tag, "Api Call :\n $url ");
@@ -208,11 +213,12 @@ Future<http.Response> Delt(String url) async {
       },
     );
     print("${response.statusCode}");
-  Utility.log(tag,"${response.body}");
+    Utility.log(tag,"${response.body}");
     return response;
-
   }
-Future<http.Response> DeleteWithMyToken(String url,String token) async {
+
+Future<http.Response> DeleteWithMyToken(String url,String token) async
+{
 
   Utility.log(tag, "Api Call :\n $url ");
   Utility.log(tag, "Api Call :\n $token ");
@@ -230,10 +236,10 @@ Future<http.Response> DeleteWithMyToken(String url,String token) async {
     return response;
 
   }
-Future<http.Response> GetLogin(var body) async {
-    String url=GlobalConstant.CommanUrlLogin+"jwt-auth/v1/token";
 
-  print(json.encode(body));
+  Future<http.Response> GetLogin(var body) async {
+    String url=GlobalConstant.CommanUrlLogin+"jwt-auth/v1/token";
+    print(json.encode(body));
     Utility.log(tag, "Api Call :\n $url ");
     var response = await http.post(url,
         headers: {"Content-Type": "application/json"},
@@ -242,14 +248,15 @@ Future<http.Response> GetLogin(var body) async {
     print("${response.statusCode}");
     print("${response.body}");
     return response;
-
   }
+
 Future<http.Response> SetSignUp(var body) async {
+
   String username = 'admin';
   String password = 'admin123';
-  String basicAuth =
-      'Basic ' + base64Encode(utf8.encode('$username:$password'));
+  String basicAuth = 'Basic ' + base64Encode(utf8.encode('$username:$password'));
   print(basicAuth);
+
     Utility.log(tag, "Api Call :\n ${GlobalConstant.CommanUrlLogin+"wp/v2/users"}");
     var response = await http.post(GlobalConstant.CommanUrlLogin+"wp/v2/users",
       headers: {'authorization': basicAuth},

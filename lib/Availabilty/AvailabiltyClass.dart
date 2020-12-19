@@ -507,11 +507,19 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         "add-to-cart":widget.data_val['id'].toString(),
       });
       // check the status code for the result
+
       print(response.body);
       Dialogs.hideProgressDialog(context);
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (_) => new CommonDashBord("my_cart",true)));
-     // GlobalWidget.GetToast(context, response.body);
+      if(response.body.toLowerCase()=="{}")
+        {
+          GlobalWidget.GetToast(context, "Something went wrong . Please change date and time .");
+        }else
+          {
+            Navigator.of(context).push(new MaterialPageRoute(
+                builder: (_) => new CommonDashBord("my_cart",true)));
+          }
+
+       // GlobalWidget.GetToast(context, response.body);
       int statusCode = response.statusCode;
       // this API passes back the id of the new item added to the body
       String body1 = response.body;

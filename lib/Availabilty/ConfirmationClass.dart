@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Payment/Myf_Payment.dart';
 import 'package:salon_app/Payment/payemnt_activity.dart';
 import 'package:salon_app/VendorList/VendorClass.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
@@ -176,8 +177,7 @@ class ConfirmView extends State<Confirmation>
 
     print("datatval2 ${json.encode(map2())}");
     String url=GlobalConstant.CommanUrlLogin + "wc/v3/orders/";
-  //  url="http://salon.microband.site/wp-json/wc/v2/orders?";
-
+    //  url="http://salon.microband.site/wp-json/wc/v2/orders?";
     ApiController apiController = new ApiController.internal();
     GlobalFile globalFile = new GlobalFile();
     if (await NetworkCheck.check())
@@ -194,14 +194,13 @@ class ConfirmView extends State<Confirmation>
           try
           {
             var data1 = json.decode(value.body);
-
             removeCartData();
           }catch(e)
           {
 
           }
-         // Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new PayemntActivity()));
-         /*
+          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new MyfaPayment(data['price'].toString())));
+          /*
              if (data1['status'] == 0)
               {
                // products=data1['ds']['tables'][0]['rowsList'];

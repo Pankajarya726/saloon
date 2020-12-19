@@ -1,13 +1,15 @@
 /*
 import 'package:flutter/material.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
-
 */
 /*
+
 TODO: The following data are using for testing only, so that when you go live
       don't forget to replace the following test credentials with the live
       credentials provided by MyFatoorah Company.
+
 *//*
+
 
 
 // Base Url
@@ -52,25 +54,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // TODO, don't forget to init the MyFatoorah Plugin with the following line
     MFSDK.init(baseUrl, regularPaymentToken);
-
-    // (Optional) un comment the following lines if you want to set up properties of AppBar.
-
-//    MFSDK.setUpAppBar(
-//      title: "MyFatoorah Payment",
-//      titleColor: Colors.white,  // Color(0xFFFFFFFF)
-//      backgroundColor: Colors.black, // Color(0xFF000000)
-//      isShowAppBar: true); // For Android platform only
-
-    // (Optional) un comment this line, if you want to hide the AppBar.
-    // Note, if the platform is iOS, this line will not affected
-
-//    MFSDK.setUpAppBar(isShowAppBar: false);
+    sendPayment();
   }
 
-  */
-/*
-    Send Payment
-   *//*
+    //Send Payment
+
 
   void sendPayment() {
     var request = MFSendPaymentRequest(
@@ -103,10 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  */
-/*
-    Initiate Payment
-   *//*
+  //  Initiate Payment
+
 
   void initiatePayment() {
     var request = new MFInitiatePaymentRequest(5.5, MFCurrencyISO.KUWAIT_KWD);
@@ -135,10 +121,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  */
-/*
-    Execute Regular Payment
-   *//*
+  //  Execute Regular Payment
+
 
   void executeRegularPayment() {
     // The value "1" is the paymentMethodId of KNET payment method.
@@ -151,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
         context,
         request,
         MFAPILanguage.EN,
-            (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
+         (String invoiceId, MFResult<MFPaymentStatusResponse> result) => {
           if (result.isSuccess())
             {
               setState(() {
@@ -175,10 +159,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  */
-/*
-    Execute Direct Payment
-   *//*
+ //   Execute Direct Payment
+
 
   void executeDirectPayment() {
     // The value "2" is the paymentMethodId of Visa/Master payment method.
@@ -227,10 +209,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  */
-/*
-    Execute Direct Payment with Recurring
-   *//*
+   // Execute Direct Payment with Recurring
+
 
   void executeDirectPaymentWithRecurring() {
     // The value "2" is the paymentMethodId of Visa/Master payment method.
@@ -280,10 +260,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  */
-/*
-    Payment Enquiry
-   *//*
+  //  Payment Enquiry
+
 
   void getPaymentStatus() {
     var request = MFPaymentStatusRequest(invoiceId: "12345");
@@ -313,10 +291,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  */
-/*
-    Cancel Token
-   *//*
+ //   Cancel Token
+
 
   void cancelToken() {
     MFSDK.cancelToken(
@@ -344,10 +320,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  */
-/*
-    Cancel Recurring Payment
-   *//*
+//    Cancel Recurring Payment
+
 
   void cancelRecurringPayment() {
     MFSDK.cancelRecurringPayment(
@@ -440,4 +414,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}*/
+}
+*/

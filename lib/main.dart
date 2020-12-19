@@ -8,6 +8,8 @@ import 'Availabilty/ConfirmationClass.dart';
 import 'CartPackage/GetCartItemClass.dart';
 import 'NearByBarber/FullScreenMap.dart';
 import 'NearByBarber/NearByClass.dart';
+import 'Payment/Myf_Payment.dart';
+import 'Payment/payemnt_activity.dart';
 import 'SearchModel/SearchCategory.dart';
 import 'SearchModel/SearchUsers.dart';
 import 'SignInSignUpAccount/RegularAccount.dart';
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
         create: (_) => appLanguage,
         child: Consumer<AppLanguage>(builder: (context, model, child) {
           return MaterialApp(
-            theme: ThemeData(
+              theme: ThemeData(
               canvasColor: Colors.transparent,
               fontFamily: "TimeRomanBold",
               accentColor: const Color(0xFF549afe),
@@ -56,6 +58,7 @@ class MyApp extends StatelessWidget {
                   )
               ),
             ),
+
             locale: model.appLocale,
             supportedLocales: [
               Locale('en', 'US'),
@@ -68,6 +71,7 @@ class MyApp extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
              home: SplashActivity(),
+             //home: MyfaPayment("100"),
              //home: CommonDashBord("my_cart",false),
               //home: DateRangePicker(),
              //  home: SearchUsers(),
@@ -77,6 +81,7 @@ class MyApp extends StatelessWidget {
         }),
       );
   }
+
   static const MaterialColor blue = MaterialColor(
     _bluePrimaryValue,
     <int, Color>{
