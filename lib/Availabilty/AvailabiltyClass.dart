@@ -434,11 +434,12 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                     FocusScope.of(context).requestFocus(new FocusNode());
                     if(val!=null)
                     {
-                      Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray)));
+                      //Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray,)));
                     }
                   });
                 }else{
                   Map<String, dynamic> mapBilling() => {
+
                     "first_name" : profile['meta']['first_name'][0],
                     "last_name" :  profile['meta']['last_name'][0],
                     "company" : "",
@@ -450,7 +451,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                     "email" :  profile['meta']['email'][0],
                     "phone" :  profile['meta']['phone'][0]
                   };
-                  Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(mapBilling(),appointmentarray)));
+                 // Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(mapBilling(),appointmentarray)));
                 }
               }catch(e)
               {
@@ -459,7 +460,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                   FocusScope.of(context).requestFocus(new FocusNode());
                   if(val!=null)
                   {
-                    Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray)));
+                    //Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray)));
                   }
                 });
               }
@@ -513,12 +514,10 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
       if(response.body.toLowerCase()=="{}")
         {
           GlobalWidget.GetToast(context, "Something went wrong . Please change date and time .");
-        }else
-          {
-            Navigator.of(context).push(new MaterialPageRoute(
-                builder: (_) => new CommonDashBord("my_cart",true)));
-          }
-
+        }else {
+        Navigator.of(context).push(new MaterialPageRoute(
+            builder: (_) => new CommonDashBord("my_cart", true)));
+      }
        // GlobalWidget.GetToast(context, response.body);
       int statusCode = response.statusCode;
       // this API passes back the id of the new item added to the body
@@ -578,12 +577,13 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
+      var data1;
       apiController.GetWithToken(Url).then((value)
       {
         try
         {
           Dialogs.hideProgressDialog(context);
-          var data1 = json.decode(value.body);
+          data1 = json.decode(value.body);
           var data = data1["records"];
           Utility.log(TAG, data);
           if (data.length != 0) {
@@ -605,7 +605,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
             GlobalWidget.showMyDialog(context, "Error", data1.toString());
           }
         } catch (e) {
-          GlobalWidget.showMyDialog(context, "Error", "" + e.toString());
+          GlobalWidget.showMyDialog(context, "Error", "" +  data1.toString());
         }
       });
     } else {

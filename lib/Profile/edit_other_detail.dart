@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
@@ -18,6 +16,7 @@ class EditOtherDetail extends StatefulWidget {
   @override
   _EditOtherDetailState createState() => _EditOtherDetailState();
 }
+
 
 class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProviderStateMixin {
   AnimationController _controller;
@@ -129,7 +128,6 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
           var data1 = json.decode(value.body);
           Utility.log(TAG, data1);
           if (data1.length != 0) {
-
             Navigator.pop(context, mapBilling());
             setState(() {});
           } else
@@ -258,7 +256,6 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
   }
 
   final phoneController = TextEditingController();
-
   phoneFeild() {
     return TextFormField(
       keyboardType: TextInputType.text,

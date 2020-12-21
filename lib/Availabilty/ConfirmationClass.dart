@@ -21,9 +21,10 @@ class Confirmation extends StatefulWidget
 {
   String Barber_name = "";
   String target_date = "";
+  String payment_type = "";
   var mapbilling;
   var appointment;
-  Confirmation(this.mapbilling, this.appointment);
+  Confirmation(this.mapbilling, this.appointment,this.payment_type);
 
   @override
   State<StatefulWidget> createState() {
@@ -180,10 +181,12 @@ class ConfirmView extends State<Confirmation>
     //  url="http://salon.microband.site/wp-json/wc/v2/orders?";
     ApiController apiController = new ApiController.internal();
     GlobalFile globalFile = new GlobalFile();
+
     if (await NetworkCheck.check())
     {
       String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
       Dialogs.showProgressDialog(context);
+
       apiController.PostsNewWithToken(
               url,
               json.encode(map2()),
@@ -197,9 +200,15 @@ class ConfirmView extends State<Confirmation>
             removeCartData();
           }catch(e)
           {
-
           }
-          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new MyfaPayment(data['price'].toString())));
+          if(widget.payment_type.toLowerCase().contains("online"))
+            {
+
+              Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new MyfaPayment(data['price'].toString())));
+            }else
+              {
+
+              }
           /*
              if (data1['status'] == 0)
               {
@@ -222,13 +231,11 @@ class ConfirmView extends State<Confirmation>
   void initState() {
     getLocalData();
     SubmitData();
-
   }
 
   var data;
   void SubmitData() async
   {
-
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     String Product_ID = (await Utility.getStringPreference(GlobalConstant.Order_Product_Id));
     String Url = GlobalConstant.CommanUrl + "products/" + Product_ID;
@@ -237,10 +244,12 @@ class ConfirmView extends State<Confirmation>
     {
       Dialogs.showProgressDialog(context);
       apiController.GetWithMyToken(Url, token).then((value) {
-        try {
+        try
+        {
           Dialogs.hideProgressDialog(context);
           data = json.decode(value.body);
-          setState(() {
+          setState(()
+          {
             UpdateData1();
           });
         } catch (e) {

@@ -88,6 +88,15 @@ class GlobalConstant
     ];
     return durationIntItems;
   }
+  static List<String> GetPaymentMethod() {
+    List <String> durationIntItems =
+     [
+      'SELECT',
+      'BY ONLINE',
+      'BY CASH',
+    ];
+    return durationIntItems;
+  }
 
 
   static getTextStyle() {

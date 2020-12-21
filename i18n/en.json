@@ -100,5 +100,7 @@
   "empty_cart": "Empty Cart",
   "my_order": "MY ORDER",
   "remov_msg": "You want to remove this item from cart",
+  "payment": "Payment",
+  "payment_msg": "Please select payment mode",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

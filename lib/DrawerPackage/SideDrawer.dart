@@ -66,9 +66,8 @@ class SideDrawer extends StatelessWidget
                   onTap: ()
                   {
                       Navigator.of(context).pop();
-                      Navigator.pushAndRemoveUntil(context,
-                          MaterialPageRoute(builder: (BuildContext context) =>  CommonDashBord("my_cart",true)),
-                          ModalRoute.withName('/'));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommonDashBord("my_cart",true)));
+
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_cart')),
                 ):new Container(),

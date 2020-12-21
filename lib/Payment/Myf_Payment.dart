@@ -5,6 +5,7 @@ import 'package:my_fatoorah/my_fatoorah.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLanguage.dart';
+import 'package:salon_app/language/AppLocalizations.dart';
 
 class MyfaPayment extends StatefulWidget
 {
@@ -14,8 +15,6 @@ class MyfaPayment extends StatefulWidget
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
-    //hrow UnimplementedError();
     return Myview();
   }
 
@@ -24,16 +23,15 @@ class MyfaPayment extends StatefulWidget
 class Myview extends State<MyfaPayment>
 {
   AppLanguage appLanguage = AppLanguage();
-
   @override
   Widget build(BuildContext context) {
    // print(appLanguage.fetchLocale().toString());
     print(appLanguage.appLocale.toString());
     // TODO: implement build
     return new Scaffold(
+      appBar: new AppBar(title: Text(AppLocalizations.of(context).translate("payment")),),
       backgroundColor: Colors.white,
-      body:
-      Builder(
+      body: Builder(
         builder: (BuildContext context) {
           return MyFatoorah(
             afterPaymentBehaviour: AfterPaymentBehaviour.None,
@@ -73,20 +71,16 @@ class Myview extends State<MyfaPayment>
                 ),
               )
             ),
-            onResult: (PaymentResponse res) {
-              Navigator.of(context).pop();
 
+            onResult: (PaymentResponse res)
+            {
+              Navigator.of(context).pop();
               Utility.log("Errrofinal", res.toString());
-              //Utility.log("Errrofinal", res.status);;
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text(res.status.toString()),
-              ));
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text(res.status.toString()),));
             },
           );
         },
       ),
-
     );
   }
-
 }

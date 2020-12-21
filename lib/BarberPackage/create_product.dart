@@ -28,6 +28,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
  /* final GlobalKey<FlutterSummernoteState> keyEditor = GlobalKey();
   final GlobalKey<FlutterSummernoteState> keyEditor_short_des = GlobalKey();
 */
+
   List <String> durationIntItems = GlobalConstant.GetIntItems();
   String durationInt = GlobalConstant.GetIntItems()[0].toString();
   List <String> durationStringItems = GlobalConstant.GetStringItems();
@@ -38,14 +39,14 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   List <String> PaddingTimeIntItems = GlobalConstant.GetIntItems();
   String PaddingTimeInt = GlobalConstant.GetIntItems()[0].toString();
 
-  List <String> IntervalIntItems = GlobalConstant.GetIntItems();
+  List<String> IntervalIntItems = GlobalConstant.GetIntItems();
   String IntervalInt = GlobalConstant.GetIntItems()[0].toString();
-  List <String> IntervalStringItems = GlobalConstant.GetStringItems();
+  List<String> IntervalStringItems = GlobalConstant.GetStringItems();
   String IntervalString = GlobalConstant.GetStringItems()[0].toString();
 
-  List <String> CancelIntItems = GlobalConstant.GetIntItems();
+  List<String> CancelIntItems = GlobalConstant.GetIntItems();
   String CancelInt = GlobalConstant.GetIntItems()[0].toString();
-  List <String> CancelStringItems = GlobalConstant.GetStringItems();
+  List<String> CancelStringItems = GlobalConstant.GetStringItems();
   String CancelString = GlobalConstant.GetStringItems()[0].toString();
 
   AnimationController _controller;
@@ -599,7 +600,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
     meta_data_a1.add(meta_data35());
     meta_data_a1.add(meta_data36());
     Utility.log(TAG, meta_data_a1);
-
     var now1 = new DateTime.now();
     String dateval=now1.toString().replaceAll(" ", "T");
     Utility.log(TAG, now1.toString());
@@ -667,9 +667,11 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
   }
 
   getListingData() {
-    return  new Container(height: 100,
+    return  new Container(
+      height: 100,
       child:  new ListView.builder
         (
+
           scrollDirection: Axis.horizontal,
           physics: ClampingScrollPhysics(),
           shrinkWrap: true,
@@ -729,6 +731,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
         }).toList(),
       ));
   }
+
   getDurationString() {
     return
       new Theme(
@@ -913,7 +916,6 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
     return   Checkbox(
       checkColor: Colors.white,
       activeColor: Colors.black54,
-
       value: this.valuefirst,
       onChanged: (bool value) {
         setState(() {

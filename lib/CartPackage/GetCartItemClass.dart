@@ -12,17 +12,19 @@ import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
+
 class CartActivity extends StatefulWidget
 {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return new CartViewDetail();
   }
+
 }
 
 class CartViewDetail extends State<CartActivity>
 {
+
   @override
   Widget build(BuildContext context)
   {
@@ -50,7 +52,6 @@ class CartViewDetail extends State<CartActivity>
              ),
 
              SizedBox(height: 20,),
-
              ListView.builder(
                  itemCount: listdata.length,
                  physics: ClampingScrollPhysics(),
@@ -64,14 +65,13 @@ class CartViewDetail extends State<CartActivity>
                      child: getData(index),
                    );
                  }),
-
                  billingInfo(AppLocalizations.of(context).translate("book_date"),listdata[0]["appointment"]["date"]),
                  billingInfo(AppLocalizations.of(context).translate("duration"),listdata[0]["appointment"]["duration"]),
                  billingInfo(AppLocalizations.of(context).translate("time"),listdata[0]["appointment"]["time"]),
                  billingInfo(AppLocalizations.of(context).translate("total"), data["total"]),
+                 PaymentInfo(AppLocalizations.of(context).translate("payment"), data["total"]),
                  SizedBox(height: 20,),
                  GetBarberButton()
-             
            ],
          ):new Container(
            height: MediaQuery.of(context).size.height,
@@ -107,7 +107,6 @@ class CartViewDetail extends State<CartActivity>
           data=data1;
           listdata=data1["items"];
           setState(() {
-
           });
           Utility.log("TAG", listdata);
           /*
@@ -128,6 +127,35 @@ class CartViewDetail extends State<CartActivity>
     }
   }
 
+  List <String> payment_typeItems = GlobalConstant.GetPaymentMethod();
+  String payment_type = GlobalConstant.GetPaymentMethod()[0].toString();
+
+  getpayment_type() {
+    return
+      new Theme(
+          data: GlobalConstant.getSpinnerTheme(context),
+          child: DropdownButton<String>(
+            value: payment_type,
+            isExpanded: true,
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: GlobalConstant.getTextStyle(),
+            underline:GlobalConstant.getUnderline(),
+            onChanged: (String data) {
+              setState(() {
+                payment_type = data;
+              });
+            },
+            items: payment_typeItems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ));
+  }
+
   billingInfo(String title, String description) {
     return new Container(
       padding: EdgeInsets.all(8),
@@ -139,6 +167,25 @@ class CartViewDetail extends State<CartActivity>
             [
               Expanded(child: Text(title),),
               Expanded(child: Text(description,textAlign: TextAlign.end,),),
+            ],
+          ),
+          Divider(thickness: 2.0,)
+        ],
+      ),
+    );
+  }
+
+  PaymentInfo(String title, String description) {
+    return new Container(
+      padding: EdgeInsets.only(left: 8.0,right: 8.0),
+      child: new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          new Row(
+            children:
+            [
+              Expanded(child: Text(title),),
+              Expanded(child: getpayment_type(),),
             ],
           ),
 
@@ -281,7 +328,7 @@ class CartViewDetail extends State<CartActivity>
                     FocusScope.of(context).requestFocus(new FocusNode());
                     if(val!=null)
                     {
-                      Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray)));
+                      Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray,payment_type)));
                     }
                   });
                 }else{
@@ -297,7 +344,7 @@ class CartViewDetail extends State<CartActivity>
                     "email" :  profile['meta']['email'][0],
                     "phone" :  profile['meta']['phone'][0]
                   };
-                  Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(mapBilling(),appointmentarray)));
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(mapBilling(),appointmentarray,payment_type)));
                 }
               }catch(e)
               {
@@ -306,7 +353,7 @@ class CartViewDetail extends State<CartActivity>
                   FocusScope.of(context).requestFocus(new FocusNode());
                   if(val!=null)
                   {
-                    Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray)));
+                    Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new Confirmation(val,appointmentarray,payment_type)));
                   }
                 });
               }
@@ -353,7 +400,13 @@ class CartViewDetail extends State<CartActivity>
           Utility.setStringPreference(GlobalConstant.Order_Time,  listdata[0]["appointment"]["time"]);
           Utility.setStringPreference(GlobalConstant.Order_Product_Id, listdata[0]["data"]["id"].toString());
 
-              getExistData(appointment());
+          if(payment_type.toLowerCase()=="select")
+          {
+                  GlobalWidget.showMyDialog(context, "", AppLocalizations.of(context).translate("payment_msg"));
+          }else
+            {
+                  getExistData(appointment());
+            }
         },
         child: Text(AppLocalizations.of(context).translate("check_out"),style: GlobalWidget.textbtnstyleDark(),),
       ),
