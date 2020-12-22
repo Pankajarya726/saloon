@@ -5,6 +5,8 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'AppColor.dart';
+
 class Utility {
   DialogClickInterface interface;
 
@@ -17,6 +19,23 @@ class Utility {
       return 1;
     }
   }
+
+
+  static Widget buildProgressIndicator(bool isLoading) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Center(
+        child: new Opacity(
+          opacity: isLoading ? 1.0 : 00,
+          child: CircularProgressIndicator(
+            strokeWidth: 3,
+            valueColor: AlwaysStoppedAnimation<Color>(colorPrimary),
+          ),
+        ),
+      ),
+    );
+  }
+
 
   static String validateFirstName(String value) {
     String patttern = r'(^[a-zA-Z ]*$)';

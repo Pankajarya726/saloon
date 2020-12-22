@@ -102,6 +102,8 @@
   "remov_msg": "تريد إزالة هذا العنصر من سلة التسوق",
   "payment": "دفع",
   "payment_msg": "الرجاء تحديد طريقة الدفع",
+  "some_error": "Something went wrong",
+  "enternet": "Enternet error",
   "canbecanceltext": "ضع علامة في هذا المربع إذا كان بإمكان العميل إلغاء الموعد. لن يتم إرسال المبلغ المسترد تلقائيًا."
 
 }

@@ -1,6 +1,13 @@
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:salon_app/Global/ApiController.dart';
+import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/NetworkCheck.dart';
+import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
 class OrderDetailActivity extends StatefulWidget
@@ -18,6 +25,60 @@ class OrderDetailView extends State<OrderDetailActivity>
 {
   List AppointMent_List = new List();
 
+  var Sereverdata;
+
+  String TAG="AppointmentView";
+  void SubmitData() async
+  {
+    /*
+    Map<String, String> body =
+    {
+      'tour_destination_id': "${widget.taskId.toString()}",
+      'status_id': _user.toString(),
+      'salesman_comment': _description_controller.text.toString(),
+    };
+    print("body$body");
+   */
+    print(widget.data);
+    String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?parent[]="+widget.data["id"].toString();
+ //   String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?parent[]="+widget.data["id"].toString();
+    ApiController apiController = new ApiController.internal();
+    if (await NetworkCheck.check())
+    {
+      Dialogs.showProgressDialog(context);
+      String token = (await Utility.getStringPreference(GlobalConstant.token));
+      apiController.GetWithMyToken(Url,token).then((value)
+      {
+        try
+        {
+          Dialogs.hideProgressDialog(context);
+          var data = value;
+          Sereverdata= json.decode(data.body);
+          Utility.log(TAG, Sereverdata);
+          setState(() {
+
+          });
+        }catch(e)
+        {
+          GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+        }
+      });
+    }else
+    {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
+
+
+  String get_Dateval(int string)
+  {
+    int timeInMillis = string;
+    var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
+    var formattedDate = DateFormat.yMMMd().format(date); // Apr 8, 2020
+    // var formattedDate1 = DateFormat.HOUR24().format(date); // Apr 8, 2020
+    Utility.log(TAG, formattedDate);
+    return formattedDate;
+  }
   @override
   Widget build(BuildContext context)
   {
@@ -42,8 +103,10 @@ class OrderDetailView extends State<OrderDetailActivity>
 
                       new Row(
                         children: [
+
                           Expanded(child:  Text(AppLocalizations.of(context).translate("total"),style: TextStyle(color: Colors.black,fontSize: 16.0),),),
                           Expanded(child:  Text(widget.data["currency"]+" "+widget.data["total"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),textAlign: TextAlign.end,),),
+
                         ],
                       ),
 
@@ -66,6 +129,7 @@ class OrderDetailView extends State<OrderDetailActivity>
 
           SizedBox(height: 20,),
 
+          Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("firstName"),get_Dateval(Sereverdata[0]["start"])):new Container(),
           billingInfo(AppLocalizations.of(context).translate("firstName"),widget.data["billing"]["first_name"]),
           billingInfo(AppLocalizations.of(context).translate("lastName"),widget.data["billing"]["last_name"]),
           billingInfo(AppLocalizations.of(context).translate("company"),widget.data["billing"]["company"]),
@@ -135,7 +199,7 @@ class OrderDetailView extends State<OrderDetailActivity>
 
   @override
   void initState() {
-
+    SubmitData();
   }
 
   billingInfo(String title, String description) {

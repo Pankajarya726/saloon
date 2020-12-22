@@ -102,5 +102,7 @@
   "remov_msg": "You want to remove this item from cart",
   "payment": "Payment",
   "payment_msg": "Please select payment mode",
+  "some_error": "Something went wrong",
+  "enternet": "Enternet error",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

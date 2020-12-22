@@ -264,8 +264,7 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
       controller: phoneController,
       decoration: GlobalWidget.TextFeildDecoration(AppLocalizations.of(context).translate("phone")),
       validator: (value) {
-        if (value.isEmpty) {
-          return AppLocalizations.of(context).translate("Please_Enter");
+        if (value.isEmpty) {return AppLocalizations.of(context).translate("Please_Enter");
         }
         return null;
       },
