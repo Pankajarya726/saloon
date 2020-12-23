@@ -5,6 +5,7 @@ import 'package:salon_app/Appointment/OrderDetailClass.dart';
 import 'package:salon_app/Availabilty/AvailabiltyClass.dart';
 import 'package:salon_app/BarberPackage/barber_home.dart';
 import 'package:salon_app/CartPackage/GetCartItemClass.dart';
+import 'package:salon_app/CategoryWiseProduct/ProductCategory.dart';
 import 'package:salon_app/FaqsTerms/faqs_and_terms.dart';
 import 'package:salon_app/Profile/edit_billing_detail.dart';
 import 'package:salon_app/Profile/edit_personal_info_class.dart';
@@ -15,6 +16,7 @@ import 'Appointment/MybookedOrderClass.dart';
 import 'Availabilty/AvailabiltySchduleClass.dart';
 import 'BarberPackage/MyProductClass.dart';
 import 'BarberPackage/create_product.dart';
+import 'CategoryWiseProduct/CategoryWiseProduct.dart';
 import 'DrawerPackage/SideDrawer.dart';
 import 'Global/GlobalConstant.dart';
 import 'Global/GlobalWidget.dart';
@@ -97,7 +99,7 @@ class CommonView extends State<CommonDashBord> {
         if (roles == "wcfm_vendor") {
           return MyProductActivity();
         } else if (roles != "") {
-          return VendorActivity();
+          return ProductCategory();
         }
         break;
       case "vendor_dtl":
@@ -109,6 +111,9 @@ class CommonView extends State<CommonDashBord> {
       case "Product_dtl":
         return ProductDetailActivity(widget.data);
         break;
+      case "Cat_Product":
+        return CategoryWiseProductActivity(widget.data["id"].toString());
+        break;
       case "Product_list":
         return ProductActivity(widget.data);
         break;
@@ -116,7 +121,8 @@ class CommonView extends State<CommonDashBord> {
         return SchduledClassActivity(widget.data);
         break;
       case "map_view":
-        return NearByActivity();
+        //return NearByActivity();
+        return VendorActivity();
         break;
       case "my_acc":
         return ViewProfile();
@@ -174,6 +180,9 @@ class CommonView extends State<CommonDashBord> {
       case "add_product":
         return AppLocalizations.of(context).translate('Tapered');
         break;
+        case "Cat_Product":
+      return widget.data["name"].toString();
+      break;
       case "vendor_avail":
         return AppLocalizations.of(context).translate('Tapered');
         break;

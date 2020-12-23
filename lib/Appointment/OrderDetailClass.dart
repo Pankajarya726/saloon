@@ -79,6 +79,7 @@ class OrderDetailView extends State<OrderDetailActivity>
     Utility.log(TAG, formattedDate);
     return formattedDate;
   }
+
   @override
   Widget build(BuildContext context)
   {
@@ -166,7 +167,6 @@ class OrderDetailView extends State<OrderDetailActivity>
       children: [
         new Row(
           children: [
-
             Expanded(flex: 2,
               child: new Container(
                 padding: EdgeInsets.all(5.0),
@@ -179,17 +179,16 @@ class OrderDetailView extends State<OrderDetailActivity>
                     shape: BoxShape.circle
                 ),
               ),),
-            Expanded(
-              flex: 8,
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10,),
-                  Text(widget.data['line_items'][index]["name"],style: TextStyle(color: Colors.black),),
-                ],
-              ),
-            )
-
+              Expanded(
+                flex: 8,
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 10,),
+                    Text(widget.data['line_items'][index]["name"],style: TextStyle(color: Colors.black),),
+                  ],
+                ),
+              )
           ],
         ),
         Divider()

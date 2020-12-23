@@ -6,6 +6,7 @@ import 'Appointment/AppointmentClass.dart';
 import 'Availabilty/AvailabiltyClass.dart';
 import 'Availabilty/ConfirmationClass.dart';
 import 'CartPackage/GetCartItemClass.dart';
+import 'CategoryWiseProduct/ProductCategory.dart';
 import 'NearByBarber/FullScreenMap.dart';
 import 'NearByBarber/NearByClass.dart';
 import 'Payment/Myf_Payment.dart';
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
             ],
             debugShowCheckedModeBanner: false,
              home: SplashActivity(),
-             //home: MyfaPayment("100"),
+            // home: ProductCategory(),
              //home: CommonDashBord("my_cart",false),
               //home: DateRangePicker(),
              //  home: SearchUsers(),

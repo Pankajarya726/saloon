@@ -14,10 +14,12 @@ import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 
-class MyProductActivity extends StatefulWidget
+class CategoryWiseProductActivity extends StatefulWidget
 {
+  String id;
 
-  MyProductActivity();
+  CategoryWiseProductActivity(this.id);
+
   @override
   State<StatefulWidget> createState()
   {
@@ -25,31 +27,15 @@ class MyProductActivity extends StatefulWidget
   }
 }
 
-class ProductView extends State<MyProductActivity> {
+class ProductView extends State<CategoryWiseProductActivity> {
   List<DataModel> _list = new List();
   String delete_id = "";
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: _onBackPressed,
         child: new Scaffold(
-          floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(new MaterialPageRoute(
-                  builder: (_) => new CommonDashBord("add_product", true, 0)),)
-                  .then((val) {
-                if (val != null) {
-                  Navigator.of(context).pushReplacement(
-                      new MaterialPageRoute(builder: (_) =>
-                      new CommonDashBord("vendor_list", false)));
-                }
-              });
-            },
-            backgroundColor: Colors.black,
-            label: Text(AppLocalizations.of(context).translate("add_pro")),
-            icon: Icon(Icons.add),
-          ),
 
           body: new Container(
             height: MediaQuery
@@ -63,17 +49,8 @@ class ProductView extends State<MyProductActivity> {
               children: new List.generate(_list.length, (index) {
                 return InkWell(
                   onTap: () {
-                    Navigator.of(context)
-                        .push(new MaterialPageRoute(
-                        builder: (_) => new CommonDashBord("add_product", true,
-                            _list[index].data["id"].toString())),)
-                        .then((val) {
-                      if (val != null) {
-                        Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                            builder: (_) =>
-                            new CommonDashBord("vendor_list", false)));
-                      }
-                    });
+                    Navigator.of(context).push(new MaterialPageRoute(
+                        builder: (_) => new CommonDashBord("Product_dtl", true, _list[index].data["id"].toString())));
                   },
 
                   child: Container(
@@ -88,7 +65,7 @@ class ProductView extends State<MyProductActivity> {
                           child: InkWell(
                             onTap: () {
                               delete_id = _list[index].data["id"].toString();
-                              DeleteProduct(context);
+                             // DeleteProduct(context);
                             },
                             child: Icon(Icons.delete, color: Colors.white,),
                           ),)
@@ -123,43 +100,6 @@ class ProductView extends State<MyProductActivity> {
       );
   }
 
-  void DeleteData() async
-  {
-    String USER_ID = (await Utility.getStringPreference(
-        GlobalConstant.store_id));
-    String token = (await Utility.getStringPreference(GlobalConstant.token));
-
-    Map<String, dynamic> body =
-    {
-
-      'post_author': USER_ID
-    };
-
-    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/products/" +
-        delete_id;
-    ApiController apiController = new ApiController.internal();
-    if (await NetworkCheck.check())
-    {
-      Dialogs.showProgressDialog(context);
-      apiController.DeleteWithMyToken(Url, token).then((
-          value) {
-        var data1 = json.decode(value.body);
-         print(data1);
-        try {
-          Dialogs.hideProgressDialog(context);
-          if (value.statusCode == 200) {
-            Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                builder: (_) => new CommonDashBord("vendor_list", false)));
-          }
-        } catch (e) {
-          GlobalWidget.showMyDialog(context, "", data1);
-        }
-      });
-    } else {
-      GlobalWidget.GetToast(context, "No Internet Connection");
-    }
-  }
-
   Future<bool> _onBackPressed() {
 
     return showDialog(
@@ -183,33 +123,6 @@ class ProductView extends State<MyProductActivity> {
     ) ?? false;
   }
 
-  Future<bool> DeleteProduct(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text(AppLocalizations.of(context).translate("del_title")),
-          content: new Text(AppLocalizations.of(context).translate("del_msg")),
-          actions: <Widget>[
-
-            new FlatButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text(AppLocalizations.of(context).translate("NO")),
-            ),
-
-            new FlatButton(
-              onPressed: ()
-              { Navigator.of(context).pop(false);
-                DeleteData();
-              },
-              child: new Text(AppLocalizations.of(context).translate("YES")),
-            ),
-          ],
-        );
-      },
-    ) ??
-        false;
-  }
 
   String TAG = "ProductView";
 
@@ -224,21 +137,20 @@ class ProductView extends State<MyProductActivity> {
     };
     print("body$body");
    */
-
     String store_id = (await Utility.getStringPreference(GlobalConstant.store_id));
-    String Url = GlobalConstant.CommanUrl + "store-vendors/" + store_id + "/products/";
+    String token = (await Utility.getStringPreference(GlobalConstant.token));
+    String Url = GlobalConstant.CommanUrl + "products?category="+widget.id.toString()+"&status=publish";
     ApiController apiController = new ApiController.internal();
-    if (await NetworkCheck.check()) {
+    if (await NetworkCheck.check())
+    {
       Dialogs.showProgressDialog(context);
-      apiController.Get(Url).then((value) {
+      apiController.GetWithMyToken(Url,token).then((value) {
         try
         {
           Dialogs.hideProgressDialog(context);
           var data = value;
           var data1 = json.decode(data.body);
-
           Utility.log(TAG, data1);
-
           if (data1.length != 0) {
             for (int i = 0; i < data1.length; i++) {
               _list.add(new DataModel(data1[i]));

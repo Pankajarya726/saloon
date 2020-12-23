@@ -2,14 +2,20 @@ class GlobalFile
 {
   static getCaptialize(String s) {
     s=GlobalFile.getStringValue(s);
-    if(s.length>0)
+    try{
+      if(s.length>0)
       {
 
         return '${s[0].toUpperCase()}${s.substring(1)} ';
       }else
-        {
-          return "";
-        }
+      {
+        return "";
+      }
+    }catch(e)
+    {
+      return "";
+    }
+
   }
 
 
