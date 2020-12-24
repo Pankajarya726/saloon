@@ -167,7 +167,7 @@ class AppointmentView extends State<AppointmentActivity>
                                     child:  Icon(Icons.watch_later,color: Colors.grey,)),
                                 SizedBox(width: 4.0,),
                                 Expanded(flex: 8,
-                                  child:  Text(formatTimestamp(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
+                                  child:  Text(GlobalConstant.readTimestamp(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
                               ],
                             ),
                             new Row(
@@ -176,7 +176,7 @@ class AppointmentView extends State<AppointmentActivity>
                                   child:  Icon(Icons.date_range,color: Colors.grey)),
                               SizedBox(width: 4.0,),
                               Expanded(flex: 8,
-                                child:  Text(get_Dateval(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
+                                child:  Text(GlobalConstant.get_Dateval(_list[index].data["start"]),style: TextStyle(fontSize: 12.0),),),
                             ],
                           ),
 
@@ -201,19 +201,6 @@ class AppointmentView extends State<AppointmentActivity>
     );
   }
 
-  String get_Dateval(int string)
-  {
-    int timeInMillis = string;
-    var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
-    var formattedDate = DateFormat.yMMMd().format(date); // Apr 8, 2020
-   // var formattedDate1 = DateFormat.HOUR24().format(date); // Apr 8, 2020
-    return formattedDate;
-  }
-}
-String formatTimestamp(int timestamp) {
-  var format = new DateFormat('hh:mm a');
-  var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-  return format.format(date);
 }
 class DataModel
 {

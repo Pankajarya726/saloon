@@ -57,18 +57,9 @@ class ProductView extends State<CategoryWiseProductActivity> {
                     alignment: Alignment.bottomLeft,
                     child: new Row(
                       children: [
-                        Expanded(flex: 9,
-                          child: new Text(GlobalFile.getCaptialize(
-                              _list[index].data['name']), style: TextStyle(
-                              color: Colors.white, fontSize: 14.0),),),
-                        Expanded(flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              delete_id = _list[index].data["id"].toString();
-                             // DeleteProduct(context);
-                            },
-                            child: Icon(Icons.delete, color: Colors.white,),
-                          ),)
+                        new Text(GlobalFile.getCaptialize(
+                            _list[index].data['name']), style: TextStyle(
+                            color: Colors.white, fontSize: 14.0),)
                       ],
                     ),
                     margin: EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),

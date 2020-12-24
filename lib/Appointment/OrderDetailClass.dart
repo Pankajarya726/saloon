@@ -69,17 +69,6 @@ class OrderDetailView extends State<OrderDetailActivity>
     }
   }
 
-
-  String get_Dateval(int string)
-  {
-    int timeInMillis = string;
-    var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
-    var formattedDate = DateFormat.yMMMd().format(date); // Apr 8, 2020
-    // var formattedDate1 = DateFormat.HOUR24().format(date); // Apr 8, 2020
-    Utility.log(TAG, formattedDate);
-    return formattedDate;
-  }
-
   @override
   Widget build(BuildContext context)
   {
@@ -130,7 +119,8 @@ class OrderDetailView extends State<OrderDetailActivity>
 
           SizedBox(height: 20,),
 
-          Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("firstName"),get_Dateval(Sereverdata[0]["start"])):new Container(),
+          Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("firstName"),GlobalConstant.get_Dateval(Sereverdata[0]["start"])):new Container(),
+          Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("firstName"),GlobalConstant.readTimestamp(Sereverdata[0]["start"])):new Container(),
           billingInfo(AppLocalizations.of(context).translate("firstName"),widget.data["billing"]["first_name"]),
           billingInfo(AppLocalizations.of(context).translate("lastName"),widget.data["billing"]["last_name"]),
           billingInfo(AppLocalizations.of(context).translate("company"),widget.data["billing"]["company"]),
