@@ -29,7 +29,8 @@ class ProductView extends State<ProductCategory>
       backgroundColor: Colors.white,
       body: _list.length != 0 ? new GridView.count(
         crossAxisCount: 2,
-        physics: ClampingScrollPhysics(),
+          childAspectRatio:0.8,
+          physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         children: new List.generate(_list.length, (index)
         {
@@ -38,49 +39,49 @@ class ProductView extends State<ProductCategory>
             onTap: () {
               Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("Cat_Product", true, _list[index])));
             },
-
             child: new Container(
               margin: EdgeInsets.all(2.0),
               alignment: Alignment.center,
-              color: Colors.blueGrey[300],
+              //color: Colors.blueGrey[300],
               child: new Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 100,
-                    width: 100,
-                    child:  ClipRRect(
-                      borderRadius: BorderRadius.circular(60.0),
-                      child: FadeInImage.assetNetwork(
-                        placeholder: 'images/confirm.png',
-                        fit: BoxFit.fitWidth,
-                        image: _list[index]['image'].toString(),
+
+                  SizedBox(height:10,),
+                  Card(
+                    elevation: 10.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(80.0),
+                    ),
+                    child:   Container(
+                      padding: EdgeInsets.all(30),
+                      height: 150,
+                      width: 150,
+                      child:  ClipRRect(
+                        //borderRadius: BorderRadius.circular(40.0),
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'images/barber_cat.png',
+                          fit: BoxFit.fill,
+                          image: _list[index]['image'].toString(),
+                        ),
                       ),
                     ),
                   ),
+
+                  SizedBox(height: 10,),
 
                   Container(
                     alignment: Alignment.center,
                     child: new Text(
                       GlobalFile.getCaptialize(_list[index]['name'].toString(),),
                       style:
-                      TextStyle(color: Colors.black, fontSize: 14.0),
+                      TextStyle(color: Colors.black, fontSize: 20.0),
+                      textAlign: TextAlign.center,
                     ),
                     margin: EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
                     padding: EdgeInsets.only(bottom: 5.0, right: 5.0, left: 5.0),
-                    // height: MediaQuery.of(context).size.height,
-                    /* decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.black,
-                  image: DecorationImage(
-                      colorFilter: new ColorFilter.mode(
-                          Colors.black.withOpacity(0.6),
-                          BlendMode.dstATop),
-                      image: new NetworkImage(
-                          _list[index]['image']),
-                      fit: BoxFit.fill)
-              ),*/
+
                   )
                 ],
               ),

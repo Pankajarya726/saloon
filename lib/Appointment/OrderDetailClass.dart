@@ -41,7 +41,6 @@ class OrderDetailView extends State<OrderDetailActivity>
    */
     print(widget.data);
     String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?parent[]="+widget.data["id"].toString();
- //   String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?parent[]="+widget.data["id"].toString();
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check())
     {
@@ -118,7 +117,6 @@ class OrderDetailView extends State<OrderDetailActivity>
           ),
 
           SizedBox(height: 20,),
-
           Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("firstName"),GlobalConstant.get_Dateval(Sereverdata[0]["start"])):new Container(),
           Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("firstName"),GlobalConstant.readTimestamp(Sereverdata[0]["start"])):new Container(),
           billingInfo(AppLocalizations.of(context).translate("firstName"),widget.data["billing"]["first_name"]),

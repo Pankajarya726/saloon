@@ -16,7 +16,6 @@ import '../CommonMenuClass.dart';
 
 class MyProductActivity extends StatefulWidget
 {
-
   MyProductActivity();
   @override
   State<StatefulWidget> createState()

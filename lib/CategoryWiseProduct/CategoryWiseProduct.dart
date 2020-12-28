@@ -44,6 +44,8 @@ class ProductView extends State<CategoryWiseProductActivity> {
                 .height,
             color: Colors.white,
             child: _list.length != 0 ? new GridView.count(
+
+              childAspectRatio:0.8,
               crossAxisCount: 2,
               shrinkWrap: true,
               children: new List.generate(_list.length, (index) {
@@ -53,7 +55,64 @@ class ProductView extends State<CategoryWiseProductActivity> {
                         builder: (_) => new CommonDashBord("Product_dtl", true, _list[index].data["id"].toString())));
                   },
 
-                  child: Container(
+                  child:  new Container(
+                    margin: EdgeInsets.all(2.0),
+                    alignment: Alignment.center,
+                    //color: Colors.blueGrey[300],
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+
+                        SizedBox(height:10,),
+                        Card(
+                          elevation: 10.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child:   Container(
+
+                            alignment: Alignment.center,
+                            height: 200,
+                            width: 200,
+                            padding: EdgeInsets.all(20),
+                            child:  new Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 5,),
+
+                                FadeInImage.assetNetwork(
+
+                                  height: 100,
+                                  width: 100,
+                                  placeholder: 'images/barber_cat.png',
+                                  fit: BoxFit.fill,
+
+                                  image:    _list[index].data['images'][0]['src'],
+                                ),
+                                SizedBox(height: 10,),
+
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: new Text(
+                                    GlobalFile.getCaptialize(GlobalFile.getCaptialize(
+                                        _list[index].data['name']),),
+                                    style:
+                                    TextStyle(color: Colors.black, fontSize: 18.0,),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+
+
+                      ],
+                    ),
+                  )
+
+                  /*Container(
                     alignment: Alignment.bottomLeft,
                     child: new Row(
                       children: [
@@ -81,7 +140,7 @@ class ProductView extends State<CategoryWiseProductActivity> {
                             fit: BoxFit.fill
                         )
                     ),
-                  ),
+                  )*/,
                 );
               }),
             ) : GlobalWidget.getNoRecord(context),
