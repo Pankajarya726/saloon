@@ -63,7 +63,7 @@ class ProductView extends State<ProductCategory>
                         child: FadeInImage.assetNetwork(
                           placeholder: 'images/barber_cat.png',
                           fit: BoxFit.fill,
-                          image: _list[index]['image'].toString(),
+                          image: _list[index]['image']['src'].toString(),
                         ),
                       ),
                     ),

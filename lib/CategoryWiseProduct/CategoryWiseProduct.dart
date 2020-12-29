@@ -36,7 +36,6 @@ class ProductView extends State<CategoryWiseProductActivity> {
     return WillPopScope(
         onWillPop: _onBackPressed,
         child: new Scaffold(
-
           body: new Container(
             height: MediaQuery
                 .of(context)
@@ -52,9 +51,9 @@ class ProductView extends State<CategoryWiseProductActivity> {
                 return InkWell(
                   onTap: () {
                     Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (_) => new CommonDashBord("Product_dtl", true, _list[index].data["id"].toString())));
+                        builder: (_) => new CommonDashBord("Product_dtl", true, _list[index].data["id"].toString()))
+                    );
                   },
-
                   child:  new Container(
                     margin: EdgeInsets.all(2.0),
                     alignment: Alignment.center,
@@ -96,8 +95,7 @@ class ProductView extends State<CategoryWiseProductActivity> {
                                   child: new Text(
                                     GlobalFile.getCaptialize(GlobalFile.getCaptialize(
                                         _list[index].data['name']),),
-                                    style:
-                                    TextStyle(color: Colors.black, fontSize: 18.0,),
+                                    style: TextStyle(color: Colors.black, fontSize: 18.0,),
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                   ),
@@ -106,41 +104,10 @@ class ProductView extends State<CategoryWiseProductActivity> {
                             ),
                           ),
                         ),
-
-
                       ],
                     ),
                   )
 
-                  /*Container(
-                    alignment: Alignment.bottomLeft,
-                    child: new Row(
-                      children: [
-                        new Text(GlobalFile.getCaptialize(
-                            _list[index].data['name']), style: TextStyle(
-                            color: Colors.white, fontSize: 14.0),)
-                      ],
-                    ),
-                    margin: EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
-                    padding: EdgeInsets.only(bottom: 5.0, right: 5.0, left: 5.0),
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height,
-                    decoration: BoxDecoration(
-
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.black,
-                        image: DecorationImage(
-                            colorFilter: new ColorFilter.mode(Colors.black
-                                .withOpacity(0.6), BlendMode.dstATop),
-                            image: new NetworkImage(
-                                _list[index].data['images'][0]['src']
-                            ),
-                            fit: BoxFit.fill
-                        )
-                    ),
-                  )*/,
                 );
               }),
             ) : GlobalWidget.getNoRecord(context),

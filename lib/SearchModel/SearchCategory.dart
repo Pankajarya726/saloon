@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
@@ -115,106 +116,175 @@ class _SearchCategoryState extends State<SearchCategory>
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context)
   {
-    return new Scaffold(
-      body: new Container(
-        color: Colors.white,
-        margin: EdgeInsets.only(top: 22.0),
-        child: new Column(
-         // mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              height: 50.0,
-              color: Colors.grey[300],
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: new Container(
-                      width: MediaQuery.of(context).size.width,
-                      child:  Row(
-                        children: <Widget>[
-                          Expanded(flex: 1,child: new InkWell(
-                              onTap: ()
-                              {
-                                Navigator.of(context).pop();
-                              },
-                              child:  new Icon(Icons.close,color: Colors.black),
-                          ),),
-                           Expanded(flex: 1,child: new Container(
+    return SafeArea(
+      child: new Scaffold(
+        body: new Container(
+          color: Colors.white,
+          margin: EdgeInsets.only(top: 22.0),
+          child: new Column(
+           // mainAxisAlignment: MainAxisAlignment.start,
+            
+            children: <Widget>[
+              new Container(
+                height: 50.0,
+                color: Colors.grey[300],
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: new Container(
+                        width: MediaQuery.of(context).size.width,
+                        child:  Row(
+                          children: <Widget>[
+                            Expanded(flex: 1,child: new InkWell(
+                                onTap: ()
+                                {
+                                  Navigator.of(context).pop();
+                                },
+                                child:  new Icon(Icons.close,color: Colors.black),
+                            ),),
+                             Expanded(flex: 1,child: new Container(
 
-                            alignment: Alignment.center,
-                            child:  new Icon(Icons.search,color: Colors.black),
-                          ),),
-                          Expanded(flex: 7,child:new Container(
-                            padding: EdgeInsets.only(left: 20.0),
-                            child: new TextField(
-                              //focusNode: _focusNode,
-                            //  autofocus: true,
-                              controller: controller,
-                              cursorColor: Colors.black,
-                              decoration: new InputDecoration(
-                              hintText: AppLocalizations.of(context).translate("SEARCH"), border: InputBorder.none),
-                              onChanged: (value){
-                                subject.add(value);
-                              },
-                            ) ,
-                          ),),
+                              alignment: Alignment.center,
+                              child:  new Icon(Icons.search,color: Colors.black),
+                            ),),
+                            Expanded(flex: 7,child:new Container(
+                              padding: EdgeInsets.only(left: 20.0),
+                              child: new TextField(
+                                //focusNode: _focusNode,
+                              //  autofocus: true,
+                                controller: controller,
+                                cursorColor: Colors.black,
+                                decoration: new InputDecoration(
+                                hintText: AppLocalizations.of(context).translate("SEARCH"), border: InputBorder.none),
+                                onChanged: (value){
+                                  subject.add(value);
+                                },
+                              ) ,
+                            ),),
 
-                          Expanded(flex: 1,child: Container(
-                            alignment: Alignment.centerRight,
-                            child: new IconButton(icon:Image.asset("images/clean.png",color: Colors.black,),iconSize: 20.0, onPressed: () {
-                              controller.clear();
+                            Expanded(flex: 1,child: Container(
+                              alignment: Alignment.centerRight,
+                              child: new IconButton(icon:Image.asset("images/clean.png",color: Colors.black,),iconSize: 20.0, onPressed: () {
+                                controller.clear();
 
-                              subject.add("");
-                              // onSearchTextChanged('');
-                            },),
-                          ),)
+                                subject.add("");
+                                // onSearchTextChanged('');
+                              },),
+                            ),)
+                          ],
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              _isLoading ? new Center(child: new CircularProgressIndicator(),) : new Container(),
+              new Expanded(
+
+                child: new GridView.count(
+                  crossAxisCount: 2,
+                  childAspectRatio:0.8,
+                  physics: ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  children: new List.generate(items.length, (index)
+                  {
+
+                    return InkWell(
+                      onTap: () {
+                        String idValue = ": \"" + "${items[index].data['id'].toString()}" + "\"";
+                        String Name_Value = ": \"" + "${items[index].data['name'].toString()}" + "\"";
+                        String id = "\"id\"";
+                        String name = "\"name\"";
+                        var json = "{" + id + idValue +","+ name + Name_Value + "}";
+                        Navigator.pop(context, json);
+                       // Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("Cat_Product", true, _list[index])));
+                      },
+                      child: new Container(
+                        margin: EdgeInsets.all(2.0),
+                        alignment: Alignment.center,
+                        //color: Colors.blueGrey[300],
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+                            SizedBox(height:10,),
+                            Card(
+                              elevation: 10.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(80.0),
+                              ),
+                              child:   Container(
+                                padding: EdgeInsets.all(30),
+                                height: 150,
+                                width: 150,
+                                child:  ClipRRect(
+                                  //borderRadius: BorderRadius.circular(40.0),
+                                  child: FadeInImage.assetNetwork(
+                                    placeholder: 'images/barber_cat.png',
+                                    fit: BoxFit.fill,
+                                    image: items[index].data['image']['src'].toString(),
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            SizedBox(height: 10,),
+
+                            Container(
+                              alignment: Alignment.center,
+                              child: new Text(
+                                GlobalFile.getCaptialize(items[index].data['name'].toString(),),
+                                style:
+                                TextStyle(color: Colors.black, fontSize: 20.0),
+                                textAlign: TextAlign.center,
+                              ),
+                              margin: EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
+                              padding: EdgeInsets.only(bottom: 5.0, right: 5.0, left: 5.0),
+
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                )
+                
+                
+                /* new ListView.builder(
+                  padding: new EdgeInsets.all(10.0),
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      child: new Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          new Container(padding: EdgeInsets.all(10.0),
+                            child: new Text(items[index].data['name'].toString()),),
+                          Divider(thickness: 2.0,)
                         ],
-                      )
-                    ),
-                  ),
-                ],
+                      ),
+                      onTap: (){
+                        String idValue = ": \"" + "${items[index].data['id'].toString()}" + "\"";
+                        String Name_Value = ": \"" + "${items[index].data['name'].toString()}" + "\"";
+                        String id = "\"id\"";
+                        String name = "\"name\"";
+                        var json = "{" + id + idValue +","+ name + Name_Value + "}";
+                        Navigator.pop(context, json);
+                      },
+                    ) ;
+
+
+                  },
+                )*/,
               ),
-            ),
-
-            _isLoading ? new Center(child: new CircularProgressIndicator(),) : new Container(),
-            new Expanded(
-
-              child:  new ListView.builder(
-                padding: new EdgeInsets.all(10.0),
-                itemCount: items.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        new Container(padding: EdgeInsets.all(10.0),
-                          child: new Text(items[index].data['name'].toString()),),
-                        Divider(thickness: 2.0,)
-                      ],
-                    ),
-                    onTap: (){
-                   /*   Utility.setStringPreference(GlobalConstant.COCO_CITY_ID, items[index].data['CityId'].toString());
-                      Utility.setStringPreference(GlobalConstant.COCO_CITY, items[index].data['CityLbl'].toString());
-                      Utility.setStringPreference(GlobalConstant.COCO_CITY_CODE, items[index].data['CityLbl'].toString());
-                      Utility.setStringPreference(GlobalConstant.COCO_ADDRESS, items[index].data['Address'].toString());
-*/
-                      String idValue = ": \"" + "${items[index].data['id'].toString()}" + "\"";
-                      String Name_Value = ": \"" + "${items[index].data['name'].toString()}" + "\"";
-                      String id = "\"id\"";
-                      String name = "\"name\"";
-                      var json = "{" + id + idValue +","+ name + Name_Value + "}";
-                      Navigator.pop(context, json);
-                    },
-                  ) ;
-
-
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
