@@ -25,7 +25,6 @@ class ProductView extends State<ProductCategory>
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-
       backgroundColor: Colors.white,
       body: _list.length != 0 ? new GridView.count(
         crossAxisCount: 2,
@@ -34,7 +33,6 @@ class ProductView extends State<ProductCategory>
         shrinkWrap: true,
         children: new List.generate(_list.length, (index)
         {
-          
           return InkWell(
             onTap: () {
               Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("Cat_Product", true, _list[index])));
@@ -49,6 +47,7 @@ class ProductView extends State<ProductCategory>
                 children: [
 
                   SizedBox(height:10,),
+
                   Card(
                     elevation: 10.0,
                     shape: RoundedRectangleBorder(
@@ -70,7 +69,6 @@ class ProductView extends State<ProductCategory>
                   ),
 
                   SizedBox(height: 10,),
-
                   Container(
                     alignment: Alignment.center,
                     child: new Text(

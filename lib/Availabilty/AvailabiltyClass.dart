@@ -39,11 +39,11 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
   ScrollController _scrollController = ScrollController();
   static var now1 = new DateTime.now();
   int year=now1.year;
-  DateTime _currentDate = DateTime(now1.year, now1.month, now1.day);
-  DateTime _currentDate2 =  DateTime(now1.year, now1.month, now1.day);
-  String _currentMonth = DateFormat.yMMM().format(DateTime(2020, 10, 3));
-  DateTime _targetDateTime =  DateTime(now1.year, now1.month, now1.day);
-  String min_date=now1.year.toString()+"-"+now1.month.toString()+"-"+now1.day.toString();
+  DateTime _currentDate = DateTime(now1.year, now1.month, now1.day+1);
+  DateTime _currentDate2 =  DateTime(now1.year, now1.month, now1.day+1);
+  String _currentMonth = DateFormat.yMMM().format(DateTime(now1.year, now1.month, now1.day+1));
+  DateTime _targetDateTime =  DateTime(now1.year, now1.month, now1.day+1);
+  String min_date=now1.year.toString()+"-"+now1.month.toString()+"-"+(now1.day+1).toString();
   String max_date="";
 
    static Widget _eventIcon = new Container(
@@ -157,7 +157,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
       // border in day
       weekFormat: false,
       markedDatesMap: _markedDateMap,
-      height: 350.0,
+      height: 380.0,
       selectedDateTime: _currentDate2,
       targetDateTime: _targetDateTime,
       customGridViewPhysics: NeverScrollableScrollPhysics(),
@@ -220,7 +220,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
             children: <Widget>[
 
               data!=null? new Container(
-                decoration: BoxDecoration(
+             /*   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(0),
                     color: Colors.black,
                     image: DecorationImage(
@@ -232,7 +232,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         fit: BoxFit.fill
                     )
                 ),
-
+*/
                 child: new Column(
                   children: [
 
@@ -244,7 +244,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                       alignment: Alignment.center,
                       child: new Text(
                         GlobalFile.getCaptialize(widget.data_val['name']),
-                        style: TextStyle(fontSize: 20.0, color: Colors.white),
+                        style: TextStyle(fontSize: 20.0, color: Colors.black),
                       ),
                     ),
 
@@ -270,15 +270,16 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                     Container(
                       alignment: Alignment.center,
                       child: new Text(
-                        GlobalFile.getCaptialize(data['vendor_shop_name']),
-                        style: TextStyle(fontSize: 14.0, color: Colors.white),
+                        GlobalFile.getCaptialize(data['vendor_shop_name'].toString().toUpperCase()),
+                        style: TextStyle(fontSize: 20.0, color: Colors.black),
                       ),
                     ),
+                    SizedBox(height: 10.0,),
 
                     Container(
                       alignment: Alignment.center,
                       child: new Text(GlobalFile.getCaptialize(data['vendor_address']),
-                        style: TextStyle(fontSize: 14.0, color: Colors.white),textAlign: TextAlign.center,),
+                        style: TextStyle(fontSize: 14.0, color: Colors.black),textAlign: TextAlign.center,),
                     ),
 
                     SizedBox(height: 10.0,),
@@ -371,7 +372,8 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         var timezone=dateval.toUtc();
                        // removeCartData();
 
-                       addCartData(index);
+                        //Utility.log(TAG, AppointMent_List[index].data);
+                        addCartData(index);
 
                          /*   Map<String, dynamic> appointment() =>
                             {
@@ -484,7 +486,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
     String token = (await Utility.getStringPreference(GlobalConstant.token));
     String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/cart/add-item";
     String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
-    print(widget.data_val['id'].toString());
+    print(AppointMent_List[index].full_data);
 
     Map<String, String> headers = {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -502,8 +504,8 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         "wc_appointments_field_start_date_month":serevr_month,
         "wc_appointments_field_start_date_day":serevr_day,
         "wc_appointments_field_start_date_year":serevr_year,
-        "wc_appointments_field_start_date_time":"14:00",
-        "wc_appointments_field_addons_duration":"0",
+        "wc_appointments_field_start_date_time":AppointMent_List[index].data,
+        "wc_appointments_field_addons_duration":AppointMent_List[index].full_data["duration"].toString(),
         "wc_appointments_field_addons_cost":"0",
         "add-to-cart":widget.data_val['id'].toString(),
       });
@@ -583,9 +585,10 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         try
         {
           Dialogs.hideProgressDialog(context);
+          Utility.log(TAG, value.body);
+
           data1 = json.decode(value.body);
           var data = data1["records"];
-          Utility.log(TAG, data);
           if (data.length != 0) {
                for(int i=0;i<data.length;i++)
                {
@@ -593,8 +596,8 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                  print(date.split("T"));
                  var array_val=date.split("T");
                  var dateTime = DateFormat.jm().format(DateFormat("hh:mm").parse("${array_val[1]}"));
-                 print(dateTime);
-                 AppointMent_List.add(new Datamodel("${dateTime}", "${array_val[1]}"));
+                 Utility.log(TAG,data[i]);
+                 AppointMent_List.add(new Datamodel("${dateTime}", "${array_val[1]}",data[i]));
                }
             setState(()
             {
@@ -625,6 +628,8 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
 class Datamodel
 {
   String date;
-  Datamodel(this.date, this.data);
+
+  Datamodel(this.date, this.data,this.full_data);
   var data;
+  var full_data;
 }

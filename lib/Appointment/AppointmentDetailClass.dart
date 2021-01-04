@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,18 +11,18 @@ import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
-class OrderDetailActivity extends StatefulWidget
+class AppointDetailActivity extends StatefulWidget
 {
   var data;
-  OrderDetailActivity(this.data);
+  AppointDetailActivity(this.data);
 
   @override
   State<StatefulWidget> createState() {
-    return OrderDetailView();
+    return AppointDetailView();
   }
 }
 
-class OrderDetailView extends State<OrderDetailActivity>
+class AppointDetailView extends State<AppointDetailActivity>
 {
   List AppointMent_List = new List();
 
@@ -30,6 +31,7 @@ class OrderDetailView extends State<OrderDetailActivity>
   String TAG="AppointmentView";
   void SubmitData() async
   {
+    Utility.log(TAG, widget.data);
     /*
     Map<String, String> body =
     {
@@ -39,30 +41,34 @@ class OrderDetailView extends State<OrderDetailActivity>
     };
     print("body$body");
    */
-    print(widget.data);
-    String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?parent[]="+widget.data["id"].toString();
-    ApiController apiController = new ApiController.internal();
-    if (await NetworkCheck.check())
-    {
-      Dialogs.showProgressDialog(context);
-      String token = (await Utility.getStringPreference(GlobalConstant.token));
 
+    String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
+    Utility.setStringPreference(GlobalConstant.Product_ID, widget.data.toString());
+    String Url = GlobalConstant.CommanUrl+"products/"+widget.data["product_id"].toString();
+    ApiController apiController = new ApiController.internal();
+
+    if (await NetworkCheck.check()) {
+      Dialogs.showProgressDialog(context);
       apiController.GetWithMyToken(Url,token).then((value)
       {
         try
         {
           Dialogs.hideProgressDialog(context);
-          var data = value;
-          Sereverdata = json.decode(data.body);
-          Utility.log(TAG, Sereverdata);
+          Sereverdata = json.decode(value.body);
+          Utility.log(TAG, Sereverdata["name"]);
+          /*for(int i=0;i<data['images'].length;i++)
+          {
+            _list.add(data['images'][i]['src']);
+          }*/
+          // _list=data['images'];
           setState(() {
-
           });
         }catch(e)
         {
-          GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+          // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
         }
       });
+
     }else
     {
       GlobalWidget.GetToast(context, "No Internet Connection");
@@ -77,7 +83,7 @@ class OrderDetailView extends State<OrderDetailActivity>
       body: new ListView(
         shrinkWrap: true,
         children:
-        [
+        [/*
           new Container(
             padding: EdgeInsets.all(10.0),
             child: Row(
@@ -93,10 +99,8 @@ class OrderDetailView extends State<OrderDetailActivity>
 
                       new Row(
                         children: [
-
                           Expanded(child:  Text(AppLocalizations.of(context).translate("total"),style: TextStyle(color: Colors.black,fontSize: 16.0),),),
                           Expanded(child:  Text(widget.data["currency"]+" "+widget.data["total"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),textAlign: TextAlign.end,),),
-
                         ],
                       ),
 
@@ -115,24 +119,23 @@ class OrderDetailView extends State<OrderDetailActivity>
 
               ],
             ),
-          ),
+          ),*/
           SizedBox(height: 20,),
-          Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("st_date"),GlobalConstant.get_Dateval(Sereverdata[0]["start"])):new Container(),
-          Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("st_time"),GlobalConstant.readTimestamp(Sereverdata[0]["start"])):new Container(),
-          billingInfo(AppLocalizations.of(context).translate("firstName"),widget.data["billing"]["first_name"]),
-          billingInfo(AppLocalizations.of(context).translate("lastName"),widget.data["billing"]["last_name"]),
-          billingInfo(AppLocalizations.of(context).translate("company"),widget.data["billing"]["company"]),
-          billingInfo(AppLocalizations.of(context).translate("address"),widget.data["billing"]["address_1"]),
-          billingInfo(AppLocalizations.of(context).translate("address")+" other ",widget.data["billing"]["address_2"]),
-          billingInfo(AppLocalizations.of(context).translate("city"),widget.data["billing"]["city"]),
-          billingInfo(AppLocalizations.of(context).translate("state"),widget.data["billing"]["state"]),
-          billingInfo(AppLocalizations.of(context).translate("zipcode"),widget.data["billing"]["postcode"]),
-          billingInfo(AppLocalizations.of(context).translate("country"),widget.data["billing"]["country"]),
-          billingInfo(AppLocalizations.of(context).translate("email"),widget.data["billing"]["email"]),
-          billingInfo(AppLocalizations.of(context).translate("phone"),widget.data["billing"]["phone"]),
 
-          ListView.builder(
-              itemCount: widget.data['line_items'].length,
+          /*
+          Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("Start Date"),GlobalConstant.get_Dateval(Sereverdata[0]["start"])):new Container(),
+          Sereverdata!=null?:new Container(),
+      */
+          billingInfo(AppLocalizations.of(context).translate("st_date"),GlobalConstant.get_Dateval(widget.data["start"])+"  "+GlobalConstant.readTimestamp(widget.data["start"])),
+          billingInfo(AppLocalizations.of(context).translate("o_date"),GlobalConstant.get_Dateval(widget.data["date_created"])+"  "+GlobalConstant.readTimestamp(widget.data["date_created"])),
+          billingInfo(AppLocalizations.of(context).translate("o_id"),widget.data["order_id"].toString()),
+          billingInfo(AppLocalizations.of(context).translate("status"),widget.data["status"]),
+          billingInfo(AppLocalizations.of(context).translate("cu_status"),widget.data["customer_status"]),
+         // billingInfo(AppLocalizations.of(context).translate("company"),widget.data["qty"].toString()),
+          billingInfo(AppLocalizations.of(context).translate("cu_name"),widget.data["customer_name"]),
+
+          Sereverdata!=null?ListView.builder(
+              itemCount: 1,
               physics: ClampingScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
@@ -142,7 +145,7 @@ class OrderDetailView extends State<OrderDetailActivity>
                   },
                   child: getData(index),
                 );
-              }),
+              }):new Container(),
         ],
       ),
     );
@@ -154,27 +157,44 @@ class OrderDetailView extends State<OrderDetailActivity>
       children: [
         new Row(
           children: [
-
-             Expanded(flex: 2,
+            Expanded(flex: 4,
               child: new Container(
-                padding: EdgeInsets.all(5.0),
+                margin: EdgeInsets.all(10.0),
                 alignment: Alignment.center,
                 child: Text("S",style: TextStyle(color: Colors.white),),
-                height: 60,
-                width: 60,
+                height: 100,
+                width: 100,
                 decoration: BoxDecoration(
                     color: GlobalConstant.getTextColor(),
-                    shape: BoxShape.circle
+                  //  shape: BoxShape.circle,
+                    image: DecorationImage(
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.99), BlendMode.dstIn),
+
+                        image: new NetworkImage(Sereverdata['images'][0]['src']
+                        ),
+                        fit: BoxFit.fill
+                    )
                 ),
               ),),
-
+              SizedBox(width: 40,),
               Expanded(
-                flex: 8,
+                flex: 6,
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    //SizedBox(height: 10,),
+                    Text(Sereverdata["name"],style: TextStyle(color: Colors.black),),
                     SizedBox(height: 10,),
-                    Text(widget.data['line_items'][index]["name"],style: TextStyle(color: Colors.black),),
+                    Text(Sereverdata["categories"][0]["name"],style: TextStyle(color: Colors.black),),
+                    //Text("Price "+Sereverdata["price"]+"/-",style: TextStyle(color: Colors.black),),
+                    Html(
+                      data: Sereverdata["price_html"],
+
+                      onLinkTap: (url) {
+                        print("Opening $url...");
+                      },
+                    ),
+                   // SizedBox(height: 10,),
                   ],
                 ),
               )

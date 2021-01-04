@@ -104,6 +104,16 @@
   "payment_msg": "الرجاء تحديد طريقة الدفع",
   "some_error": "Something went wrong",
   "enternet": "Enternet error",
+  "Appoint_dtl": "Appointment Detail",
+  "st_date": "Start Date",
+  "st_time": "Start Time",
+  "end_time": "End Time",
+  "end_date": "End Date",
+  "status": "Status",
+  "cu_status": "Customer Status",
+  "cu_name": "Customer Name",
+  "o_date": "Order Date",
+  "o_id": "Order ID",
   "canbecanceltext": "ضع علامة في هذا المربع إذا كان بإمكان العميل إلغاء الموعد. لن يتم إرسال المبلغ المسترد تلقائيًا."
 
 }

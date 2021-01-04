@@ -139,6 +139,7 @@ class ConfirmView extends State<Confirmation>
 
   Future<void> UpdateData1() async
   {
+    Utility.log(TAG+"vendoid", data['store']["vendor_id"]);
     List a1 = new List();
     List a2 = new List();
 
@@ -146,7 +147,7 @@ class ConfirmView extends State<Confirmation>
 
     Map<String, dynamic> mapobj_meta1() => {'key': "Location", 'value': "home"};
 
-    Map<String, dynamic> mapobj_meta2() => {'key': "_vendor_id", 'value': "2"};
+    Map<String, dynamic> mapobj_meta2() => {'key': "_vendor_id", 'value':data['store']["vendor_id"]};
 
     a2.add(mapobj_meta());
     a2.add(mapobj_meta1());
@@ -176,12 +177,11 @@ class ConfirmView extends State<Confirmation>
           'appointment': widget.appointment,
         };
 
-    print("datatval2 ${json.encode(map2())}");
+    Utility.log(TAG,"datatval2 ${json.encode(map2())}");
     String url=GlobalConstant.CommanUrlLogin + "wc/v3/orders/";
     //  url="http://salon.microband.site/wp-json/wc/v2/orders?";
     ApiController apiController = new ApiController.internal();
     GlobalFile globalFile = new GlobalFile();
-
     if (await NetworkCheck.check())
     {
       String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
@@ -209,15 +209,8 @@ class ConfirmView extends State<Confirmation>
               {
 
               }
-          /*
-             if (data1['status'] == 0)
-              {
-               // products=data1['ds']['tables'][0]['rowsList'];
-              } else
-              {
-                GlobalWidget.showMyDialog(context, "Error", data1['msg'].toString());
-              }
-          */
+
+
         } catch (e) {
           GlobalWidget.showMyDialog(context, "Error", "" + e.toString());
         }

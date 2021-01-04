@@ -370,7 +370,8 @@ class CartViewDetail extends State<CartActivity>
     }
   }
 
-  GetBarberButton() {
+  GetBarberButton()
+  {
     return new Container(
       height: 50.0,
       margin: EdgeInsets.all(20.0),
@@ -380,10 +381,11 @@ class CartViewDetail extends State<CartActivity>
         textColor: GlobalWidget.getBtnTextColorDark(),
         onPressed: ()
         {
-          print(json.encode(listdata[0]["appointment"]));
+          print(json.encode(listdata[0]));
           Map<String, dynamic> appointment() =>
               {
                 "timezone" : "Asia/Karachi",
+                //"time" : listdata[0]["appointment"]["_time"],
                 "time" : listdata[0]["appointment"]["time"],
                 "qty" : "1",
                 "start_date" : listdata[0]["appointment"]["_start_date"],

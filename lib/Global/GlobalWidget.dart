@@ -256,4 +256,17 @@ class GlobalWidget
       )
     ;
   }
+
+  static String getCaptialze(String string ) {
+    try
+    {
+      string =string.substring(0,1);
+      return string.toUpperCase();
+    }catch(e)
+    {
+
+    }
+
+    return "";
+  }
 }

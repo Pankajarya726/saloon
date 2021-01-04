@@ -12,6 +12,7 @@ import 'package:salon_app/Profile/edit_personal_info_class.dart';
 import 'package:salon_app/Profile/edit_other_detail.dart';
 import 'package:salon_app/VendorList/ProductClass.dart';
 import 'Appointment/AppointmentClass.dart';
+import 'Appointment/AppointmentDetailClass.dart';
 import 'Appointment/MybookedOrderClass.dart';
 import 'Availabilty/AvailabiltySchduleClass.dart';
 import 'BarberPackage/MyProductClass.dart';
@@ -105,6 +106,9 @@ class CommonView extends State<CommonDashBord> {
       case "vendor_dtl":
         return VendoeDetailActivity();
         break;
+      case "appoint_dtl":
+        return AppointDetailActivity(widget.data);
+        break;
       case "vendor_avail":
         return AvailabiltyActivity(widget.data);
         break;
@@ -179,6 +183,9 @@ class CommonView extends State<CommonDashBord> {
         break;
       case "add_product":
         return AppLocalizations.of(context).translate('Tapered');
+        break;
+      case "appoint_dtl":
+        return AppLocalizations.of(context).translate('Appoint_dtl');
         break;
         case "Cat_Product":
       return widget.data["name"].toString();

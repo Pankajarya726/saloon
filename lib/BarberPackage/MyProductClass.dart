@@ -211,23 +211,15 @@ class ProductView extends State<MyProductActivity> {
   }
 
   String TAG = "ProductView";
+  String MyProductsID = "";
 
   void SubmitData() async
   {
-    /*
-    Map<String, String> body =
-    {
-      'tour_destination_id': "${widget.taskId.toString()}",
-      'status_id': _user.toString(),
-      'salesman_comment': _description_controller.text.toString(),
-    };
-    print("body$body");
-   */
-
     String store_id = (await Utility.getStringPreference(GlobalConstant.store_id));
     String Url = GlobalConstant.CommanUrl + "store-vendors/" + store_id + "/products/";
     ApiController apiController = new ApiController.internal();
-    if (await NetworkCheck.check()) {
+    if (await NetworkCheck.check())
+    {
       Dialogs.showProgressDialog(context);
       apiController.Get(Url).then((value) {
         try
@@ -236,15 +228,21 @@ class ProductView extends State<MyProductActivity> {
           var data = value;
           var data1 = json.decode(data.body);
 
-          Utility.log(TAG, data1);
+         // Utility.log(TAG, data1);
 
           if (data1.length != 0) {
             for (int i = 0; i < data1.length; i++) {
+              Utility.log(TAG, data1[i]["id"].toString());
+
+              MyProductsID+=data1[i]["id"].toString()+",";
               _list.add(new DataModel(data1[i]));
             }
             setState(() {
 
             });
+
+            Utility.log(TAG, MyProductsID);
+            Utility.setStringPreference(GlobalConstant.MyProductsId, MyProductsID);
           } else {
             //GlobalWidget.showMyDialog(context, "Error", data1.toString());
           }

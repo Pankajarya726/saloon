@@ -104,5 +104,15 @@
   "payment_msg": "Please select payment mode",
   "some_error": "Something went wrong",
   "enternet": "Enternet error",
+  "Appoint_dtl": "Appointment Detail",
+  "st_date": "Start Date",
+  "st_time": "Start Time",
+  "end_time": "End Time",
+  "end_date": "End Date",
+  "status": "Status",
+  "cu_status": "Customer Status",
+  "cu_name": "Customer Name",
+  "o_date": "Order Date",
+  "o_id": "Order ID",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

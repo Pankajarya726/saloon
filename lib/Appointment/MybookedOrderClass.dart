@@ -51,7 +51,6 @@ class OrderView extends State<OrderActivity>
                             Navigator.of(context).push(new MaterialPageRoute(
                             builder: (_) => new Confirmation( GlobalFile.getCaptialize(data['vendor_display_name']),_targetDateTime)));
                            */
-
                           },
                         child: getData(index),
                       );
@@ -129,16 +128,18 @@ class OrderView extends State<OrderActivity>
       padding: EdgeInsets.all(5.0),
       child: new Column(
         children: [
+
           new Row(
+
             children: [
 
-              SizedBox(width: 10.0,),
+               SizedBox(width: 10.0,),
 
-              Expanded(flex: 2,
+               Expanded(flex: 2,
                 child: new Container(
                   padding: EdgeInsets.all(5.0),
                   alignment: Alignment.center,
-                  child: Text(_list[index].data["billing"]["first_name"].toString()),
+                  child: Text(GlobalWidget.getCaptialze(_list[index].data["billing"]["first_name"].toString())),
                   height: 60,
                   width: 60,
                   decoration: BoxDecoration(
@@ -175,6 +176,7 @@ class OrderView extends State<OrderActivity>
                   ),
                 ),
               ),
+
             ],
           ),
 

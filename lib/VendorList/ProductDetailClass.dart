@@ -44,7 +44,7 @@ class DetailView extends State<ProductDetailActivity>
   Widget build(BuildContext context) {
     return new Scaffold(
       body: data != null ? new Container(
-              color: Colors.grey.shade200,
+              color: Colors.white,
               height: MediaQuery.of(context).size.height,
               child: getFulldata(),
             )
@@ -64,12 +64,26 @@ class DetailView extends State<ProductDetailActivity>
       child: InkWell(
         child:Container(
           height: 200.0,
+          width: MediaQuery.of(context).size.width,
+
           margin: EdgeInsets.all(1.0),
           child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              child:  Image.network(item, fit: BoxFit.fill, width: MediaQuery.of(context).size.width,height: MediaQuery.of(context).size.height,),
+              child:  Image.network(item,  //fit: BoxFit.fill,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,),
           ),
-        ) ,
+        )
+        /*Container(
+          margin: EdgeInsets.all(6.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            image: DecorationImage(
+              image: NetworkImage(item),
+              fit: BoxFit.cover,
+            ),
+          ),
+        )*/,
         onTap: ()
         {
           var index = _list.indexOf(item);
@@ -89,123 +103,85 @@ class DetailView extends State<ProductDetailActivity>
           height:20,
         ),
 
-        Container(
-          alignment: Alignment.topLeft,
-          child: new Text(
-            GlobalFile.getCaptialize(data['name']),
-            style: TextStyle(fontSize: 20.0, color: Colors.black),
-          ),
-        ),
-
-
-        Container(
-          alignment: Alignment.center,
-          child: new Center(
-            child: SingleChildScrollView(
-              child: Html(
-                data: data['price_html'],
-                onLinkTap: (url) {
-                  print("Opening $url...");
-                },
-              ),
-            ),
-          ),
-        ),
-
-
-
-        SizedBox(height: 5.0,),
-
-        InkWell(
-          onTap: (){
-            Navigator.of(context).push(new MaterialPageRoute(
-                builder: (_) => new ZoomImageActivity(data['images'][0]['src'].toString())));
-          },
-
-          child: Container(
-            alignment: Alignment.bottomLeft,
-            padding: EdgeInsets.only(bottom: 5.0,right: 5.0,left: 5.0),
-            height: MediaQuery.of(context).size.height/3,
-            decoration: BoxDecoration(
-
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.black,
-                image: DecorationImage(
-                    colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.99), BlendMode.dstIn),
-
-                    image: new NetworkImage(
-                        data['images'][0]['src']
-                    ),
-                    fit: BoxFit.fill
-                )
-            ),
-          ),
-        ),
-
-        SizedBox(
-          height: 10.0,
-        ),
-
-
-        GetPurches(),
-        SizedBox(
-          height: 10.0,
-        ),
-      //  GetBackToShop(),
 
         new Column(
           children: [
-            _list.length>1?Divider(thickness: 15.0,):new Container(),
-            _list.length>1?ExpansionTile(
-              initiallyExpanded: true,
-              tilePadding: EdgeInsets.only(left: 5.0),
-              childrenPadding: EdgeInsets.all(0.0),
+            SizedBox(height: 20,),
 
-              children: <Widget>[
-                Column(
-                    children: [
-                      CarouselSlider(
-                        items: imageSliders,
-                        options: CarouselOptions(
-                            autoPlay: true,
-                            //height: 250.0,
-                            enableInfiniteScroll: true,
-                            enlargeCenterPage: true,
-                            aspectRatio: 2.0,
-                            onPageChanged: (index, reason) {
-                              setState(() {
-                                _current = index;
+            _list.length>0?Column(
+                children: [
+                  CarouselSlider(
+                    items: imageSliders,
+                    options: CarouselOptions(
+                      //aspectRatio: 2.0,
+                        enlargeCenterPage: true,
 
-                              });
-                            }
+                        viewportFraction: 1.0,
+                        enableInfiniteScroll: false,
+                        initialPage: 0,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _current = index;
+
+                          });
+                        }
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: _list.map((url) {
+                      int index = _list.indexOf(url);
+                      return Container(
+                        width: 8.0,
+                        height: 8.0,
+                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _current == index
+                              ? Color.fromRGBO(0, 0, 0, 0.9)
+                              : Color.fromRGBO(0, 0, 0, 0.4),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: _list.map((url) {
-                          int index = _list.indexOf(url);
-                          return Container(
-                            width: 8.0,
-                            height: 8.0,
-                            margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: _current == index
-                                  ? Color.fromRGBO(0, 0, 0, 0.9)
-                                  : Color.fromRGBO(0, 0, 0, 0.4),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ]
-                ),
-              ],
+                      );
+                    }).toList(),
+                  ),
+                ]
             ):new Container(),
+            SizedBox(height: 40,),
+
+            Container(
+              padding: EdgeInsets.only(left: 10),
+              alignment: Alignment.topLeft,
+              child: new Text(
+                GlobalFile.getCaptialize(data['name']),
+                style: TextStyle(fontSize: 22.0, color: Colors.black,fontWeight: FontWeight.bold),
+              ),
+            ),
 
 
-            Divider(thickness: 15.0,),
+            Container(
+              alignment: Alignment.center,
+              child: new Center(
+                child: SingleChildScrollView(
+                  child: Html(
+                    data: data['price_html'],
+                    onLinkTap: (url) {
+                      print("Opening $url...");
+                    },
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height:20,
+            ),
+
+            GetPurches(),
+            GetBackToShop(),
+            //Divider(thickness: 15.0,),
             ExpansionTile(
               tilePadding: EdgeInsets.only(left: 5.0),
+              initiallyExpanded: true,
               childrenPadding: EdgeInsets.all(0.0),
               title: Text(
                 AppLocalizations.of(context).translate("Description"),
@@ -247,8 +223,9 @@ class DetailView extends State<ProductDetailActivity>
               ],
             ),
 
-            Divider(thickness: 15.0,),
-            ExpansionTile(
+             Divider(thickness: 15.0,),
+
+             ExpansionTile(
               tilePadding: EdgeInsets.only(left: 5.0),
               childrenPadding: EdgeInsets.all(0.0),
               title: Text(
@@ -326,7 +303,6 @@ class DetailView extends State<ProductDetailActivity>
                       child: SingleChildScrollView(
                         child: Html(
                           data: data['wcfm_product_policy_data']['shipping_policy'],
-
                           onLinkTap: (url) {
                           },
 
@@ -352,7 +328,6 @@ class DetailView extends State<ProductDetailActivity>
                       child: SingleChildScrollView(
                         child: Html(
                           data: data['wcfm_product_policy_data']['refund_policy'],
-
                           onLinkTap: (url) {
                           },
 
@@ -398,14 +373,12 @@ class DetailView extends State<ProductDetailActivity>
   }
 
   List<String> _list=new List();
+
   void SubmitData() async
   {
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     Utility.setStringPreference(GlobalConstant.Product_ID, widget.data.toString());
     String Url = GlobalConstant.CommanUrl+"products/"+widget.data.toString();
-
-
-
     ApiController apiController = new ApiController.internal();
 
     if (await NetworkCheck.check()) {
@@ -437,23 +410,29 @@ class DetailView extends State<ProductDetailActivity>
 
   GetPurches() {
     return new Container(
-      height: 50.0,
+      height: 60.0,
+
+      margin: EdgeInsets.only(top: 20),
+      width: MediaQuery.of(context).size.width,
       child: FlatButton(
         shape: GlobalWidget.getButtonTheme(),
-        color: GlobalWidget.getBtncolor(),
-        textColor: GlobalWidget.getBtnTextColor(),
+        color: GlobalWidget.getBtncolorDark(),
+        textColor:GlobalWidget.getBtnTextColorDark(),
         onPressed: ()
         {
           Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("vendor_avail",true,data)));
         },
-        child: Text(AppLocalizations.of(context).translate("purches"),style: GlobalWidget.textbtnstyle(),),
+        child: Text(AppLocalizations.of(context).translate("purches"),style: GlobalWidget.textbtnstyleDark(),),
       ),
     );
   }
   GetBackToShop() {
 
     return new Container(
-      height: 50.0,
+      height: 60.0,
+
+      margin: EdgeInsets.only(top: 15),
+      width: MediaQuery.of(context).size.width,
       child: FlatButton(
         shape: GlobalWidget.getButtonTheme(),
         color: GlobalWidget.getBtncolor(),

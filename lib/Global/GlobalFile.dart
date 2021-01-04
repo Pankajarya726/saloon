@@ -24,7 +24,6 @@ class GlobalFile
     if (set.toString().toLowerCase() == "null") {
       set = "";
     }
-    print(set);
     return set;
   }
   static bool isEmail(String em) {
