@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/VendorList/VendorClass.dart';
+import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 import 'package:intl/intl.dart';
+
+import 'Utility.dart';
 
 class GlobalConstant
 {
@@ -205,6 +209,22 @@ class GlobalConstant
   }
   static getDurationStringText(String s) {
     return  Text(s,style: TextStyle(fontSize: 12),);
+  }
+
+  static bool getValidDateTime(BuildContext context, selected_date_data) {
+
+    DateTime selectedDate = new DateFormat("yyyy-MM-ddThh:mm").parse(selected_date_data);
+    var now = new DateTime.now();
+    if(selectedDate.isBefore(now))
+    {
+      Utility.log("TAG",selectedDate.toString() +"yes");
+      GlobalWidget.showMyDialog(context, "", AppLocalizations.of(context).translate("date_msg"));
+      return false;
+    }else
+    {
+      Utility.log("TAG",selectedDate.toString() +"no");
+      return true;
+    }
   }
 
 }

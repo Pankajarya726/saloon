@@ -407,7 +407,10 @@ class CartViewDetail extends State<CartActivity>
                   GlobalWidget.showMyDialog(context, "", AppLocalizations.of(context).translate("payment_msg"));
           }else
             {
-                  getExistData(appointment());
+              if(GlobalConstant.getValidDateTime(context, listdata[0]["appointment"]["_date"].toString()+"T"+listdata[0]["appointment"]["_time"].toString()))
+              {
+                getExistData(appointment());
+              }
             }
         },
         child: Text(AppLocalizations.of(context).translate("check_out"),style: GlobalWidget.textbtnstyleDark(),),

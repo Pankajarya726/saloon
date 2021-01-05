@@ -4,6 +4,7 @@ import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import 'package:toast/toast.dart';
 import 'AppColor.dart';
+import 'package:intl/intl.dart';
 class GlobalWidget
 {
   static GetToast(BuildContext context,String msg)
@@ -180,6 +181,9 @@ class GlobalWidget
       alignment: Alignment.center,
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
+      child: new Center(
+        child: Text(AppLocalizations.of(context).translate("no_rec"),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: GlobalConstant.getTextColorDark()),),
+      ),
     );
   }
 
@@ -268,5 +272,13 @@ class GlobalWidget
     }
 
     return "";
+  }
+
+  static ConvertDate(date) {
+ //   String date="${data[i]["date"].toString()}";
+    print(date.split("T"));
+    var array_val=date.split("T");
+    var dateTime = DateFormat.jm().format(DateFormat("hh:mm").parse("${array_val[1]}"));
+    return array_val[0].toString()+"  "+dateTime.toString();
   }
 }

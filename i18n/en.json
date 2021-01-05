@@ -114,5 +114,8 @@
   "cu_name": "Customer Name",
   "o_date": "Order Date",
   "o_id": "Order ID",
+  "my_order": "My Order",
+  "no_rec": "NO RECORD",
+  "date_msg": "Appointment date time should be after from current date time",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

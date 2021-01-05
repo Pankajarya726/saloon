@@ -151,8 +151,8 @@ class AppointmentView extends State<AppointmentActivity>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                                Text(_list[index].data["customer_name"].toString(),style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),),
-                              Text(_list[index].data["status"],style: TextStyle(color: Colors.black,fontSize: 16.0),),
-                              Text("Status : "+_list[index].data["customer_status"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),),
+                               Text(_list[index].data["status"],style: TextStyle(color: Colors.black,fontSize: 16.0),),
+                               Text("Status : "+_list[index].data["customer_status"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),),
                               // Text(_list[index].data["customer_status"]),
                             ],
                           ),

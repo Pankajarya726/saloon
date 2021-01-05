@@ -39,15 +39,15 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
   ScrollController _scrollController = ScrollController();
   static var now1 = new DateTime.now();
   int year=now1.year;
-  DateTime _currentDate = DateTime(now1.year, now1.month, now1.day+1);
-  DateTime _currentDate2 =  DateTime(now1.year, now1.month, now1.day+1);
-  String _currentMonth = DateFormat.yMMM().format(DateTime(now1.year, now1.month, now1.day+1));
-  DateTime _targetDateTime =  DateTime(now1.year, now1.month, now1.day+1);
-  String min_date=now1.year.toString()+"-"+now1.month.toString()+"-"+(now1.day+1).toString();
+  DateTime _currentDate = DateTime(now1.year, now1.month, now1.day);
+  DateTime _currentDate2 =  DateTime(now1.year, now1.month, now1.day);
+  String _currentMonth = DateFormat.yMMM().format(DateTime(now1.year, now1.month, now1.day));
+  DateTime _targetDateTime =  DateTime(now1.year, now1.month, now1.day);
+  String min_date=now1.year.toString()+"-"+now1.month.toString()+"-"+(now1.day).toString();
   String max_date="";
 
    static Widget _eventIcon = new Container(
-    decoration: new BoxDecoration(
+   decoration: new BoxDecoration(
         color: Colors.red,
         borderRadius: BorderRadius.all(Radius.circular(2)),
         border: Border.all(color: Colors.blue, width: 1.0)),
@@ -370,10 +370,19 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         Utility.setStringPreference(GlobalConstant.Order_Time, AppointMent_List[index].date);
                         var dateinmilli=dateval.millisecondsSinceEpoch;
                         var timezone=dateval.toUtc();
+
+
                        // removeCartData();
 
-                        //Utility.log(TAG, AppointMent_List[index].data);
-                        addCartData(index);
+                        Utility.log(TAG, AppointMent_List[index].data+"  "+AppointMent_List[index].full_data.toString());
+
+                        if(GlobalConstant.getValidDateTime(context,AppointMent_List[index].full_data["date"]))
+                          {
+                            addCartData(index);
+                          }
+
+
+                     //
 
                          /*   Map<String, dynamic> appointment() =>
                             {

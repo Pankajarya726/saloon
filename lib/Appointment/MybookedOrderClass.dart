@@ -161,7 +161,7 @@ class OrderView extends State<OrderActivity>
 
                            Text(_list[index].data["line_items"][0]["name"].toString(),style: TextStyle(fontSize: 16.0),),
                            Text(_list[index].data["status"],style: TextStyle(color: Colors.black,fontSize: 14.0),),
-                           Text("Order at : "+_list[index].data["date_created"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),),
+                           Text("Order at : "+ GlobalWidget.ConvertDate(_list[index].data["date_created"]),style: TextStyle(color: GlobalConstant.getTextColorDark(),fontSize: 14.0),),
                             // Text(_list[index].data["customer_status"]),
                           ],
                         ),

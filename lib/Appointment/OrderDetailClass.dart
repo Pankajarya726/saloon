@@ -31,13 +31,14 @@ class OrderDetailView extends State<OrderDetailActivity>
   void SubmitData() async
   {
     /*
-    Map<String, String> body =
-    {
-      'tour_destination_id': "${widget.taskId.toString()}",
-      'status_id': _user.toString(),
-      'salesman_comment': _description_controller.text.toString(),
-    };
-    print("body$body");
+      Map<String, String> body =
+      {
+        'tour_destination_id': "${widget.taskId.toString()}",
+        'status_id': _user.toString(),
+        'salesman_comment': _description_controller.text.toString(),
+      };
+      print("body$body");
+
    */
     print(widget.data);
     String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?parent[]="+widget.data["id"].toString();
@@ -56,7 +57,6 @@ class OrderDetailView extends State<OrderDetailActivity>
           Sereverdata = json.decode(data.body);
           Utility.log(TAG, Sereverdata);
           setState(() {
-
           });
         }catch(e)
         {
@@ -93,9 +93,8 @@ class OrderDetailView extends State<OrderDetailActivity>
 
                       new Row(
                         children: [
-
                           Expanded(child:  Text(AppLocalizations.of(context).translate("total"),style: TextStyle(color: Colors.black,fontSize: 16.0),),),
-                          Expanded(child:  Text(widget.data["currency"]+" "+widget.data["total"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),textAlign: TextAlign.end,),),
+                          Expanded(child:  Text(widget.data["currency"]+" "+widget.data["total"],style: TextStyle(color: GlobalConstant.getTextColorDark(),fontSize: 14.0),textAlign: TextAlign.end,),),
 
                         ],
                       ),
@@ -105,7 +104,7 @@ class OrderDetailView extends State<OrderDetailActivity>
                       new Row(
                        children: [
                          Expanded(child: Text(widget.data["status"],style: TextStyle(color: Colors.black,fontSize: 16.0),),),
-                         Expanded(child: Text(widget.data["date_created"],style: TextStyle(color: GlobalConstant.getTextColor(),fontSize: 14.0),textAlign: TextAlign.end,),)
+                         Expanded(child: Text( GlobalWidget.ConvertDate(widget.data["date_created"]),style: TextStyle(color: GlobalConstant.getTextColorDark(),fontSize: 14.0),textAlign: TextAlign.end,),)
                        ],
                      ),
 

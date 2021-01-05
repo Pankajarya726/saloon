@@ -114,6 +114,9 @@
   "cu_name": "Customer Name",
   "o_date": "Order Date",
   "o_id": "Order ID",
+  "my_order": "My Order",
+  "no_rec": "NO RECORD",
+  "date_msg": "Please select after appointment time from current time",
   "canbecanceltext": "ضع علامة في هذا المربع إذا كان بإمكان العميل إلغاء الموعد. لن يتم إرسال المبلغ المسترد تلقائيًا."
 
 }

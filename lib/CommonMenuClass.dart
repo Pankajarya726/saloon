@@ -230,8 +230,11 @@ class CommonView extends State<CommonDashBord> {
       case "order_dtl":
         return AppLocalizations.of(context).translate('order_dtl');
         break;
+      case "my_order":
+        return AppLocalizations.of(context).translate('my_order');
+        break;
       default:
-        return "Salon App";
+        return "Saloon App";
         break;
     }
   }
