@@ -32,6 +32,7 @@ dependencies:
   loader_search_bar:
   #myfatoorah_flutter:
   my_fatoorah:
+  html_editor:
   image_picker:
   carousel_slider:
   path:

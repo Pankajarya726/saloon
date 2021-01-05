@@ -58,6 +58,8 @@ class ProductView extends State<MyProductActivity> {
             color: Colors.white,
             child: _list.length != 0 ? new GridView.count(
               crossAxisCount: 2,
+
+              childAspectRatio:0.8,
               shrinkWrap: true,
               children: new List.generate(_list.length, (index) {
                 return InkWell(
@@ -69,13 +71,12 @@ class ProductView extends State<MyProductActivity> {
                         .then((val) {
                       if (val != null) {
                         Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                            builder: (_) =>
-                            new CommonDashBord("vendor_list", false)));
+                            builder: (_) => new CommonDashBord("vendor_list", false)));
                       }
                     });
                   },
 
-                  child: Container(
+                  child:/* Container(
                     alignment: Alignment.bottomLeft,
                     child: new Row(
                       children: [
@@ -112,25 +113,79 @@ class ProductView extends State<MyProductActivity> {
                             fit: BoxFit.fill
                         )
                     ),
+                  )*/new Container(
+                    margin: EdgeInsets.all(2.0),
+                    alignment: Alignment.center,
+                    //color: Colors.blueGrey[300],
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+
+                        SizedBox(height:10,),
+                        Card(
+                          elevation: 10.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 220,
+                            width: 200,
+                            padding: EdgeInsets.all(10),
+                            child:  new Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+                                SizedBox(height: 5,),
+                                FadeInImage.assetNetwork(
+
+                                  height: 100,
+                                  width: 100,
+                                  placeholder: 'images/barber_cat.png',
+                                  fit: BoxFit.fill,
+
+                                  image:    _list[index].data['images'][0]['src'],
+                                ),
+                                SizedBox(height: 10,),
+                                Container(
+                                  alignment: Alignment.center,
+                                  child: new Text(
+                                    GlobalFile.getCaptialize(GlobalFile.getCaptialize(
+                                        _list[index].data['name']),),
+                                    style: TextStyle(color: Colors.black, fontSize: 18.0,),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    delete_id = _list[index].data["id"].toString();
+                                    DeleteProduct(context);
+                                  },
+                                  child: Icon(Icons.delete, color: Colors.black,),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }),
             ) : GlobalWidget.getNoRecord(context),
           ),
-
         ),
       );
   }
 
   void DeleteData() async
   {
-    String USER_ID = (await Utility.getStringPreference(
-        GlobalConstant.store_id));
-    String token = (await Utility.getStringPreference(GlobalConstant.token));
+    String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
+    String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
 
     Map<String, dynamic> body =
     {
-
       'post_author': USER_ID
     };
 
