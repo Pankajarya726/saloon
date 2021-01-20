@@ -85,7 +85,7 @@ class AppointDetailView extends State<AppointDetailActivity>
         children:
         [/*
           new Container(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all             (10.0),
             child: Row(
               children: [
                 Expanded(
@@ -123,6 +123,7 @@ class AppointDetailView extends State<AppointDetailActivity>
           SizedBox(height: 20,),
 
           /*
+
           Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("Start Date"),GlobalConstant.get_Dateval(Sereverdata[0]["start"])):new Container(),
           Sereverdata!=null?:new Container(),
       */
@@ -142,6 +143,7 @@ class AppointDetailView extends State<AppointDetailActivity>
                 return InkWell(
                   onTap: ()
                   {
+
                   },
                   child: getData(index),
                 );

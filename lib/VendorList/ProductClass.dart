@@ -153,12 +153,14 @@ class ProductView extends State<ProductActivity> {
 
     String Verder_Id =
         (await Utility.getStringPreference(GlobalConstant.Verder_Id));
+    String admin_token =
+        (await Utility.getStringPreference(GlobalConstant.admin_token));
     String Url =
         GlobalConstant.CommanUrl + "store-vendors/" + Verder_Id + "/products/";
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.Get(Url).then((value) {
+      apiController.GetWithMyToken(Url,admin_token).then((value) {
         try {
           Dialogs.hideProgressDialog(context);
           var data = value;

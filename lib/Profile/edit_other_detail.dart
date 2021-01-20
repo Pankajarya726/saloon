@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:html_editor/html_editor.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import 'package:salon_app/Global/ApiController.dart';
@@ -20,7 +21,9 @@ class EditOtherDetail extends StatefulWidget {
 
 class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProviderStateMixin {
   AnimationController _controller;
-
+  final GlobalKey<HtmlEditorState> keyEditor = GlobalKey();
+  final GlobalKey<HtmlEditorState> keyEditor1 = GlobalKey();
+  var data1;
   void getExistData() async
   {
     String store_id = (await Utility.getStringPreference(GlobalConstant.store_id));
@@ -36,11 +39,13 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
         try
         {
           Dialogs.hideProgressDialog(context);
-          var data1 = json.decode(value.body);
+           data1 = json.decode(value.body);
           // data = data1;
           Utility.log(TAG, data1['meta']);
           if (data1.length != 0)
           {
+            keyEditor.currentState.setText(data1['meta']['_store_description'][0].toString());
+            keyEditor1.currentState.setText(data1['meta']['wcfm_policy_vendor_options'][0].toString());
             descriptionController.text=data1['meta']['_store_description'][0];
             storePolicyController.text=data1['meta']['wcfm_policy_vendor_options'][0];
             setState(()
@@ -86,9 +91,33 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
                 padding: GlobalWidget.getpadding(),
                 children: <Widget>[
 
-                  firstNameFeild(),
+                  new Container(
+                    height: 300,
+                    child:  HtmlEditor(
+                      hint: AppLocalizations.of(context).translate("Description"),
+                      value:  "${data1 == null ? "" :data1['meta']['_store_description'] == null ? "" : data1['meta']['_store_description'][0]}",
+                      key: keyEditor,
+                      showBottomToolbar: false,
+                      height: 300,
+                    ),
+                  ),
                   GlobalWidget.sizeBox1(),
-                  lastNameFeild(),
+                  GlobalWidget.sizeBox1(),
+                  GlobalWidget.sizeBox1(),
+                  new Container(
+                    height: 300,
+                    child:  HtmlEditor(
+                      hint: AppLocalizations.of(context).translate("store_poliecies"),
+                      value:  "${data1 == null ? "" :data1['meta']['wcfm_policy_vendor_options'] == null ? "" : data1['meta']['wcfm_policy_vendor_options'][0]}",
+                      key: keyEditor1,
+                      showBottomToolbar: false,
+                      height: 300,
+                    ),
+                  ),
+
+                  //firstNameFeild(),
+
+                 // lastNameFeild(),
                   GlobalWidget.sizeBox1(),
                   GetSubmitButton(),
                 ])),
@@ -103,13 +132,21 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
   {
     String store_id = (await Utility.getStringPreference(GlobalConstant.store_id));
     String token = (await Utility.getStringPreference(GlobalConstant.token));
+
     String Url = GlobalConstant.CommanUrlLogin + "wp/v2/users/"+store_id;
     String USER_ID = (await Utility.getStringPreference(GlobalConstant.store_id));
+    await keyEditor.currentState.getText();
+    await keyEditor1.currentState.getText();
+    final description_text_data = await keyEditor.currentState.getText();
+    final  policy_text_data = await keyEditor1.currentState.getText();
+
+
     Map<String, dynamic> mapBilling() =>
         {
-          "_store_description" : descriptionController.text.toString(),
-          "wcfm_policy_vendor_options" : storePolicyController.text.toString()
+          "_store_description" : description_text_data,
+          "wcfm_policy_vendor_options" : policy_text_data
         };
+
     Map<String, dynamic> body() =>
         {
           'id': "${USER_ID}",

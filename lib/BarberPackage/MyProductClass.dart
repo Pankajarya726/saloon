@@ -27,6 +27,7 @@ class MyProductActivity extends StatefulWidget
 class ProductView extends State<MyProductActivity> {
   List<DataModel> _list = new List();
   String delete_id = "";
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -58,7 +59,6 @@ class ProductView extends State<MyProductActivity> {
             color: Colors.white,
             child: _list.length != 0 ? new GridView.count(
               crossAxisCount: 2,
-
               childAspectRatio:0.8,
               shrinkWrap: true,
               children: new List.generate(_list.length, (index) {
@@ -189,8 +189,7 @@ class ProductView extends State<MyProductActivity> {
       'post_author': USER_ID
     };
 
-    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/products/" +
-        delete_id;
+    String Url = GlobalConstant.CommanUrlLogin + "wcfmmp/v1/products/" + delete_id;
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check())
     {
@@ -288,14 +287,12 @@ class ProductView extends State<MyProductActivity> {
           if (data1.length != 0) {
             for (int i = 0; i < data1.length; i++) {
               Utility.log(TAG, data1[i]["id"].toString());
-
-              MyProductsID+=data1[i]["id"].toString()+",";
+               MyProductsID+=data1[i]["id"].toString()+",";
               _list.add(new DataModel(data1[i]));
             }
             setState(() {
 
             });
-
             Utility.log(TAG, MyProductsID);
             Utility.setStringPreference(GlobalConstant.MyProductsId, MyProductsID);
           } else {

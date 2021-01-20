@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
+import 'package:path/path.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
 import 'NetworkCheck.dart';
 import 'Utility.dart';
 import 'package:http/http.dart' as http;
@@ -41,6 +43,8 @@ class ApiController {
     );
     print("${response.statusCode}");
     Utility.log("Api Response","${response.body}");
+
+    getTokenExpiremsg(response.body,context);
     return response;
   }
 
@@ -102,8 +106,7 @@ Future<http.Response> PostsNew(String url,var body) async {
       },
     );
 
-    print("${response.statusCode}");
-    print("${response.body}");
+    getTokenExpiremsg(response.body,context);
     return response;
   }
 
@@ -122,8 +125,8 @@ Future<http.Response> PostsNewWithToken(String url,var body,String token) async 
       },
     );
 
-    print("${response.statusCode}");
-    print("${response.body}");
+
+    getTokenExpiremsg(response.body,context);
     return response;
   }
 
@@ -137,6 +140,8 @@ Future<http.Response> Get(String url) async {
     );
     print("${response.statusCode}");
     print("${response.body}");
+
+    getTokenExpiremsg(response.body,context);
     return response;
   }
 
@@ -156,6 +161,7 @@ Future<http.Response> GetWithToken(String url) async
       },
     );
 
+  getTokenExpiremsg(response.body,context);
     print("${response.statusCode}");
     print("${response.body}");
     return response;
@@ -177,6 +183,7 @@ Future<http.Response> GetWithToken(String url) async
     );
 
     Utility.log(tag,"${response.body}");
+    getTokenExpiremsg(response.body,context);
     return response;
 
   }
@@ -197,6 +204,8 @@ Future<http.Response> DelWithMyToken(String url,String token) async {
     );
 
     Utility.log(tag,"${response.body}");
+
+    getTokenExpiremsg(response.body,context);
     return response;
 
   }
@@ -265,5 +274,19 @@ Future<http.Response> SetSignUp(var body) async {
     print("${response.body}");
     return response;
 
+  }
+
+  void getTokenExpiremsg(var value,context) {
+    try
+    {
+      var data1 = json.decode(value.body);
+      if(data1["message"].toString().toLowerCase().contains("token"))
+        {
+          GlobalWidget.showMyDialog(context, "Login Again", data1["message"].toString());
+        }
+        }catch(e)
+    {
+
+    }
   }
 }

@@ -23,12 +23,11 @@ class ProductView extends State<ProductCategory>
   List _list=new List();
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new Scaffold(
       backgroundColor: Colors.white,
       body: _list.length != 0 ? new GridView.count(
-        crossAxisCount: 2,
-          childAspectRatio:0.8,
+          crossAxisCount: 1,
+          childAspectRatio:1.9,
           physics: ClampingScrollPhysics(),
         shrinkWrap: true,
         children: new List.generate(_list.length, (index)
@@ -38,16 +37,15 @@ class ProductView extends State<ProductCategory>
               Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("Cat_Product", true, _list[index])));
             },
             child: new Container(
-              margin: EdgeInsets.all(2.0),
+              height: 200,
+              margin: EdgeInsets.all(10.0),
               alignment: Alignment.center,
               //color: Colors.blueGrey[300],
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: new Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-
-                  SizedBox(height:10,),
-
+                  SizedBox(width:20,),
                   Card(
                     elevation: 10.0,
                     shape: RoundedRectangleBorder(
@@ -67,14 +65,14 @@ class ProductView extends State<ProductCategory>
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 10,),
+                  SizedBox(width: 20,),
                   Container(
+
+                    height: 150,
                     alignment: Alignment.center,
                     child: new Text(
                       GlobalFile.getCaptialize(_list[index]['name'].toString(),),
-                      style:
-                      TextStyle(color: Colors.black, fontSize: 20.0),
+                      style: TextStyle(color: Colors.black, fontSize:35.0),
                       textAlign: TextAlign.center,
                     ),
                     margin: EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),

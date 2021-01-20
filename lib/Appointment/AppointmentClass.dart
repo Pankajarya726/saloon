@@ -14,7 +14,6 @@ import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 import 'package:intl/intl.dart';
-
 class AppointmentActivity extends StatefulWidget
 {
   @override
@@ -45,7 +44,6 @@ class AppointmentView extends State<AppointmentActivity>
                     itemBuilder: (BuildContext ctxt, int index) {
                       return InkWell(
                         onTap: (){
-
                           Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("appoint_dtl", true,_list[index].data)));
                         },
                         child: getData(index),

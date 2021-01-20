@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:html_editor/html_editor.dart';
-
 //import 'package:flutter_summernote/flutter_summernote.dart';
 import 'package:salon_app/BarberPackage/gallery_activity.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
@@ -18,15 +17,13 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class CreateProduct extends StatefulWidget {
   var id;
-
   CreateProduct(this.id);
-
   @override
   _CreateProductState createState() => _CreateProductState();
 }
 
-class _CreateProductState extends State<CreateProduct>
-    with SingleTickerProviderStateMixin {
+class _CreateProductState extends State<CreateProduct> with SingleTickerProviderStateMixin
+{
   String InitDescipt = "";
   bool valuefirst = false;
   final GlobalKey<HtmlEditorState> keyEditor = GlobalKey();

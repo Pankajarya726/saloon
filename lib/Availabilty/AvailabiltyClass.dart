@@ -28,7 +28,6 @@ class AvailabiltyActivity extends StatefulWidget
     var data_val;
     AvailabiltyActivity(this.data_val);
     final String title="cal";
-
     @override
     _AvailabiltyActivityState createState() => new _AvailabiltyActivityState();
 }
@@ -52,6 +51,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
         borderRadius: BorderRadius.all(Radius.circular(2)),
         border: Border.all(color: Colors.blue, width: 1.0)),
   );
+
 
   String returnMonth(DateTime date)
   {
@@ -325,7 +325,6 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
                         },
                       ),
                     ),
-
                     Expanded(
                         flex: 8,
                         child: Text(

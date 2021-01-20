@@ -17,9 +17,7 @@ import '../CommonMenuClass.dart';
 class CategoryWiseProductActivity extends StatefulWidget
 {
   String id;
-
   CategoryWiseProductActivity(this.id);
-
   @override
   State<StatefulWidget> createState()
   {
@@ -43,7 +41,6 @@ class ProductView extends State<CategoryWiseProductActivity> {
                 .height,
             color: Colors.white,
             child: _list.length != 0 ? new GridView.count(
-
               childAspectRatio:0.8,
               crossAxisCount: 2,
               shrinkWrap: true,
@@ -51,7 +48,8 @@ class ProductView extends State<CategoryWiseProductActivity> {
                 return InkWell(
                   onTap: () {
                     Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (_) => new CommonDashBord("Product_dtl", true, _list[index].data["id"].toString()))
+                        builder: (_) => new CommonDashBord("Product_dtl", true, _list[index].data["id"].toString())
+                       )
                     );
                   },
                   child:  new Container(
@@ -107,10 +105,9 @@ class ProductView extends State<CategoryWiseProductActivity> {
                       ],
                     ),
                   )
-
                 );
               }),
-            ) : GlobalWidget.getNoRecord(context),
+            ):GlobalWidget.getNoRecord(context),
           ),
 
         ),
