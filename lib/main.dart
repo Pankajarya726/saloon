@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -69,15 +70,11 @@ class MyApp extends StatelessWidget {
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate,
             ],
-            debugShowCheckedModeBanner: false,
+             debugShowCheckedModeBanner: false,
              home: SplashActivity(),
-            // home: ProductCategory(),
-             //home: CommonDashBord("my_cart",false),
-              //home: DateRangePicker(),
-             //  home: SearchUsers(),
-            //  home: RegularAccount("user"),
-           //     home: MyHomePageCal(),
           );
         }),
       );

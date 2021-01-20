@@ -34,7 +34,8 @@ class ProductView extends State<MyProductActivity> {
         onWillPop: _onBackPressed,
         child: new Scaffold(
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
+            onPressed: ()
+            {
               Navigator.of(context)
                   .push(new MaterialPageRoute(
                   builder: (_) => new CommonDashBord("add_product", true, 0)),)
