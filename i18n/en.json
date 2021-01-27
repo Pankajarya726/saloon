@@ -6,7 +6,7 @@
   "english":"English",
   "barber_account":"Barber Account",
   "barber_list": "Barber List",
-  "Tapered": "Tapered",
+  "Tapered": "CUTCQ",
   "Barber_near": "BARBERS NEAR",
   "my_acc": "MY ACCOUNT",
   "my_app": "MY APPOINTMENTS",
@@ -44,7 +44,7 @@
   "exit_msg": "Do you want to exit an App",
   "NO": "NO",
   "YES": "YES",
-  "TAPERED_USER_NEAR": "TAPERED USERS NEAR ME",
+  "TAPERED_USER_NEAR": "USERS NEAR ME",
   "SEARCH": "SEARCH",
   "Description": "DESCRIPTION",
   "review": "REVIEW",
@@ -117,5 +117,6 @@
   "my_order": "My Order",
   "no_rec": "NO RECORD",
   "date_msg": "Appointment date time should be after from current date time",
+  "loading_msg": "Please Wait ....",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

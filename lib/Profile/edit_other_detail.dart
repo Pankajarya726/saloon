@@ -34,7 +34,7 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {
@@ -157,7 +157,7 @@ class _EditOtherDetailState extends State<EditOtherDetail> with SingleTickerProv
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.PostsNewWithToken(Url,json.encode(body()),token).then((value)
+      apiController.PostsNewWithToken(context,Url,json.encode(body()),token).then((value)
       {
         try
         {

@@ -25,13 +25,14 @@ class OrderActivity extends StatefulWidget
 
 class OrderView extends State<OrderActivity>
 {
-  List<DataModel> _list = new List();
+  List<DataModel> _list ;
 
   @override
   Widget build(BuildContext context) {
    return WillPopScope(
        child:new Scaffold(
-       body: _list.length == 0 ? GlobalWidget.getNoRecord(context): new Container(
+       body: _list==null?GlobalWidget.getLoading(context):_list.length == 0 ?
+           GlobalWidget.getNoRecord(context): new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: new Column(
@@ -83,7 +84,7 @@ class OrderView extends State<OrderActivity>
     {
       Dialogs.showProgressDialog(context);
       String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {
@@ -91,6 +92,7 @@ class OrderView extends State<OrderActivity>
           var data = value;
           var data1 = json.decode(data.body);
           Utility.log(TAG, data1[0]);
+          _list=new List();
           if (data1.length != 0)
           {
             for(int i=0;i<data1.length;i++)

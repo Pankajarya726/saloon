@@ -350,7 +350,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url, token).then((value) {
+      apiController.GetWithMyToken(context,Url, token).then((value) {
         try {
           Dialogs.hideProgressDialog(context);
           data = json.decode(value.body);
@@ -391,7 +391,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.getsNewData(Url).then((value) {
+      apiController.getsNewData(Url,context).then((value) {
         try {
           Dialogs.hideProgressDialog(context);
           setState(() {});
@@ -709,7 +709,7 @@ class _CreateProductState extends State<CreateProduct> with SingleTickerProvider
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.PostsNewWithToken(Url, json.encode(body), token)
+      apiController.PostsNewWithToken(context,Url, json.encode(body), token)
           .then((value) {
         var data1 = json.decode(value.body);
         try {

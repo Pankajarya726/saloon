@@ -422,7 +422,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {
@@ -588,7 +588,7 @@ class _AvailabiltyActivityState extends State<AvailabiltyActivity>
     {
       Dialogs.showProgressDialog(context);
       var data1;
-      apiController.GetWithToken(Url).then((value)
+      apiController.GetWithToken(context,Url).then((value)
       {
         try
         {

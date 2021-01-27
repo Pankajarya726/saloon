@@ -39,7 +39,7 @@ class _SearchCategoryState extends State<SearchCategory>
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(GlobalConstant.CommanUrl+"products/categories/",token)
+      apiController.GetWithMyToken(context,GlobalConstant.CommanUrl+"products/categories/",token)
           .then((value)
       {
         try
@@ -226,7 +226,7 @@ class _SearchCategoryState extends State<SearchCategory>
                                 child:  ClipRRect(
                                   //borderRadius: BorderRadius.circular(40.0),
                                   child: FadeInImage.assetNetwork(
-                                    placeholder: 'images/barber_cat.png',
+                                    placeholder: 'images/logo_header.png',
                                     fit: BoxFit.fill,
                                     image: items[index].data['image']['src'].toString(),
                                   ),

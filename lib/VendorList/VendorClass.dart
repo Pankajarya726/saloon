@@ -207,7 +207,7 @@ class VendorView extends State<VendorActivity>
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.Get(Url).then((value)
+      apiController.Get(context,Url).then((value)
       {
         try
         {

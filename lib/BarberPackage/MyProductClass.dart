@@ -25,7 +25,7 @@ class MyProductActivity extends StatefulWidget
 }
 
 class ProductView extends State<MyProductActivity> {
-  List<DataModel> _list = new List();
+  List<DataModel> _list ;
   String delete_id = "";
 
   @override
@@ -58,7 +58,7 @@ class ProductView extends State<MyProductActivity> {
                 .size
                 .height,
             color: Colors.white,
-            child: _list.length != 0 ? new GridView.count(
+            child: _list==null?GlobalWidget.getLoading(context):_list.length != 0 ? new GridView.count(
               crossAxisCount: 2,
               childAspectRatio:0.8,
               shrinkWrap: true,
@@ -77,44 +77,7 @@ class ProductView extends State<MyProductActivity> {
                     });
                   },
 
-                  child:/* Container(
-                    alignment: Alignment.bottomLeft,
-                    child: new Row(
-                      children: [
-                        Expanded(flex: 9,
-                          child: new Text(GlobalFile.getCaptialize(
-                              _list[index].data['name']), style: TextStyle(
-                              color: Colors.white, fontSize: 14.0),),),
-                        Expanded(flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              delete_id = _list[index].data["id"].toString();
-                              DeleteProduct(context);
-                            },
-                            child: Icon(Icons.delete, color: Colors.white,),
-                          ),)
-                      ],
-                    ),
-                    margin: EdgeInsets.only(top: 5.0, right: 5.0, left: 5.0),
-                    padding: EdgeInsets.only(bottom: 5.0, right: 5.0, left: 5.0),
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height,
-                    decoration: BoxDecoration(
-
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.black,
-                        image: DecorationImage(
-                            colorFilter: new ColorFilter.mode(Colors.black
-                                .withOpacity(0.6), BlendMode.dstATop),
-                            image: new NetworkImage(
-                                _list[index].data['images'][0]['src']
-                            ),
-                            fit: BoxFit.fill
-                        )
-                    ),
-                  )*/new Container(
+                  child:new Container(
                     margin: EdgeInsets.all(2.0),
                     alignment: Alignment.center,
                     //color: Colors.blueGrey[300],
@@ -142,7 +105,7 @@ class ProductView extends State<MyProductActivity> {
 
                                   height: 100,
                                   width: 100,
-                                  placeholder: 'images/barber_cat.png',
+                                  placeholder: 'images/logo_header.png',
                                   fit: BoxFit.fill,
 
                                   image:    _list[index].data['images'][0]['src'],
@@ -276,7 +239,7 @@ class ProductView extends State<MyProductActivity> {
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.Get(Url).then((value) {
+      apiController.Get(context,Url).then((value) {
         try
         {
           Dialogs.hideProgressDialog(context);
@@ -284,12 +247,14 @@ class ProductView extends State<MyProductActivity> {
           var data1 = json.decode(data.body);
 
          // Utility.log(TAG, data1);
-
+          _list=new List();
           if (data1.length != 0) {
-            for (int i = 0; i < data1.length; i++) {
+            for (int i = 0; i < data1.length; i++)
+            {
               Utility.log(TAG, data1[i]["id"].toString());
                MyProductsID+=data1[i]["id"].toString()+",";
               _list.add(new DataModel(data1[i]));
+
             }
             setState(() {
 

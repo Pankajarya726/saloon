@@ -48,7 +48,7 @@ class DetailView extends State<ProductDetailActivity>
               height: MediaQuery.of(context).size.height,
               child: getFulldata(),
             )
-          : GlobalWidget.getNoRecord(context),
+          : GlobalWidget.getLoading(context),
     );
   }
 
@@ -383,7 +383,7 @@ class DetailView extends State<ProductDetailActivity>
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {

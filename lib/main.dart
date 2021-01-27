@@ -23,15 +23,13 @@ import 'language/AppLanguage.dart';
 import 'language/AppLocalizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-Future<void> main() async {
+Future<void> main() async
+{
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-  MyApp(
-    appLanguage: appLanguage,
-  ));
+  runApp(MyApp(appLanguage: appLanguage,));
 }
 
 

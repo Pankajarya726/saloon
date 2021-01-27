@@ -49,7 +49,7 @@ class AppointDetailView extends State<AppointDetailActivity>
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {

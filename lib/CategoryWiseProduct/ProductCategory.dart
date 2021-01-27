@@ -8,6 +8,7 @@ import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
+import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 
 class ProductCategory extends StatefulWidget
@@ -20,12 +21,13 @@ class ProductCategory extends StatefulWidget
 
 class ProductView extends State<ProductCategory>
 {
-  List _list=new List();
+  List _list;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Colors.white,
-      body: _list.length != 0 ? new GridView.count(
+      body: _list==null?GlobalWidget.getLoading(context):_list.length != 0 ?
+      new GridView.count(
           crossAxisCount: 1,
           childAspectRatio:1.9,
           physics: ClampingScrollPhysics(),
@@ -58,7 +60,7 @@ class ProductView extends State<ProductCategory>
                       child:  ClipRRect(
                         //borderRadius: BorderRadius.circular(40.0),
                         child: FadeInImage.assetNetwork(
-                          placeholder: 'images/barber_cat.png',
+                          placeholder: 'images/logo_header.png',
                           fit: BoxFit.fill,
                           image: _list[index]['image']['src'].toString(),
                         ),
@@ -91,18 +93,24 @@ class ProductView extends State<ProductCategory>
 
   Future<void> UpdateData() async
   {
+    String login = (await Utility.getStringPreference(GlobalConstant.login));
+    if(login=="")
+      {
+        return;
+      }
     ApiController apiController = new ApiController.internal();
     String token = (await Utility.getStringPreference(GlobalConstant.token));
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(GlobalConstant.CommanUrl+"products/categories/",token).then((value)
+      apiController.GetWithMyToken(context,GlobalConstant.CommanUrl+"products/categories/",token).then((value)
       {
         try
         {
           Dialogs.hideProgressDialog(context);
           var data = value;
           var data1 = json.decode(data.body);
+          _list=new List();
           for (int i = 0; i < data1.length; i++)
           {
             _list.add(data1[i]);
@@ -113,7 +121,7 @@ class ProductView extends State<ProductCategory>
           });
         }catch(e)
         {
-          GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+          //GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
         }
       });
     }else

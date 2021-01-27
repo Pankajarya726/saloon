@@ -50,7 +50,7 @@ class _GalleryActivityState extends State<GalleryActivity> with SingleTickerProv
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {

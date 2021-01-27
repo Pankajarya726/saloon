@@ -26,7 +26,7 @@ class CategoryWiseProductActivity extends StatefulWidget
 }
 
 class ProductView extends State<CategoryWiseProductActivity> {
-  List<DataModel> _list = new List();
+  List<DataModel> _list ;
   String delete_id = "";
 
   @override
@@ -40,7 +40,7 @@ class ProductView extends State<CategoryWiseProductActivity> {
                 .size
                 .height,
             color: Colors.white,
-            child: _list.length != 0 ? new GridView.count(
+            child:_list==null?GlobalWidget.getLoading(context):_list.length != 0  ? new GridView.count(
               childAspectRatio:0.8,
               crossAxisCount: 2,
               shrinkWrap: true,
@@ -81,7 +81,7 @@ class ProductView extends State<CategoryWiseProductActivity> {
 
                                   height: 100,
                                   width: 100,
-                                  placeholder: 'images/barber_cat.png',
+                                  placeholder: 'images/logo_header.png',
                                   fit: BoxFit.fill,
 
                                   image:    _list[index].data['images'][0]['src'],
@@ -158,13 +158,14 @@ class ProductView extends State<CategoryWiseProductActivity> {
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value) {
+      apiController.GetWithMyToken(context,Url,token).then((value) {
         try
         {
           Dialogs.hideProgressDialog(context);
           var data = value;
           var data1 = json.decode(data.body);
           Utility.log(TAG, data1);
+          _list=new List();
           if (data1.length != 0) {
             for (int i = 0; i < data1.length; i++) {
               _list.add(new DataModel(data1[i]));

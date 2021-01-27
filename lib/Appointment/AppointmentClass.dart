@@ -24,13 +24,13 @@ class AppointmentActivity extends StatefulWidget
 
 class AppointmentView extends State<AppointmentActivity>
 {
-  List<DataModel> _list=new List();
+  List<DataModel> _list;
   @override
   Widget build(BuildContext context)
   {
    return WillPopScope(
        child:new Scaffold(
-        body: _list.length==0?GlobalWidget.getNoRecord(context): new Container(
+        body:  _list==null?GlobalWidget.getLoading(context):_list.length == 0 ?GlobalWidget.getNoRecord(context): new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: new Column(
@@ -76,13 +76,14 @@ class AppointmentView extends State<AppointmentActivity>
     {
       Dialogs.showProgressDialog(context);
       String token = (await Utility.getStringPreference(GlobalConstant.token));
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {
           Dialogs.hideProgressDialog(context);
           var data = value;
           var data1 = json.decode(data.body);
+          _list=new List();
           Utility.log(TAG, data1[0]);
           if (data1.length != 0)
           {

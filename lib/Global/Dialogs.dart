@@ -35,7 +35,7 @@ class Dialogs {
     if (pd == null) {
       pd = ProgressDialog();
     }
-    pd.showProgressDialog(context,textToBeDisplayed:"Loading...",barrierColor: Colors.white);
+    pd.showProgressDialog(context,textToBeDisplayed:"Loading...");
   }
 
   static void hideProgressDialog(BuildContext context) {

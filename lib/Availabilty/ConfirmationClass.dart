@@ -187,7 +187,7 @@ class ConfirmView extends State<Confirmation>
       String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
       Dialogs.showProgressDialog(context);
 
-      apiController.PostsNewWithToken(
+      apiController.PostsNewWithToken(context,
               url,
               json.encode(map2()),
               token).then((value) async {
@@ -236,7 +236,7 @@ class ConfirmView extends State<Confirmation>
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url, token).then((value) {
+      apiController.GetWithMyToken(context,Url, token).then((value) {
         try
         {
           Dialogs.hideProgressDialog(context);
@@ -266,7 +266,7 @@ class ConfirmView extends State<Confirmation>
     if (await NetworkCheck.check())
     {
      // Dialogs.showProgressDialog(context);
-      apiController.DelWithMyToken(Url,token).then((value)
+      apiController.DelWithMyToken(context,Url,token).then((value)
       //apiController.Delt(Url).then((value)
       {
         try

@@ -10,6 +10,7 @@ import 'package:salon_app/FaqsTerms/faqs_and_terms.dart';
 import 'package:salon_app/Profile/edit_billing_detail.dart';
 import 'package:salon_app/Profile/edit_personal_info_class.dart';
 import 'package:salon_app/Profile/edit_other_detail.dart';
+import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/VendorList/ProductClass.dart';
 import 'Appointment/AppointmentClass.dart';
 import 'Appointment/AppointmentDetailClass.dart';
@@ -24,6 +25,7 @@ import 'Global/GlobalWidget.dart';
 import 'Global/Utility.dart';
 import 'NearByBarber/NearByClass.dart';
 import 'Profile/view_profile.dart';
+import 'Splash/SplashActivity.dart';
 import 'VendorList/ProductDetailClass.dart';
 import 'VendorList/VendorClass.dart';
 import 'VendorList/VendorDetailClass.dart';
@@ -47,6 +49,7 @@ class CommonDashBord extends StatefulWidget {
   }
 }
 class CommonView extends State<CommonDashBord> {
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -95,6 +98,7 @@ class CommonView extends State<CommonDashBord> {
   }
 
   getBody() {
+    Utility.log("tag", widget.From);
     switch (widget.From) {
       case "vendor_list":
         if (roles == "wcfm_vendor") {
@@ -242,6 +246,7 @@ class CommonView extends State<CommonDashBord> {
   @override
   void initState() {
     // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    getLoginStage();
     getRole();
   }
 
@@ -252,5 +257,16 @@ class CommonView extends State<CommonDashBord> {
       Utility.log("tagroles", roles);
     });
     return roles;
+  }
+
+  Future<void> getLoginStage() async {
+
+    var login = await Utility.getStringPreference(GlobalConstant.login);
+    if(login=="")
+    {
+
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => SignInActivity()),
+          ModalRoute.withName('/'));
+    }
   }
 }

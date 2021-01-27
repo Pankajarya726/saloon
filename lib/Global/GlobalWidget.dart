@@ -5,6 +5,7 @@ import 'package:salon_app/language/AppLocalizations.dart';
 import 'package:toast/toast.dart';
 import 'AppColor.dart';
 import 'package:intl/intl.dart';
+
 class GlobalWidget
 {
   static GetToast(BuildContext context,String msg)
@@ -74,9 +75,7 @@ class GlobalWidget
               //  mainAxisAlignment: MainAxisAlignment.center,
                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
                   Container(
-
                     alignment: Alignment.center,
                     height: 30.0,
                     child: getImage("logo_header.png"),
@@ -204,8 +203,9 @@ class GlobalWidget
     ColorFilter.mode(Colors.white.withOpacity(0.44),
     BlendMode.dstATop),
     image: AssetImage('images/bg_1.png'),
-      /*  image: DecorationImage(
-            image: AssetImage('images/bg_1.png'),fit: BoxFit.fill)*/));
+    /*  image: DecorationImage(
+            image: AssetImage('images/bg_1.png'),fit: BoxFit.fill)*/
+    ));
   }
 
   static getbackground1() {
@@ -270,15 +270,26 @@ class GlobalWidget
     {
 
     }
-
     return "";
   }
 
   static ConvertDate(date) {
- //   String date="${data[i]["date"].toString()}";
     print(date.split("T"));
     var array_val=date.split("T");
     var dateTime = DateFormat.jm().format(DateFormat("hh:mm").parse("${array_val[1]}"));
     return array_val[0].toString()+"  "+dateTime.toString();
+  }
+
+  static getLoading(BuildContext context) {
+    return new Container(
+      alignment: Alignment.center,
+      color: Colors.white,
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: new Center(
+       // child: Text(AppLocalizations.of(context).translate("loading_msg"),style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: GlobalConstant.getTextColorDark()),),
+        child: Text("",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: GlobalConstant.getTextColorDark()),),
+      ),
+    );
   }
 }

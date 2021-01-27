@@ -2,10 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:path/path.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
+import 'package:salon_app/Splash/SplashActivity.dart';
 import 'NetworkCheck.dart';
 import 'Utility.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +32,7 @@ class ApiController {
     return _instance;
   }
 
-  Future<http.Response> getsNew(String url) async {
+  Future<http.Response> getsNew(String url,context) async {
     Utility.log(tag,"Api Call :\n $url ");
     Map data = {
       'apikey': '12345678901234567890'
@@ -48,7 +51,7 @@ class ApiController {
     return response;
   }
 
-  Future<http.Response> getsNewData(String url) async {
+  Future<http.Response> getsNewData(String url,context) async {
     Utility.log(tag,"Api Call :\n $url ");
     var headers = {
     'Content-type': 'application/json',
@@ -93,7 +96,7 @@ class ApiController {
     return response;*/
   }
 
-Future<http.Response> PostsNew(String url,var body) async {
+Future<http.Response> PostsNew(context,String url,var body) async {
 
     Utility.log(tag, "Api Call :\n $url ");
     Utility.log(tag, "Responsevaljson: " + body.toString());
@@ -110,7 +113,7 @@ Future<http.Response> PostsNew(String url,var body) async {
     return response;
   }
 
-Future<http.Response> PostsNewWithToken(String url,var body,String token) async {
+Future<http.Response> PostsNewWithToken(context,String url,var body,String token) async {
 
     Utility.log(tag, "Api Call :\n $url ");
     Utility.log(tag, "Responsevaljson: " + body.toString());
@@ -130,7 +133,7 @@ Future<http.Response> PostsNewWithToken(String url,var body,String token) async 
     return response;
   }
 
-Future<http.Response> Get(String url) async {
+Future<http.Response> Get(context,String url) async {
     Utility.log(tag, "Api Call :\n $url ");
     var response = await http.get(url,
       headers: {
@@ -145,7 +148,7 @@ Future<http.Response> Get(String url) async {
     return response;
   }
 
-Future<http.Response> GetWithToken(String url) async
+Future<http.Response> GetWithToken(context,String url) async
 {
   String token = (await Utility.getStringPreference(GlobalConstant.token));
   Utility.log(tag, "Api Call :\n $url ");
@@ -167,7 +170,7 @@ Future<http.Response> GetWithToken(String url) async
     return response;
 }
 
-  Future<http.Response> GetWithMyToken(String url,String token) async {
+  Future<http.Response> GetWithMyToken(context,String url,String token) async {
 
   Utility.log(tag, "Api Call :\n $url ");
   Utility.log(tag, "Api Call :\n $token ");
@@ -188,7 +191,7 @@ Future<http.Response> GetWithToken(String url) async
 
   }
 
-Future<http.Response> DelWithMyToken(String url,String token) async {
+Future<http.Response> DelWithMyToken(context,String url,String token) async {
 
     Utility.log(tag, "Api Call :\n $url ");
     Utility.log(tag, "Api Call :\n $token ");
@@ -276,17 +279,47 @@ Future<http.Response> SetSignUp(var body) async {
 
   }
 
+
   void getTokenExpiremsg(var value,context) {
+    bool val=false;
     try
     {
-      var data1 = json.decode(value.body);
+     // var data1=value;
+     var data1 = json.decode(value);
+
+
+     Utility.log(tag, "ApiCallmsg  :${value}");
+
       if(data1["message"].toString().toLowerCase().contains("token"))
         {
-          GlobalWidget.showMyDialog(context, "Login Again", data1["message"].toString());
+          Utility.log(tag, "ApiCallmsg  :\n ${data1["code"]}");
+          val=true;
+        }
+      else if(data1["code"].toString().trim().contains("jwt_auth_bad_auth_header"))
+        {
+          val=true;
+          Utility.log(tag, "ApiCallmsg  :\n ${data1["code"]}");
+          //;
+        }
+      else if(data1["data"]["status"].toString().contains("403"))
+        {
+          val=true;
+          Utility.log(tag, "ApiCallmsg  :\n ${data1["code"]}");
+          //;
         }
         }catch(e)
     {
 
+      Utility.log(tag, "ApiCallmsg  :${e}");
+
     }
+    if(val==true)
+      {
+        GlobalWidget.GetToast(context, "Token Expire");
+       // Navigator.of(context).pop();
+        Utility.setStringPreference(GlobalConstant.login, "");
+
+
+      }
   }
 }

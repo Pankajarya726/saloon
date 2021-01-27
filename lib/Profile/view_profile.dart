@@ -65,7 +65,7 @@ class _ViewProfileState extends State<ViewProfile> with SingleTickerProviderStat
             ),
           ],
         ),
-      ):GlobalWidget.getNoRecord(context),
+      ):GlobalWidget.getLoading(context),
     );
   }
 
@@ -189,7 +189,7 @@ class _ViewProfileState extends State<ViewProfile> with SingleTickerProviderStat
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {

@@ -27,13 +27,13 @@ class DetailView extends State<VendoeDetailActivity> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-      body: data != null
-          ? new Container(
+      body:data==null?
+      GlobalWidget.getLoading(context):
+      new Container(
               color: Colors.grey.shade200,
               height: MediaQuery.of(context).size.height,
               child: getFulldata(),
             )
-          : GlobalWidget.getNoRecord(context),
     );
   }
 
@@ -56,7 +56,7 @@ class DetailView extends State<VendoeDetailActivity> {
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.Get(Url).then((value) {
+      apiController.Get(context,Url).then((value) {
         try
         {
           Dialogs.hideProgressDialog(context);

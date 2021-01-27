@@ -28,7 +28,7 @@ class ProductActivity extends StatefulWidget {
 }
 
 class ProductView extends State<ProductActivity> {
-  List<DataModel> _list = new List();
+  List<DataModel> _list ;
   ScrollController _scrollController = ScrollController();
 
   @override
@@ -41,7 +41,7 @@ class ProductView extends State<ProductActivity> {
           controller: _scrollController,
           children: <Widget>[
             getFulldata(),
-            _list.length != 0
+        _list==null?GlobalWidget.getLoading(context):_list.length == 0
                 ? new GridView.count(
                     crossAxisCount: 2,
                     physics: ClampingScrollPhysics(),
@@ -160,12 +160,13 @@ class ProductView extends State<ProductActivity> {
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,admin_token).then((value) {
+      apiController.GetWithMyToken(context,Url,admin_token).then((value) {
         try {
           Dialogs.hideProgressDialog(context);
           var data = value;
           var data1 = json.decode(data.body);
           Utility.log(TAG, data1);
+          _list=new List();
           if (data1.length != 0) {
             for (int i = 0; i < data1.length; i++) {
               _list.add(new DataModel(data1[i]));

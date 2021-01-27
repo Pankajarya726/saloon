@@ -95,8 +95,8 @@ class CartViewDetail extends State<CartActivity>
     if(await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
-     // apiController.Get(Url).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
+     // apiController.Get(context,Url).then((value)
       {
         try
         {
@@ -206,7 +206,7 @@ class CartViewDetail extends State<CartActivity>
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.DelWithMyToken(Url,token).then((value)
+      apiController.DelWithMyToken(context,Url,token).then((value)
       //apiController.Delt(Url).then((value)
       {
         try
@@ -306,7 +306,7 @@ class CartViewDetail extends State<CartActivity>
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {

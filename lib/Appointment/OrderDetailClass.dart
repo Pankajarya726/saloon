@@ -48,7 +48,7 @@ class OrderDetailView extends State<OrderDetailActivity>
       Dialogs.showProgressDialog(context);
       String token = (await Utility.getStringPreference(GlobalConstant.token));
 
-      apiController.GetWithMyToken(Url,token).then((value)
+      apiController.GetWithMyToken(context,Url,token).then((value)
       {
         try
         {

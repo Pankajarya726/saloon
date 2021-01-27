@@ -187,7 +187,7 @@ class _SchduledClassActivityState extends State<SchduledClassActivity> {
     if (await NetworkCheck.check())
     {
       Dialogs.showProgressDialog(context);
-      apiController.Get(Url).then((value) {
+      apiController.Get(context,Url).then((value) {
         try {
           Dialogs.hideProgressDialog(context);
           var data1 = json.decode(value.body);
