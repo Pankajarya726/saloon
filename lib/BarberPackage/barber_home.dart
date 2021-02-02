@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../CommonMenuClass.dart';
+
 class BarberHome extends StatefulWidget {
   @override
   _BarberHomeState createState() => _BarberHomeState();
@@ -26,7 +27,6 @@ class _BarberHomeState extends State<BarberHome> with SingleTickerProviderStateM
         color: Colors.white,
         height: MediaQuery.of(context).size.height,
         child: Center(
-
           child: RaisedButton(
             onPressed: ()
             {

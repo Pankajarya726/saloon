@@ -22,7 +22,6 @@ class VendorActivity extends StatefulWidget
   State<StatefulWidget> createState() {
     return VendorView();
   }
-
 }
 
 class VendorView extends State<VendorActivity>
@@ -34,7 +33,7 @@ class VendorView extends State<VendorActivity>
    return WillPopScope(
        onWillPop: _onBackPressed,
        child:new Scaffold(
-       body: _list.length==0?GlobalWidget.getNoRecord(context):
+       body: _list.length==0?GlobalWidget.getLoading(context):
         new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
@@ -48,7 +47,8 @@ class VendorView extends State<VendorActivity>
                   child: Text( AppLocalizations.of(context).translate('barber_list'),style: TextStyle(fontSize: 20.0),),
                 ),),
 
-              Expanded(flex: 9,
+              Expanded(
+                flex: 9,
                 child:
                 new GridView.count(
                   crossAxisCount: 2,

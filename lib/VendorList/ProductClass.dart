@@ -79,7 +79,7 @@ class ProductView extends State<ProductActivity> {
                       );
                     }),
                   )
-                : GlobalWidget.getNoRecord(context),
+                :new Container(),
           ],
         ),
       )

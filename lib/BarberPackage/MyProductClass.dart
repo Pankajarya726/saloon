@@ -67,12 +67,10 @@ class ProductView extends State<MyProductActivity> {
                   onTap: () {
                     Navigator.of(context)
                         .push(new MaterialPageRoute(
-                        builder: (_) => new CommonDashBord("add_product", true,
-                            _list[index].data["id"].toString())),)
+                         builder: (_) => new CommonDashBord("add_product", true, _list[index].data["id"].toString())),)
                         .then((val) {
                       if (val != null) {
-                        Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                            builder: (_) => new CommonDashBord("vendor_list", false)));
+                        Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) => new CommonDashBord("vendor_list", false)));
                       }
                     });
                   },
@@ -83,6 +81,7 @@ class ProductView extends State<MyProductActivity> {
                     //color: Colors.blueGrey[300],
                     child: new Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
 
                         SizedBox(height:10,),
@@ -93,11 +92,10 @@ class ProductView extends State<MyProductActivity> {
                           ),
                           child: Container(
                             alignment: Alignment.center,
-                            height: 220,
-                            width: 200,
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(20),
                             child:  new Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
 
                                 SizedBox(height: 5,),
@@ -118,7 +116,7 @@ class ProductView extends State<MyProductActivity> {
                                         _list[index].data['name']),),
                                     style: TextStyle(color: Colors.black, fontSize: 18.0,),
                                     textAlign: TextAlign.center,
-                                    maxLines: 2,
+                                    maxLines: 1,
                                   ),
                                 ),
                                 InkWell(
@@ -185,7 +183,6 @@ class ProductView extends State<MyProductActivity> {
         title: new Text(AppLocalizations.of(context).translate("sure")),
         content: new Text(AppLocalizations.of(context).translate("exit_msg")),
         actions: <Widget>[
-
           new GestureDetector(
             onTap: () => Navigator.of(context).pop(false),
             child: Text(AppLocalizations.of(context).translate("NO")),

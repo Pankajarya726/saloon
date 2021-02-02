@@ -22,7 +22,6 @@ import 'VendorList/VendorClass.dart';
 import 'language/AppLanguage.dart';
 import 'language/AppLocalizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 Future<void> main() async
 {
   WidgetsFlutterBinding.ensureInitialized();

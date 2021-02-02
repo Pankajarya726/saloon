@@ -14,6 +14,7 @@ import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 import 'package:intl/intl.dart';
+
 class AppointmentActivity extends StatefulWidget
 {
   @override
@@ -30,6 +31,7 @@ class AppointmentView extends State<AppointmentActivity>
   {
    return WillPopScope(
        child:new Scaffold(
+
         body:  _list==null?GlobalWidget.getLoading(context):_list.length == 0 ?GlobalWidget.getNoRecord(context): new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
