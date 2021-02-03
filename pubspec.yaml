@@ -69,6 +69,7 @@ flutter:
     - images/top_icon.png
     - images/logo_header.png
     - images/white_logo.png
+    - images/earning.jpg
     - images/confirm.png
     - i18n/ar.json
     - i18n/en.json

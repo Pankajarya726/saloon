@@ -118,5 +118,7 @@
   "no_rec": "NO RECORD",
   "date_msg": "Appointment date time should be after from current date time",
   "loading_msg": "Please Wait ....",
+  "Earning": "EARNING",
+  "TEarning": "TOTAL EARNING",
   "canbecanceltext": "Check this box if appointment can be cancelled by the customer. A refund will not be sent automatically."
 }

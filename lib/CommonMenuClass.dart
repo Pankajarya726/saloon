@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:salon_app/Appointment/OrderDetailClass.dart';
 import 'package:salon_app/Availabilty/AvailabiltyClass.dart';
+import 'package:salon_app/BarberPackage/EarningPoints.dart';
 import 'package:salon_app/BarberPackage/barber_home.dart';
 import 'package:salon_app/CartPackage/GetCartItemClass.dart';
 import 'package:salon_app/CategoryWiseProduct/ProductCategory.dart';
@@ -70,7 +71,6 @@ class CommonView extends State<CommonDashBord> {
       padding: EdgeInsets.only(top: 10.0, left: 20.0, bottom: 10.0),
       child: new Row(
         children: [
-
           Expanded(
             flex: 8,
             child: Text(
@@ -127,6 +127,9 @@ class CommonView extends State<CommonDashBord> {
         break;
       case "booking_page":
         return SchduledClassActivity(widget.data);
+        break;
+      case "earniing":
+        return EarningPoints();
         break;
       case "map_view":
         //return NearByActivity();
@@ -238,7 +241,7 @@ class CommonView extends State<CommonDashBord> {
         return AppLocalizations.of(context).translate('my_order');
         break;
       default:
-        return "Saloon App";
+        return "CUTCQ";
         break;
     }
   }

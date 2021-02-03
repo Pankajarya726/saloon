@@ -6,12 +6,13 @@ import 'package:salon_app/language/AppLocalizations.dart';
 import '../CommonMenuClass.dart';
 import 'package:intl/intl.dart';
 import 'Utility.dart';
-
 class GlobalConstant
-{/*
+{
+  /*
   static var CommanUrl="http://salon.microband.site/wp-json/wcfmmp/v1/";
   static var CommanUrlLogin="http://salon.microband.site/wp-json/";
-  static var CommanUrlWeb="http://salon.microband.site";*/
+  static var CommanUrlWeb="http://salon.microband.site";
+  */
   static var CommanUrl="http://cutcq.com/wp-json/wcfmmp/v1/";
   static var CommanUrlLogin="http://cutcq.com/wp-json/";
   static var CommanUrlWeb="http://cutcq.com";
@@ -55,7 +56,6 @@ class GlobalConstant
   https://myfatoorah.readme.io/docs/test-cards
   http://salon.microband.site/?store-setup=yes&step=store
   */
-
   static getTextColor() {
     return const Color(0xFFbfb397);
   }
@@ -75,8 +75,7 @@ class GlobalConstant
     var date = new DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     var diff = date.difference(now);
     var time = '';
-/*
-    if (diff.inSeconds <= 0 || diff.inSeconds > 0 && diff.inMinutes == 0 || diff.inMinutes > 0 && diff.inHours == 0 || diff.inHours > 0 && diff.inDays == 0) {
+/*  if (diff.inSeconds <= 0 || diff.inSeconds > 0 && diff.inMinutes == 0 || diff.inMinutes > 0 && diff.inHours == 0 || diff.inHours > 0 && diff.inDays == 0) {
       time = format.format(date);
     } else {
       if (diff.inDays == 1) {
@@ -85,7 +84,7 @@ class GlobalConstant
         time = diff.inDays.toString() + 'DAYS AGO';
       }
     }*/
-   time = format.format(date);
+    time = format.format(date);
     return time;
   }
  static String get_Dateval(int timeInMillis)
@@ -136,7 +135,7 @@ class GlobalConstant
       '28',
       '29',
       '30',
-       '31',
+      '31',
       '32',
       '33',
       '34',

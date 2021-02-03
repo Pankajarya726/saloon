@@ -71,6 +71,9 @@ class SideDrawer extends StatelessWidget
                   },
                   child: getRow(AppLocalizations.of(context).translate('my_cart')),
                 ):new Container(),
+
+                roles != "wcfm_vendor"?
+
                 InkWell(
                   onTap: ()
                   {
@@ -79,6 +82,15 @@ class SideDrawer extends StatelessWidget
                           builder: (context) => CommonDashBord("map_view",true)));
                   },
                   child: getRow(AppLocalizations.of(context).translate('Barber_near')),
+                ):
+                InkWell(
+                  onTap: ()
+                  {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CommonDashBord("earniing",true)));
+                  },
+                  child: getRow(AppLocalizations.of(context).translate('Earning')),
                 ),
 
                InkWell(

@@ -17,12 +17,9 @@ import '../CommonMenuClass.dart';
 
 class ProductActivity extends StatefulWidget {
   var data_pro;
-
   ProductActivity(this.data_pro);
-
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return ProductView();
   }
 }
@@ -30,7 +27,6 @@ class ProductActivity extends StatefulWidget {
 class ProductView extends State<ProductActivity> {
   List<DataModel> _list ;
   ScrollController _scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     var data = widget.data_pro;
@@ -41,7 +37,7 @@ class ProductView extends State<ProductActivity> {
           controller: _scrollController,
           children: <Widget>[
             getFulldata(),
-        _list==null?GlobalWidget.getLoading(context):_list.length == 0
+                _list==null?GlobalWidget.getLoading(context):_list.length != 0
                 ? new GridView.count(
                     crossAxisCount: 2,
                     physics: ClampingScrollPhysics(),
@@ -50,10 +46,9 @@ class ProductView extends State<ProductActivity> {
                       return InkWell(
                         onTap: () {
                           Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (_) => new CommonDashBord("Product_dtl",
-                                  true, _list[index].data["id"].toString())));
+                              builder: (_) => new CommonDashBord("Product_dtl", true, _list[index].data["id"].toString())));
                         },
-                        child: Container(
+                        child: /*Container(
                           alignment: Alignment.bottomLeft,
                           child: new Text(
                             GlobalFile.getCaptialize(_list[index].data['name']),
@@ -75,6 +70,58 @@ class ProductView extends State<ProductActivity> {
                                   image: new NetworkImage(
                                       _list[index].data['images'][0]['src']),
                                   fit: BoxFit.fill)),
+                        )*/
+
+                        new Container(
+                          margin: EdgeInsets.all(2.0),
+                          alignment: Alignment.center,
+                          //color: Colors.blueGrey[300],
+                          child: new Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+
+                              SizedBox(height:10,),
+                              Card(
+                                elevation: 10.0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.all(20),
+                                  child:  new Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+
+                                      SizedBox(height: 5,),
+                                      FadeInImage.assetNetwork(
+
+                                        height: 100,
+                                        width: 100,
+                                        placeholder: 'images/logo_header.png',
+                                        fit: BoxFit.fill,
+                                        image:    _list[index].data['images'][0]['src'],
+                                      ),
+                                      SizedBox(height: 10,),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: new Text(
+                                          GlobalFile.getCaptialize(GlobalFile.getCaptialize(
+                                              _list[index].data['name']),),
+                                          style: TextStyle(color: Colors.black, fontSize: 18.0,),
+                                          textAlign: TextAlign.center,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     }),
@@ -83,58 +130,6 @@ class ProductView extends State<ProductActivity> {
           ],
         ),
       )
-
-      /*   new Container(
-          height: MediaQuery.of(context).size.height,
-          color: Colors.white,
-          child:  new Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(flex: 3,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: getFulldata(),
-                ),),
-              Expanded(
-                flex: 7,
-                child:
-                _list.length!=0?new GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  children: new List.generate(_list.length, (index)
-                  {
-                    return InkWell(
-                      onTap:()
-                        {
-                          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("Product_dtl",true,_list[index].data["id"].toString())));
-                        },
-                      child: Container(
-                        alignment: Alignment.bottomLeft,
-                        child: new Text(GlobalFile.getCaptialize(_list[index].data['name']),style: TextStyle(color: Colors.white,fontSize: 14.0),),
-                        margin: EdgeInsets.only(top: 5.0,right: 5.0,left: 5.0),
-                        padding: EdgeInsets.only(bottom: 5.0,right: 5.0,left: 5.0),
-                        height: MediaQuery.of(context).size.height,
-                        decoration: BoxDecoration(
-
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.black,
-                            image: DecorationImage(
-                                colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.6), BlendMode.dstATop),
-
-                                image: new NetworkImage(
-                                    _list[index].data['images'][0]['src']
-                                ),
-                                fit: BoxFit.fill
-                            )
-                        ),
-                      ),
-                    );
-                  }),
-                ):GlobalWidget.getNoRecord(context))
-            ],
-          ),
-        )*/
-      ,
     );
   }
 
@@ -165,12 +160,13 @@ class ProductView extends State<ProductActivity> {
           Dialogs.hideProgressDialog(context);
           var data = value;
           var data1 = json.decode(data.body);
-          Utility.log(TAG, data1);
           _list=new List();
           if (data1.length != 0) {
             for (int i = 0; i < data1.length; i++) {
               _list.add(new DataModel(data1[i]));
             }
+
+            Utility.log(TAG, _list.length);
             setState(() {});
           } else {
             //GlobalWidget.showMyDialog(context, "Error", data1.toString());

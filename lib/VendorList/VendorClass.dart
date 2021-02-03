@@ -201,10 +201,7 @@ class VendorView extends State<VendorActivity>
     print("body$body");
    */
     String Url = GlobalConstant.CommanUrl+"store-vendors";
-
-
     ApiController apiController = new ApiController.internal();
-
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
       apiController.Get(context,Url).then((value)
