@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:salon_app/Global/ApiController.dart';
+import 'package:salon_app/Global/Dialogs.dart';
+import 'package:salon_app/Global/GlobalConstant.dart';
+import 'package:salon_app/Global/GlobalWidget.dart';
+import 'package:salon_app/Global/NetworkCheck.dart';
+import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-
 class EarningPoints extends StatefulWidget
 {
   @override
@@ -14,6 +21,45 @@ class EarningPoints extends StatefulWidget
 
 class EarningView extends State<EarningPoints>
 {
+
+  @override
+  void initState() {
+    SubmitData();
+  }
+
+
+  String Total_earning="";
+
+  void SubmitData() async
+  {
+
+    String Verder_Id = (await Utility.getStringPreference(GlobalConstant.Verder_Id));
+    String Url = GlobalConstant.CommanUrl+"store-vendors/"+Verder_Id+"/total_earning/";
+    ApiController apiController = new ApiController.internal();
+
+    if (await NetworkCheck.check()) {
+      Dialogs.showProgressDialog(context);
+      apiController.Get(context,Url).then((value)
+      {
+        try
+        {
+          Dialogs.hideProgressDialog(context);
+          var data = json.decode(value.body);
+          Total_earning=data["total_earning"].toString();
+          setState(() {
+          });
+        }catch(e)
+        {
+          // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
+        }
+      });
+
+    }else
+    {
+      GlobalWidget.GetToast(context, "No Internet Connection");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
        return new Scaffold(
@@ -36,10 +82,8 @@ class EarningView extends State<EarningPoints>
              ),
 
              Container(
-
                margin: EdgeInsets.all(20.0),
                child: new Card(
-
                  color: Colors.blue,
                  child: Column(
                    children: [
@@ -61,14 +105,15 @@ class EarningView extends State<EarningPoints>
                      new Container(
                        padding: EdgeInsets.all(10),
                        alignment: Alignment.bottomLeft,
-                     height: 150,
+                       height: 150,
                       child: new Row(
                         children: [
+
                           Expanded(
                             child: Text(AppLocalizations.of(context).translate("TEarning"),style: TextStyle(color: Colors.white,fontSize: 20),),
                           ),
                           Expanded(
-                            child: Text("\$7846",style: TextStyle(color: Colors.white,fontSize: 25),textAlign: TextAlign.right,),
+                            child: Text("\SAR "+Total_earning,style: TextStyle(color: Colors.white,fontSize: 25),textAlign: TextAlign.right,),
                           ),
                         ],
                       ),
