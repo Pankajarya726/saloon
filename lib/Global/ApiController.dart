@@ -115,7 +115,7 @@ Future<http.Response> PostsNew(context,String url,var body) async {
 
 Future<http.Response> PostsNewWithToken(context,String url,var body,String token) async {
 
-    Utility.log(tag, "Api Call :\n $url ");
+    print( "Api Call :\n $url ");
     Utility.log(tag, "Responsevaljson: " + body.toString());
     Utility.log(tag, "Responsevaljson: " +token);
     var response = await http.post(url,

@@ -32,7 +32,7 @@ class AppointmentView extends State<AppointmentActivity>
    return WillPopScope(
        child:new Scaffold(
 
-        body:  _list==null?GlobalWidget.getLoading(context):_list.length == 0 ?GlobalWidget.getNoRecord(context): new Container(
+        body: _list==null?GlobalWidget.getLoading(context):_list.length == 0 ?GlobalWidget.getNoRecord(context): new Container(
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: new Column(
@@ -72,7 +72,8 @@ class AppointmentView extends State<AppointmentActivity>
     };
     print("body$body");
    */
-    String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?appointment_product_id[]="+MyProductsId;
+  // String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?appointment_product_id[]="+MyProductsId;
+   String Url = GlobalConstant.CommanUrlLogin+"wc-appointments/v1/appointments?product_id="+MyProductsId;
     ApiController apiController = new ApiController.internal();
     if (await NetworkCheck.check())
     {
@@ -127,7 +128,8 @@ class AppointmentView extends State<AppointmentActivity>
           children: [
             new Row(
               children: [
-                Expanded(flex: 2,
+                Expanded(
+                  flex: 2,
                   child: new Container(
                     padding: EdgeInsets.all(5.0),
                     alignment: Alignment.center,

@@ -117,9 +117,9 @@
   "my_order": "طلبي",
   "no_rec": "لا سجلات",
   "date_msg": "الرجاء التحديد بعد وقت الموعد من الوقت الحالي",
-  "loading_msg": "Please Wait ....",
-  "Earning": "EARNING",
-  "TEarning": "TOTAL EARNING",
+  "loading_msg": "أرجو الإنتظار ....",
+  "Earning": "كسب",
+  "TEarning": "مجموع الأرباح",
   "canbecanceltext": "ضع علامة في هذا المربع إذا كان بإمكان العميل إلغاء الموعد. لن يتم إرسال المبلغ المسترد تلقائيًا."
 
 }
