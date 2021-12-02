@@ -1,36 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:salon_app/Global/GlobalFile.dart';
-import 'package:salon_app/Global/GlobalWidget.dart';
-import 'package:salon_app/SignInSignUpAccount/RegularAccount.dart';
-import 'package:salon_app/language/AppLocalizations.dart';
-import '../CommonMenuClass.dart';
-import 'AccountSelection.dart';
-import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
-import 'package:http/http.dart' as http;
-import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
-class SignInActivity extends StatefulWidget
-{
+import '../CommonMenuClass.dart';
+import 'AccountSelection.dart';
+
+class SignInActivity extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return SignInView();
   }
 }
 
-class SignInView extends State<SignInActivity>
-{
+class SignInView extends State<SignInActivity> {
   var _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final userPinController = TextEditingController();
@@ -38,10 +29,8 @@ class SignInView extends State<SignInActivity>
   bool _obscureText1 = true;
 
   // Toggles the password show status
-  void _toggle1()
-  {
-    setState(()
-    {
+  void _toggle1() {
+    setState(() {
       _obscureText1 = !_obscureText1;
     });
   }
@@ -50,9 +39,9 @@ class SignInView extends State<SignInActivity>
   void initState() {
     super.initState();
   }
+
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return new Scaffold(
       body: new Container(
@@ -65,54 +54,49 @@ class SignInView extends State<SignInActivity>
                 flex: 4,
                 child: GlobalWidget.getHeader(context),
               ),
-
               Expanded(
                 flex: 6,
                 child: Form(
                     key: _formKey,
-                    child: ListView(
-                        padding: GlobalWidget.getpadding(),
-                        children: <Widget>[
-                          EmailFeild(),
-                          GlobalWidget.sizeBox1(),
-                          UserPinFeild(),
-                          GlobalWidget.sizeBox1(),
-                          GlobalWidget.sizeBox1(),
-                          GlobalWidget.sizeBox1(),
-                          GlobalWidget.sizeBox1(),
-                          GetSubmitButton(),
-                          GlobalWidget.sizeBox1(),
-                          GlobalWidget.sizeBox1(),
-                          GlobalWidget.sizeBox1(),
-                          FlatButton(
-                              onPressed: () {
-                                //  SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-                                Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new AccountSelection()));
-                               },
-                              child: Container(
-                                  alignment: Alignment.center,
-                                  child: new Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        AppLocalizations.of(context)
-                                            .translate("account"),
-                                        style: TextStyle(color: Colors.black),
-                                        textAlign: TextAlign.center,
-                                      ),
-
-                                      Text(AppLocalizations.of(context).translate("signup"),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  )))
-                        ])),
+                    child: ListView(padding: GlobalWidget.getpadding(), children: <Widget>[
+                      EmailFeild(),
+                      GlobalWidget.sizeBox1(),
+                      UserPinFeild(),
+                      GlobalWidget.sizeBox1(),
+                      GlobalWidget.sizeBox1(),
+                      GlobalWidget.sizeBox1(),
+                      GlobalWidget.sizeBox1(),
+                      GetSubmitButton(),
+                      GlobalWidget.sizeBox1(),
+                      GlobalWidget.sizeBox1(),
+                      GlobalWidget.sizeBox1(),
+                      FlatButton(
+                          onPressed: () {
+                            //  SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+                            Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new AccountSelection()));
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              child: new Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context).translate("account"),
+                                    style: TextStyle(color: Colors.black),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Text(
+                                    AppLocalizations.of(context).translate("signup"),
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              )))
+                    ])),
               )
             ],
           ),
@@ -122,7 +106,6 @@ class SignInView extends State<SignInActivity>
   }
 
   UserPinFeild() {
-
     return TextFormField(
       style: TextStyle(fontSize: 20.0),
       controller: userPinController,
@@ -141,8 +124,7 @@ class SignInView extends State<SignInActivity>
           icon: GlobalWidget.getIcon(_obscureText1),
         ),
       ),
-
-    validator: (value) {
+      validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
         }
@@ -178,8 +160,7 @@ class SignInView extends State<SignInActivity>
     );
   }
 
-  EmailFeild()
-  {
+  EmailFeild() {
     return TextFormField(
       style: TextStyle(fontSize: 22.0, color: Colors.black),
       keyboardType: TextInputType.text,
@@ -187,9 +168,7 @@ class SignInView extends State<SignInActivity>
       onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
       controller: emailController,
       decoration: GlobalWidget.TextFeildDecoration(
-          AppLocalizations.of(context).translate("Email") + "/" +
-          AppLocalizations.of(context).translate("UserName"),
-          Icons.email),
+          AppLocalizations.of(context).translate("Email") + "/" + AppLocalizations.of(context).translate("UserName"), Icons.email),
       validator: (value) {
         if (value.isEmpty) {
           return AppLocalizations.of(context).translate("Please_Enter");
@@ -226,12 +205,8 @@ class SignInView extends State<SignInActivity>
           Utility.setStringPreference(GlobalConstant.roles, roles);
           Utility.setStringPreference(GlobalConstant.login, "1");
           // SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      CommonDashBord("vendor_list", false)),
-              ModalRoute.withName('/'));
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (BuildContext context) => CommonDashBord("vendor_list", false)), ModalRoute.withName('/'));
           //Navigator.of(context).push(new MaterialPageRoute(builder: (_) => CommonDashBord("vendor_list",false)));
           /*  data = data1;
           Utility.log(TAG, data1);
@@ -242,8 +217,7 @@ class SignInView extends State<SignInActivity>
           }*/
         } catch (e) {
           // GlobalWidget.showMyDialog(context, "", data1['message']);
-          GlobalWidget.showMyDialog(context, "",
-              AppLocalizations.of(context).translate("incorrect_credential"));
+          GlobalWidget.showMyDialog(context, "", AppLocalizations.of(context).translate("incorrect_credential"));
         }
       });
     } else {

@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart';
+// import 'package:flutter_html/flutter_html.dart';
 import 'package:salon_app/Availabilty/ConfirmationClass.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
@@ -265,12 +266,14 @@ class CartViewDetail extends State<CartActivity>
                       children: [
                         new Text(listdata[index]["data"]["name"],style: TextStyle(color: Colors.black,fontSize: 20),),
                         new Text(listdata[index]["data"]["price"],style: TextStyle(color: Colors.black,fontSize: 20),),
-                        Html(
-                          data:listdata[index]["data"]["price_html"],
-                          onLinkTap: (url) {
-                            print("Opening $url...");
-                          },
-                        )
+                        new Text(parse(listdata[index]["data"]["price_html"]).body.text,style: TextStyle(color: Colors.black,fontSize: 20),),
+
+                        // Html(
+                        //   data:listdata[index]["data"]["price_html"],
+                        //   onLinkTap: (url) {
+                        //     print("Opening $url...");
+                        //   },
+                        // )
                       ],
                     ),),
                     Expanded(flex: 1,

@@ -1,80 +1,58 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:salon_app/CommonMenuClass.dart';
-import 'Appointment/AppointmentClass.dart';
-import 'Availabilty/AvailabiltyClass.dart';
-import 'Availabilty/ConfirmationClass.dart';
-import 'CartPackage/GetCartItemClass.dart';
-import 'CategoryWiseProduct/ProductCategory.dart';
-import 'NearByBarber/FullScreenMap.dart';
-import 'NearByBarber/NearByClass.dart';
-import 'Payment/Myf_Payment.dart';
-import 'Payment/payemnt_activity.dart';
-import 'SearchModel/SearchCategory.dart';
-import 'SearchModel/SearchUsers.dart';
-import 'SignInSignUpAccount/RegularAccount.dart';
-import 'SignInSignUpAccount/SignInClass.dart';
+
 import 'Splash/SplashActivity.dart';
-import 'VendorList/ProductClass.dart';
-import 'VendorList/VendorClass.dart';
 import 'language/AppLanguage.dart';
 import 'language/AppLocalizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-Future<void> main() async
-{
+
+Future<void> main() async {
+  // SharedPreferences.setMockInitialValues({});
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp(appLanguage: appLanguage,));
+  runApp(MyApp(
+    appLanguage: appLanguage,
+  ));
 }
-
 
 class MyApp extends StatelessWidget {
   final AppLanguage appLanguage;
   MyApp({this.appLanguage});
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context)
-  {
-    return
-      ChangeNotifierProvider<AppLanguage>(
-        create: (_) => appLanguage,
-        child: Consumer<AppLanguage>(builder: (context, model, child) {
-          return MaterialApp(
-              theme: ThemeData(
-              canvasColor: Colors.transparent,
-              fontFamily: "TimeRomanBold",
-              accentColor: const Color(0xFF549afe),
-              backgroundColor:  const Color(0xFF549afe),
-              primaryColorDark: const Color(0xFF000000),
-              primarySwatch: blue,
-              primaryTextTheme: TextTheme(
-                  title: TextStyle(
-                      color: Colors.black
-                  )
-              ),
-            ),
-
-            locale: model.appLocale,
-            supportedLocales: [
-              Locale('en', 'US'),
-              Locale('ar', ''),
-            ],
-            localizationsDelegates: [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              DefaultCupertinoLocalizations.delegate,
-            ],
-             debugShowCheckedModeBanner: false,
-             home: SplashActivity(),
-          );
-        }),
-      );
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AppLanguage>(
+      create: (_) => appLanguage,
+      child: Consumer<AppLanguage>(builder: (context, model, child) {
+        return MaterialApp(
+          theme: ThemeData(
+            canvasColor: Colors.transparent,
+            fontFamily: "TimeRomanBold",
+            accentColor: const Color(0xFF549afe),
+            backgroundColor: const Color(0xFF549afe),
+            primaryColorDark: const Color(0xFF000000),
+            primarySwatch: blue,
+            primaryTextTheme: TextTheme(title: TextStyle(color: Colors.black)),
+          ),
+          locale: model.appLocale,
+          supportedLocales: [
+            Locale('en', 'US'),
+            Locale('ar', ''),
+          ],
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+          ],
+          debugShowCheckedModeBanner: false,
+          home: SplashActivity(),
+        );
+      }),
+    );
   }
 
   static const MaterialColor blue = MaterialColor(

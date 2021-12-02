@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_html/flutter_html.dart';
+import 'package:html/parser.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
@@ -11,8 +12,7 @@ import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
 
-class AppointDetailActivity extends StatefulWidget
-{
+class AppointDetailActivity extends StatefulWidget {
   var data;
   AppointDetailActivity(this.data);
 
@@ -22,15 +22,13 @@ class AppointDetailActivity extends StatefulWidget
   }
 }
 
-class AppointDetailView extends State<AppointDetailActivity>
-{
+class AppointDetailView extends State<AppointDetailActivity> {
   List AppointMent_List = new List();
 
   var Sereverdata;
 
-  String TAG="AppointmentView";
-  void SubmitData() async
-  {
+  String TAG = "AppointmentView";
+  void SubmitData() async {
     Utility.log(TAG, widget.data);
     /*
     Map<String, String> body =
@@ -44,15 +42,13 @@ class AppointDetailView extends State<AppointDetailActivity>
 
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     Utility.setStringPreference(GlobalConstant.Product_ID, widget.data.toString());
-    String Url = GlobalConstant.CommanUrl+"products/"+widget.data["product_id"].toString();
+    String Url = GlobalConstant.CommanUrl + "products/" + widget.data["product_id"].toString();
     ApiController apiController = new ApiController.internal();
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(context,Url,token).then((value)
-      {
-        try
-        {
+      apiController.GetWithMyToken(context, Url, token).then((value) {
+        try {
           Dialogs.hideProgressDialog(context);
           Sereverdata = json.decode(value.body);
           Utility.log(TAG, Sereverdata["name"]);
@@ -61,29 +57,24 @@ class AppointDetailView extends State<AppointDetailActivity>
             _list.add(data['images'][i]['src']);
           }*/
           // _list=data['images'];
-          setState(() {
-          });
-        }catch(e)
-        {
+          setState(() {});
+        } catch (e) {
           // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
         }
       });
-
-    }else
-    {
+    } else {
       GlobalWidget.GetToast(context, "No Internet Connection");
     }
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Colors.white,
       body: new ListView(
         shrinkWrap: true,
-        children:
-        [/*
+        children: [
+          /*
           new Container(
             padding: EdgeInsets.all             (10.0),
             child: Row(
@@ -120,86 +111,106 @@ class AppointDetailView extends State<AppointDetailActivity>
               ],
             ),
           ),*/
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
 
           /*
 
           Sereverdata!=null?billingInfo(AppLocalizations.of(context).translate("Start Date"),GlobalConstant.get_Dateval(Sereverdata[0]["start"])):new Container(),
           Sereverdata!=null?:new Container(),
       */
-          billingInfo(AppLocalizations.of(context).translate("st_date"),GlobalConstant.get_Dateval(widget.data["start"])+"  "+GlobalConstant.readTimestamp(widget.data["start"])),
-          billingInfo(AppLocalizations.of(context).translate("o_date"),GlobalConstant.get_Dateval(widget.data["date_created"])+"  "+GlobalConstant.readTimestamp(widget.data["date_created"])),
-          billingInfo(AppLocalizations.of(context).translate("o_id"),widget.data["order_id"].toString()),
-          billingInfo(AppLocalizations.of(context).translate("status"),widget.data["status"]),
-          billingInfo(AppLocalizations.of(context).translate("cu_status"),widget.data["customer_status"]),
-         // billingInfo(AppLocalizations.of(context).translate("company"),widget.data["qty"].toString()),
-          billingInfo(AppLocalizations.of(context).translate("cu_name"),widget.data["customer_name"]),
+          billingInfo(AppLocalizations.of(context).translate("st_date"),
+              GlobalConstant.get_Dateval(widget.data["start"]) + "  " + GlobalConstant.readTimestamp(widget.data["start"])),
+          billingInfo(
+              AppLocalizations.of(context).translate("o_date"),
+              GlobalConstant.get_Dateval(widget.data["date_created"]) +
+                  "  " +
+                  GlobalConstant.readTimestamp(widget.data["date_created"])),
+          billingInfo(AppLocalizations.of(context).translate("o_id"), widget.data["order_id"].toString()),
+          billingInfo(AppLocalizations.of(context).translate("status"), widget.data["status"]),
+          billingInfo(AppLocalizations.of(context).translate("cu_status"), widget.data["customer_status"]),
+          // billingInfo(AppLocalizations.of(context).translate("company"),widget.data["qty"].toString()),
+          billingInfo(AppLocalizations.of(context).translate("cu_name"), widget.data["customer_name"]),
 
-          Sereverdata!=null?ListView.builder(
-              itemCount: 1,
-              physics: ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: ()
-                  {
-
-                  },
-                  child: getData(index),
-                );
-              }):new Container(),
+          Sereverdata != null
+              ? ListView.builder(
+                  itemCount: 1,
+                  physics: ClampingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    return InkWell(
+                      onTap: () {},
+                      child: getData(index),
+                    );
+                  })
+              : new Container(),
         ],
       ),
     );
   }
 
-  getData(int index)
-  {
+  getData(int index) {
     return new Column(
       children: [
         new Row(
           children: [
-            Expanded(flex: 4,
+            Expanded(
+              flex: 4,
               child: new Container(
                 margin: EdgeInsets.all(10.0),
                 alignment: Alignment.center,
-                child: Text("S",style: TextStyle(color: Colors.white),),
+                child: Text(
+                  "S",
+                  style: TextStyle(color: Colors.white),
+                ),
                 height: 100,
                 width: 100,
                 decoration: BoxDecoration(
                     color: GlobalConstant.getTextColor(),
-                  //  shape: BoxShape.circle,
+                    //  shape: BoxShape.circle,
                     image: DecorationImage(
                         colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.99), BlendMode.dstIn),
+                        image: new NetworkImage(Sereverdata['images'][0]['src']),
+                        fit: BoxFit.fill)),
+              ),
+            ),
+            SizedBox(
+              width: 40,
+            ),
+            Expanded(
+              flex: 6,
+              child: new Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //SizedBox(height: 10,),
+                  Text(
+                    Sereverdata["name"],
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    Sereverdata["categories"][0]["name"],
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  //Text("Price "+Sereverdata["price"]+"/-",style: TextStyle(color: Colors.black),),
+                  Text(
+                    parse(Sereverdata["price_html"]).body.text,
+                    style: TextStyle(color: Colors.black),
+                  ),
 
-                        image: new NetworkImage(Sereverdata['images'][0]['src']
-                        ),
-                        fit: BoxFit.fill
-                    )
-                ),
-              ),),
-              SizedBox(width: 40,),
-              Expanded(
-                flex: 6,
-                child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //SizedBox(height: 10,),
-                    Text(Sereverdata["name"],style: TextStyle(color: Colors.black),),
-                    SizedBox(height: 10,),
-                    Text(Sereverdata["categories"][0]["name"],style: TextStyle(color: Colors.black),),
-                    //Text("Price "+Sereverdata["price"]+"/-",style: TextStyle(color: Colors.black),),
-                    Html(
-                      data: Sereverdata["price_html"],
-
-                      onLinkTap: (url) {
-                        print("Opening $url...");
-                      },
-                    ),
-                   // SizedBox(height: 10,),
-                  ],
-                ),
-              )
+                  // Html(
+                  //   data: Sereverdata["price_html"],
+                  //   onLinkTap: (url) {
+                  //     print("Opening $url...");
+                  //   },
+                  // ),
+                  // SizedBox(height: 10,),
+                ],
+              ),
+            )
           ],
         ),
         Divider()
@@ -219,14 +230,21 @@ class AppointDetailView extends State<AppointDetailActivity>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           new Row(
-            children:
-            [
-              Expanded(child: Text(title),),
-              Expanded(child: Text(description,textAlign: TextAlign.end,),),
+            children: [
+              Expanded(
+                child: Text(title),
+              ),
+              Expanded(
+                child: Text(
+                  description,
+                  textAlign: TextAlign.end,
+                ),
+              ),
             ],
           ),
-
-          Divider(thickness: 2.0,)
+          Divider(
+            thickness: 2.0,
+          )
         ],
       ),
     );

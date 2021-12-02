@@ -1,24 +1,28 @@
 import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_html/html_parser.dart';
+// import 'package:flutter_html/flutter_html.dart';
+// import 'package:flutter_html/html_parser.dart';
+import 'package:html/parser.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
-import 'package:http/http.dart' as http;
 import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/VendorList/ZoomImageActivity.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
+
 import '../CommonMenuClass.dart';
 
 class ProductDetailActivity extends StatefulWidget {
   var data;
+
   ProductDetailActivity(this.data);
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -26,9 +30,9 @@ class ProductDetailActivity extends StatefulWidget {
   }
 }
 
-class DetailView extends State<ProductDetailActivity>
-{
+class DetailView extends State<ProductDetailActivity> {
   var data;
+
 /*
    List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
@@ -40,10 +44,12 @@ class DetailView extends State<ProductDetailActivity>
 */
 
   int _current = 0;
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: data != null ? new Container(
+      body: data != null
+          ? new Container(
               color: Colors.white,
               height: MediaQuery.of(context).size.height,
               child: getFulldata(),
@@ -53,28 +59,30 @@ class DetailView extends State<ProductDetailActivity>
   }
 
   String TAG = "VendorDetail";
+
   @override
   void initState() {
     SubmitData();
   }
 
-  getFulldata()
-  {
-    List<Widget> imageSliders = _list.map((item) => Container(
-      child: InkWell(
-        child:Container(
-          height: 200.0,
-          width: MediaQuery.of(context).size.width,
-
-          margin: EdgeInsets.all(1.0),
-          child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              child:  Image.network(item,  //fit: BoxFit.fill,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,),
-          ),
-        )
-        /*Container(
+  getFulldata() {
+    List<Widget> imageSliders = _list
+        .map((item) => Container(
+              child: InkWell(
+                child: Container(
+                  height: 200.0,
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.all(1.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                    child: Image.network(
+                      item, //fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                    ),
+                  ),
+                )
+                /*Container(
           margin: EdgeInsets.all(6.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
@@ -83,97 +91,93 @@ class DetailView extends State<ProductDetailActivity>
               fit: BoxFit.cover,
             ),
           ),
-        )*/,
-        onTap: ()
-        {
-          var index = _list.indexOf(item);
-          Utility.log(TAG, item.toString());
-          Utility.log(TAG, index);
-          Navigator.of(context).push(new MaterialPageRoute(
-              builder: (_) => new ZoomImageActivity(item.toString())));
-        },
-      ),
-    )).toList();
+        )*/
+                ,
+                onTap: () {
+                  var index = _list.indexOf(item);
+                  Utility.log(TAG, item.toString());
+                  Utility.log(TAG, index);
+                  Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new ZoomImageActivity(item.toString())));
+                },
+              ),
+            ))
+        .toList();
 
     return new ListView(
       padding: EdgeInsets.all(10.0),
       shrinkWrap: true,
       children: [
         SizedBox(
-          height:20,
+          height: 20,
         ),
-
-
         new Column(
           children: [
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
 
-            _list.length>0?Column(
-                children: [
-                  CarouselSlider(
-                    items: imageSliders,
-                    options: CarouselOptions(
-                      //aspectRatio: 2.0,
-                        enlargeCenterPage: true,
-
-                        viewportFraction: 1.0,
-                        enableInfiniteScroll: false,
-                        initialPage: 0,
-                        onPageChanged: (index, reason) {
-                          setState(() {
-                            _current = index;
-
-                          });
-                        }
+            _list.length > 0
+                ? Column(children: [
+                    CarouselSlider(
+                      items: imageSliders,
+                      options: CarouselOptions(
+                          //aspectRatio: 2.0,
+                          enlargeCenterPage: true,
+                          viewportFraction: 1.0,
+                          enableInfiniteScroll: false,
+                          initialPage: 0,
+                          onPageChanged: (index, reason) {
+                            setState(() {
+                              _current = index;
+                            });
+                          }),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: _list.map((url) {
-                      int index = _list.indexOf(url);
-                      return Container(
-                        width: 8.0,
-                        height: 8.0,
-                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _current == index
-                              ? Color.fromRGBO(0, 0, 0, 0.9)
-                              : Color.fromRGBO(0, 0, 0, 0.4),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ]
-            ):new Container(),
-            SizedBox(height: 40,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: _list.map((url) {
+                        int index = _list.indexOf(url);
+                        return Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _current == index ? Color.fromRGBO(0, 0, 0, 0.9) : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ])
+                : new Container(),
+            SizedBox(
+              height: 40,
+            ),
 
             Container(
               padding: EdgeInsets.only(left: 10),
               alignment: Alignment.topLeft,
               child: new Text(
                 GlobalFile.getCaptialize(data['name']),
-                style: TextStyle(fontSize: 22.0, color: Colors.black,fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),
-
 
             Container(
               alignment: Alignment.center,
               child: new Center(
-                child: SingleChildScrollView(
-                  child: Html(
+                child: SingleChildScrollView(child: Text(parse(data['price_html']).body.text)
+/*  Html(
                     data: data['price_html'],
                     onLinkTap: (url) {
                       print("Opening $url...");
                     },
-                  ),
-                ),
+                  ),*/
+                    ),
               ),
             ),
 
             SizedBox(
-              height:20,
+              height: 20,
             ),
 
             GetPurches(),
@@ -185,225 +189,184 @@ class DetailView extends State<ProductDetailActivity>
               childrenPadding: EdgeInsets.all(0.0),
               title: Text(
                 AppLocalizations.of(context).translate("Description"),
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black54
-                ),
+                style: TextStyle(fontSize: 16.0, color: Colors.black54),
               ),
               children: <Widget>[
-
-                Html(
-                  data: data['description'],
-                  onLinkTap: (url) {
-                  },
+                Text(parse(data['description']).body.text),
+                // Html(
+                //   data: data['description'],
+                //   onLinkTap: (url) {},
+                // ),
+                Divider(
+                  thickness: 15.0,
                 ),
-
-                Divider(thickness: 15.0,),
                 ExpansionTile(
                   tilePadding: EdgeInsets.only(left: 5.0),
                   childrenPadding: EdgeInsets.all(0.0),
                   title: Text(
                     AppLocalizations.of(context).translate("srt_des"),
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black54
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: Colors.black54),
                   ),
-
                   children: <Widget>[
-                    Html(
-                      data: data['short_description'],
-                      onLinkTap: (url) {
-                      },
-                    )
+                    Text(parse(data['short_description']).body.text),
+                    // Html(
+                    //   data: data['short_description'],
+                    //   onLinkTap: (url) {},
+                    // )
                   ],
                 ),
-
-
               ],
             ),
 
-             Divider(thickness: 15.0,),
+            Divider(
+              thickness: 15.0,
+            ),
 
-             ExpansionTile(
+            ExpansionTile(
               tilePadding: EdgeInsets.only(left: 5.0),
               childrenPadding: EdgeInsets.all(0.0),
               title: Text(
-               AppLocalizations.of(context).translate("review"),
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black54
-                ),
+                AppLocalizations.of(context).translate("review"),
+                style: TextStyle(fontSize: 16.0, color: Colors.black54),
               ),
-
               children: <Widget>[
                 new Center(
                   child: SingleChildScrollView(
-                    child: Html(
+                    child: Text(
+                        ""), /*Html(
                       data: "",
-                      onLinkTap: (url) {
-                      },
-
-                    ),
+                      onLinkTap: (url) {},
+                    ),*/
                   ),
                 ),
               ],
             ),
-            Divider(thickness: 15.0,),
+            Divider(
+              thickness: 15.0,
+            ),
             ExpansionTile(
               tilePadding: EdgeInsets.only(left: 5.0),
               childrenPadding: EdgeInsets.all(0.0),
               title: Text(
                 AppLocalizations.of(context).translate("more_offers"),
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black54
-                ),
+                style: TextStyle(fontSize: 16.0, color: Colors.black54),
               ),
-
               children: <Widget>[
                 new Center(
-                  child: SingleChildScrollView(
-                    child: Html(
-                      data:"",
-
-                      onLinkTap: (url) {
-                      },
-
-                    ),
-                  ),
+                  child: SingleChildScrollView(child: Text("")),
                 ),
               ],
             ),
-            Divider(thickness: 15.0,),
+            Divider(
+              thickness: 15.0,
+            ),
             ExpansionTile(
               tilePadding: EdgeInsets.only(left: 5.0),
               childrenPadding: EdgeInsets.all(0.0),
               title: Text(
                 AppLocalizations.of(context).translate("store_poliecies"),
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black54
-                ),
+                style: TextStyle(fontSize: 16.0, color: Colors.black54),
               ),
-
               children: <Widget>[
                 ExpansionTile(
                   tilePadding: EdgeInsets.only(left: 5.0),
                   childrenPadding: EdgeInsets.all(0.0),
                   title: Text(
                     data['wcfm_product_policy_data']['shipping_policy_heading'],
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black54
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: Colors.black54),
                   ),
                   children: <Widget>[
                     new Center(
                       child: SingleChildScrollView(
-                        child: Html(
+                        child: Text(parse(data['wcfm_product_policy_data']['shipping_policy']).body.text),
+/*    Html(
                           data: data['wcfm_product_policy_data']['shipping_policy'],
-                          onLinkTap: (url) {
-                          },
-
-                        ),
+                          onLinkTap: (url) {},
+                        ),*/
                       ),
                     ),
                   ],
                 ),
-                Divider(thickness: 15.0,),
+                Divider(
+                  thickness: 15.0,
+                ),
                 ExpansionTile(
                   tilePadding: EdgeInsets.only(left: 5.0),
                   childrenPadding: EdgeInsets.all(0.0),
                   title: Text(
                     data['wcfm_product_policy_data']['refund_policy_heading'],
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black54
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: Colors.black54),
                   ),
-
                   children: <Widget>[
                     new Center(
                       child: SingleChildScrollView(
-                        child: Html(
-                          data: data['wcfm_product_policy_data']['refund_policy'],
-                          onLinkTap: (url) {
-                          },
-
-                        ),
+                        child: Text(parse(data['wcfm_product_policy_data']['refund_policy']).body.text),
+                        // Html(
+                        //   data: data['wcfm_product_policy_data']['refund_policy'],
+                        //   onLinkTap: (url) {},
+                        // ),
                       ),
                     ),
                   ],
                 ),
-                Divider(thickness: 15.0,),
+                Divider(
+                  thickness: 15.0,
+                ),
                 ExpansionTile(
                   tilePadding: EdgeInsets.only(left: 5.0),
                   childrenPadding: EdgeInsets.all(0.0),
                   title: Text(
                     data['wcfm_product_policy_data']['cancellation_policy_heading'],
-                    style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black54
-                    ),
+                    style: TextStyle(fontSize: 16.0, color: Colors.black54),
                   ),
-
                   children: <Widget>[
                     new Center(
                       child: SingleChildScrollView(
-                        child: Html(
-                          data: data['wcfm_product_policy_data']['cancellation_policy'],
+                        child: Text(parse(data['wcfm_product_policy_data']['cancellation_policy']).body.text),
 
-                          onLinkTap: (url) {
-                          },
-
-                        ),
+                        // Html(
+                        //   data: data['wcfm_product_policy_data']['cancellation_policy'],
+                        //   onLinkTap: (url) {},
+                        // ),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            Divider(thickness: 15.0,),
-
+            Divider(
+              thickness: 15.0,
+            ),
           ],
         ),
       ],
     );
   }
 
-  List<String> _list=new List();
+  List<String> _list = new List();
 
-  void SubmitData() async
-  {
+  void SubmitData() async {
     String token = (await Utility.getStringPreference(GlobalConstant.admin_token));
     Utility.setStringPreference(GlobalConstant.Product_ID, widget.data.toString());
-    String Url = GlobalConstant.CommanUrl+"products/"+widget.data.toString();
+    String Url = GlobalConstant.CommanUrl + "products/" + widget.data.toString();
     ApiController apiController = new ApiController.internal();
 
     if (await NetworkCheck.check()) {
       Dialogs.showProgressDialog(context);
-      apiController.GetWithMyToken(context,Url,token).then((value)
-      {
-        try
-        {
+      apiController.GetWithMyToken(context, Url, token).then((value) {
+        try {
           Dialogs.hideProgressDialog(context);
           data = json.decode(value.body);
-          for(int i=0;i<data['images'].length;i++)
-            {
-              _list.add(data['images'][i]['src']);
-            }
-         // _list=data['images'];
-          setState(() {
-          });
-        }catch(e)
-        {
+          for (int i = 0; i < data['images'].length; i++) {
+            _list.add(data['images'][i]['src']);
+          }
+          // _list=data['images'];
+          setState(() {});
+        } catch (e) {
           // GlobalWidget.showMyDialog(context, "Error", ""+e.toString());
         }
       });
-
-    }else
-    {
+    } else {
       GlobalWidget.GetToast(context, "No Internet Connection");
     }
   }
@@ -411,26 +374,26 @@ class DetailView extends State<ProductDetailActivity>
   GetPurches() {
     return new Container(
       height: 60.0,
-
       margin: EdgeInsets.only(top: 20),
       width: MediaQuery.of(context).size.width,
       child: FlatButton(
         shape: GlobalWidget.getButtonTheme(),
         color: GlobalWidget.getBtncolorDark(),
-        textColor:GlobalWidget.getBtnTextColorDark(),
-        onPressed: ()
-        {
-          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("vendor_avail",true,data)));
+        textColor: GlobalWidget.getBtnTextColorDark(),
+        onPressed: () {
+          Navigator.of(context).push(new MaterialPageRoute(builder: (_) => new CommonDashBord("vendor_avail", true, data)));
         },
-        child: Text(AppLocalizations.of(context).translate("purches"),style: GlobalWidget.textbtnstyleDark(),),
+        child: Text(
+          AppLocalizations.of(context).translate("purches"),
+          style: GlobalWidget.textbtnstyleDark(),
+        ),
       ),
     );
   }
-  GetBackToShop() {
 
+  GetBackToShop() {
     return new Container(
       height: 60.0,
-
       margin: EdgeInsets.only(top: 15),
       width: MediaQuery.of(context).size.width,
       child: FlatButton(
@@ -440,7 +403,10 @@ class DetailView extends State<ProductDetailActivity>
         onPressed: () {
           Navigator.of(context).pop();
         },
-        child: Text(AppLocalizations.of(context).translate("back_shop"),style: GlobalWidget.textbtnstyle(),),
+        child: Text(
+          AppLocalizations.of(context).translate("back_shop"),
+          style: GlobalWidget.textbtnstyle(),
+        ),
       ),
     );
   }

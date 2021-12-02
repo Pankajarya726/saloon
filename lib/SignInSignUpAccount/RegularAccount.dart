@@ -7,7 +7,6 @@ import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/Utility.dart';
 import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:salon_app/Global/ApiController.dart';
 import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';

@@ -1,22 +1,19 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:loader_search_bar/loader_search_bar.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:salon_app/language/AppLocalizations.dart';
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'SearchModel.dart';
 
-class SearchUsers extends StatefulWidget
-{
+class SearchUsers extends StatefulWidget {
   static String tag = 'SearchUsers';
+
   @override
   _SearchUsersState createState() => new _SearchUsersState();
 }
 
-class _SearchUsersState extends State<SearchUsers>
-{
+class _SearchUsersState extends State<SearchUsers> {
 //  List<SearchModel> _items = new List();
   final subject = new PublishSubject<String>();
   bool _isLoading = false;
@@ -26,16 +23,13 @@ class _SearchUsersState extends State<SearchUsers>
 
   var listdata;
 
-
   Future<void> UpdateData() async {
-
-   // products=data1['ds']['tables'][0]['rowsList'];
+    // products=data1['ds']['tables'][0]['rowsList'];
     for (int i = 0; i < 50; i++) {
       _addBook(i);
     }
     items.addAll(duplicateItems);
-    setState(() {
-    });
+    setState(() {});
 
 /*
     String userPass = (await Utility.getStringPreference(GlobalConstant.USER_PASSWORD));
@@ -92,10 +86,7 @@ class _SearchUsersState extends State<SearchUsers>
     {
       GlobalWidget.GetToast(context, "No Internet Connection");
     }*/
-
-
   }
-
 
   Future _textChanged(String text) async {
     List<SearchModel> dummySearchList = List<SearchModel>();
@@ -124,7 +115,7 @@ class _SearchUsersState extends State<SearchUsers>
     setState(() {
       /*String Name=book['CityLbl'].toString();
         print(Name);*/
-      duplicateItems.add(new SearchModel("name "+book.toString(), "id "+book.toString(),book));
+      duplicateItems.add(new SearchModel("name " + book.toString(), "id " + book.toString(), book));
     });
   }
 
@@ -138,23 +129,21 @@ class _SearchUsersState extends State<SearchUsers>
   }
 
   TextEditingController controller = new TextEditingController();
+
   @override
   void dispose() {
-   // _focusNode.dispose();
+    // _focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return
-    new Scaffold(
-
+    return new Scaffold(
       body: new Container(
         color: Colors.white,
         margin: EdgeInsets.only(top: 22.0),
         child: new Column(
-         // mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             new Container(
               height: 50.0,
@@ -163,50 +152,65 @@ class _SearchUsersState extends State<SearchUsers>
                 children: <Widget>[
                   Expanded(
                     child: new Container(
-                      width: MediaQuery.of(context).size.width,
-                      child:  Row(
-                        children: <Widget>[
-                          Expanded(flex: 1,child: new Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: new Container(
+                                alignment: Alignment.center,
+                                child: new Icon(Icons.search, color: Colors.black),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 8,
+                              child: new Container(
+                                padding: EdgeInsets.only(left: 20.0),
+                                child: new TextField(
+                                  //focusNode: _focusNode,
+                                  //  autofocus: true,
+                                  controller: controller,
+                                  cursorColor: Colors.black,
+                                  decoration: new InputDecoration(
+                                      hintText: AppLocalizations.of(context).translate("SEARCH"), border: InputBorder.none),
+                                  onChanged: (value) {
+                                    subject.add(value);
+                                  },
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                alignment: Alignment.centerRight,
+                                child: new IconButton(
+                                  icon: Image.asset(
+                                    "drawable/clean.png",
+                                    color: Colors.black,
+                                  ),
+                                  iconSize: 20.0,
+                                  onPressed: () {
+                                    controller.clear();
 
-                            alignment: Alignment.center,
-                            child:  new Icon(Icons.search,color: Colors.black),
-                          ),),
-                          Expanded(flex: 8,child:new Container(
-                            padding: EdgeInsets.only(left: 20.0),
-                            child: new TextField(
-                              //focusNode: _focusNode,
-                            //  autofocus: true,
-                              controller: controller,
-                              cursorColor: Colors.black,
-                              decoration: new InputDecoration(
-                                  hintText: AppLocalizations.of(context).translate("SEARCH"), border: InputBorder.none),
-                              onChanged: (value){
-                                subject.add(value);
-                              },
-                            ) ,
-                          ),),
-
-                          Expanded(flex: 1,child: Container(
-                            alignment: Alignment.centerRight,
-                            child: new IconButton(icon:Image.asset("drawable/clean.png",color: Colors.black,),iconSize: 20.0, onPressed: () {
-                              controller.clear();
-
-                              subject.add("");
-                              // onSearchTextChanged('');
-                            },),
-                          ),)
-                        ],
-                      )
-                    ),
+                                    subject.add("");
+                                    // onSearchTextChanged('');
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        )),
                   ),
                 ],
               ),
             ),
-
-            _isLoading ? new Center(child: new CircularProgressIndicator(),) : new Container(),
+            _isLoading
+                ? new Center(
+                    child: new CircularProgressIndicator(),
+                  )
+                : new Container(),
             new Expanded(
-
-              child:  new ListView.builder(
+              child: new ListView.builder(
                 padding: new EdgeInsets.all(10.0),
                 itemCount: items.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -214,13 +218,17 @@ class _SearchUsersState extends State<SearchUsers>
                     child: new Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        new Container(padding: EdgeInsets.all(10.0),
-                          child: new Text(items[index].data.toString()),),
-                        Divider(thickness: 2.0,)
+                        new Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: new Text(items[index].data.toString()),
+                        ),
+                        Divider(
+                          thickness: 2.0,
+                        )
                       ],
                     ),
-                    onTap: (){
-                   /*   Utility.setStringPreference(GlobalConstant.COCO_CITY_ID, items[index].data['CityId'].toString());
+                    onTap: () {
+                      /*   Utility.setStringPreference(GlobalConstant.COCO_CITY_ID, items[index].data['CityId'].toString());
                       Utility.setStringPreference(GlobalConstant.COCO_CITY, items[index].data['CityLbl'].toString());
                       Utility.setStringPreference(GlobalConstant.COCO_CITY_CODE, items[index].data['CityLbl'].toString());
                       Utility.setStringPreference(GlobalConstant.COCO_ADDRESS, items[index].data['Address'].toString());
@@ -230,14 +238,12 @@ class _SearchUsersState extends State<SearchUsers>
                       String idValue = ": \"" + "${items[index].data['CityId'].toString()}" + "\"";
                       String Name_Value = ": \"" + "${items[index].data['CityLbl'].toString()}" + "\"";
 
-                       String id = "\"id\"";
-                       String name = "\"name\"";
-                      var json = "{" + id + idValue +","+ name + Name_Value + "}";
+                      String id = "\"id\"";
+                      String name = "\"name\"";
+                      var json = "{" + id + idValue + "," + name + Name_Value + "}";
                       Navigator.pop(context, json);
                     },
-                  ) ;
-
-
+                  );
                 },
               ),
             ),

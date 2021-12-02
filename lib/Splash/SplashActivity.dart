@@ -1,24 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:salon_app/Global/GlobalConstant.dart';
-import 'package:salon_app/Global/GlobalWidget.dart';
-import 'package:salon_app/Global/Utility.dart';
-import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
-import 'package:salon_app/VendorList/VendorClass.dart';
-import 'package:salon_app/language/SelectlanguageActivity.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../CommonMenuClass.dart';
 import 'package:salon_app/Global/ApiController.dart';
-import 'package:salon_app/Global/Dialogs.dart';
 import 'package:salon_app/Global/GlobalConstant.dart';
-import 'package:http/http.dart' as http;
-import 'package:salon_app/Global/GlobalFile.dart';
 import 'package:salon_app/Global/GlobalWidget.dart';
 import 'package:salon_app/Global/NetworkCheck.dart';
 import 'package:salon_app/Global/Utility.dart';
-import 'package:salon_app/language/AppLocalizations.dart';
+import 'package:salon_app/SignInSignUpAccount/SignInClass.dart';
+import 'package:salon_app/language/SelectlanguageActivity.dart';
+
+import '../CommonMenuClass.dart';
 
 class SplashActivity extends StatefulWidget {
   @override
@@ -26,7 +18,6 @@ class SplashActivity extends StatefulWidget {
 }
 
 class SplashScreen extends State<SplashActivity> {
-
   @override
   Future<void> initState() {
     super.initState();
@@ -42,61 +33,53 @@ class SplashScreen extends State<SplashActivity> {
         height: MediaQuery.of(context).size.height,
         alignment: Alignment.center,
         color: Colors.black,
-        child:  Container(child: GlobalWidget.getImage("white_logo.png"),height: 100.0,),
+        child: Container(
+          child: GlobalWidget.getImage("white_logo.png"),
+          height: 100.0,
+        ),
       ),
     );
   }
 
-  Future<void> checkStatus() async
-  {
+  Future<void> checkStatus() async {
     String login = await Utility.getStringPreference(GlobalConstant.login);
     String language_select = await Utility.getStringPreference(GlobalConstant.language_select);
 
     if (language_select.isEmpty) {
       Timer(Duration(seconds: 3),
-          () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => SelectLanguageActivity())));
-    } else
-    {
-      if(login.isEmpty)
-        {
-          Timer(
-              Duration(seconds: 3),
-                  () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => SignInActivity())));
-        }else
-          {
-            Timer(
-                Duration(seconds: 3),
-                    () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => /*HomeActivity*/ CommonDashBord("vendor_list",false))));
-          }
+          () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SelectLanguageActivity())));
+    } else {
+      if (login.isEmpty) {
+        Timer(Duration(seconds: 3),
+            () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => SignInActivity())));
+      } else {
+        Timer(
+            Duration(seconds: 3),
+            () => Navigator.of(context)
+                .pushReplacement(MaterialPageRoute(builder: (context) => /*HomeActivity*/ CommonDashBord("vendor_list", false))));
+      }
     }
   }
 
-
   Future<void> getAdminToken() async {
-
     Map<String, String> body = {
       'username': "admin",
-      'password':"admin123",
+      'password': "admin123",
     };
 
     ApiController apiController = new ApiController.internal();
-    if (await NetworkCheck.check())
-    {
-      apiController.GetLogin(body).then((value)
-      {
+    if (await NetworkCheck.check()) {
+      apiController.GetLogin(body).then((value) {
         var data1 = json.decode(value.body);
-        try
-        {
-          String token=data1['token'];
+        try {
+          String token = data1['token'];
           Utility.setStringPreference(GlobalConstant.admin_token, token);
         } catch (e) {
-
-      }
+          print("exception--->$e");
+        }
       });
     } else {
+      print("no internet");
     }
   }
 }
